@@ -1,100 +1,26 @@
 <script setup lang="ts">
   import { Message } from 'primevue';
-  import { ref, computed } from 'vue';
+  import { ref } from 'vue';
+  import { useOrderCart } from '@/composables/useOrderCart';
+  import type { CartItem, CartGroup } from '@/composables/useOrderCart';
 
-  interface CartItem {
-    naam: string;
-    productcode: string;
-    levertijd: string;
-    voorraad: number;
-    aantal: number;
-    prijs: number;
-    imageUrl?: string;
-    discountPercent: number;
-    discountAmount: number;
-    prijscorrectie: boolean;
-  }
-
-  interface CartGroup {
-    id: string;
-    name: string;
-    items: CartItem[];
-  }
-
-  const groups = ref<CartGroup[]>([
-    {
-      id: '0',
-      name: 'Ongegroepeerd',
-      items: [
-        {
-          naam: 'Saniclass klikwaste afvoerplug - 5/4" - chroom',
-          productcode: 'SW1175 20',
-          levertijd: '1 Dag',
-          voorraad: 5,
-          imageUrl: 'https://static.rorix.nl/image/product/overig/320x320/547889564e421.jpg',
-          aantal: 1,
-          prijs: 19.99,
-          discountPercent: 0,
-          discountAmount: 0,
-          prijscorrectie: false,
-        },
-      ],
-    },
-    {
-      id: '1',
-      name: 'Bad',
-      items: [],
-    },
-    {
-      id: '2',
-      name: 'Garantiepakketen (optioneel)',
-      items: [
-        {
-          naam: 'Extra garantiepakket totaal (+3 jaar)',
-          productcode: 'SW353906 20',
-          levertijd: '1 Dag',
-          imageUrl:
-            'https://static.rorix.nl/image/product/overig/320x320/531e3526127d15e89326245ac1de3730.jpg',
-          voorraad: 5,
-          aantal: 1,
-          prijs: 199.99,
-          discountPercent: 0,
-          discountAmount: 0,
-          prijscorrectie: false,
-        },
-      ],
-    },
-    {
-      id: '3',
-      name: 'Accessoires',
-      items: [
-        {
-          naam: 'Hansgrohe Flowstar huls voor hoekstopkraan chroom',
-          productcode: '0606227 8',
-          levertijd: '61 Dagen',
-          imageUrl: 'https://static.rorix.nl/image/product/plieger/320x320/606227.jpg',
-          voorraad: 0,
-          aantal: 1,
-          prijs: 37.99,
-          discountPercent: 0,
-          discountAmount: 0,
-          prijscorrectie: false,
-        },
-        {
-          naam: 'Laufen Toebehoren flexibele sifon kunststof',
-          productcode: '0080673 8',
-          levertijd: '38 Dagen',
-          imageUrl: 'https://static.rorix.nl/image/product/overig/320x320/528b769c9afdb.jpg',
-          voorraad: 0,
-          aantal: 1,
-          prijs: 42.99,
-          discountPercent: 0,
-          discountAmount: 0,
-          prijscorrectie: false,
-        },
-      ],
-    },
-  ]);
+  const {
+    groups,
+    orderDiscountExpanded,
+    orderDiscountPercent,
+    orderDiscountAmount,
+    orderPrijscorrectie,
+    verzendkostenValue,
+    cartItemCount,
+    cartSubtotal,
+    cartDiscount,
+    orderDiscountValue,
+    orderTotal,
+    formatPrice,
+    rowTotal,
+    groupTotal,
+    groupItemCount,
+  } = useOrderCart();
 
   const activeGroups = ref<string[]>(['0', '1', '2']);
 
@@ -148,32 +74,36 @@
     [arr[index + 1], arr[index]] = [arr[index], arr[index + 1]];
   }
 
-  function formatPrice(value: number) {
-    return '€\u00a0' + value.toFixed(2).replace('.', ',');
+  // Group sidebar menu
+  const groupMenu = ref();
+  const groupMenuItems = [
+    { label: 'Hernoemen', icon: 'pi pi-pencil' },
+    { label: 'Dupliceren', icon: 'pi pi-clone' },
+    { separator: true },
+    { label: 'Verwijderen', icon: 'pi pi-trash', class: 'text-red-500' },
+  ];
+  function toggleGroupMenu(event: Event) {
+    groupMenu.value.toggle(event);
   }
-
-  function rowTotal(item: CartItem): number {
-    const unitPrice = item.prijs * (1 - item.discountPercent / 100) - item.discountAmount;
-    return Math.max(0, item.aantal * unitPrice);
-  }
-
-  const cartItemCount = computed(() =>
-    groups.value.reduce((sum, g) => sum + g.items.reduce((s, i) => s + i.aantal, 0), 0)
-  );
-
-  const cartTotal = computed(() =>
-    groups.value.reduce((sum, g) => sum + g.items.reduce((s, i) => s + rowTotal(i), 0), 0)
-  );
 
   // Secondary row actions — popup menu
   const actionMenu = ref();
-  const actionMenuItems = [
+  const contextMenu = ref();
+  const rowMenuItems = [
     { label: 'Kopiëren', icon: 'pi pi-copy' },
+    { label: 'Dupliceren', icon: 'pi pi-clone' },
+    { label: 'Verplaatsen naar groep', icon: 'pi pi-arrows-alt' },
+    { separator: true },
     { label: 'Openen in nieuw tabblad', icon: 'pi pi-external-link' },
     { label: 'Link kopiëren', icon: 'pi pi-link' },
+    { separator: true },
+    { label: 'Verwijderen', icon: 'pi pi-trash', class: 'text-red-500' },
   ];
   function toggleActionMenu(event: Event) {
     actionMenu.value.toggle(event);
+  }
+  function onRowContextMenu(event: any) {
+    contextMenu.value.show(event.originalEvent);
   }
 </script>
 
@@ -188,21 +118,32 @@
       </div>
 
       <!-- Group nav items -->
+      <Menu ref="groupMenu" :model="groupMenuItems" popup />
       <div class="flex flex-col gap-0.5">
-        <button
+        <div
           v-for="group in groups"
           :key="group.id"
-          class="flex items-center justify-between px-3 py-1.5 rounded-lg text-left transition-colors cursor-pointer w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100"
-          @click="scrollToGroup(group.id)"
+          class="group flex items-center rounded-lg hover:bg-gray-100 transition-colors"
         >
-          <span class="truncate">{{ group.name }}</span>
-          <span
-            v-if="group.items.length > 0"
-            class="ml-2 shrink-0 text-xs rounded-full px-1.5 py-0.5 tabular-nums bg-gray-200 text-gray-500"
+          <button
+            class="flex items-center flex-1 min-w-0 px-3 py-1.5 text-left border-0 bg-transparent text-gray-600 cursor-pointer"
+            @click="scrollToGroup(group.id)"
           >
-            {{ group.items.length }}
-          </span>
-        </button>
+            <span class="truncate">{{ group.name }}</span>
+            <span
+              v-if="group.items.length > 0"
+              class="ml-2 shrink-0 text-xs rounded-full px-1.5 py-0.5 tabular-nums bg-gray-200 text-gray-500"
+            >
+              {{ group.items.length }}
+            </span>
+          </button>
+          <button
+            class="opacity-0 group-hover:opacity-100 mr-1.5 shrink-0 w-5 h-5 flex items-center justify-center rounded hover:bg-gray-200 border-0 bg-transparent cursor-pointer text-gray-400 transition-opacity p-0"
+            @click="toggleGroupMenu($event)"
+          >
+            <i class="pi pi-ellipsis-h text-xs" />
+          </button>
+        </div>
       </div>
 
       <!-- Suggesties header -->
@@ -277,7 +218,8 @@
     </div>
 
     <!-- Shared popup menu for secondary row actions -->
-    <Menu ref="actionMenu" :model="actionMenuItems" popup />
+    <Menu ref="actionMenu" :model="rowMenuItems" popup />
+    <ContextMenu ref="contextMenu" :model="rowMenuItems" />
 
     <!-- Accordion + DataTable -->
     <div class="cart-groups w-8/10 flex flex-col gap-3">
@@ -287,7 +229,7 @@
           :key="group.id"
           :value="group.id"
           :id="`group-${group.id}`"
-          :class="{ 'panel-primary': group.id !== '0' }"
+          :class="{ 'panel-primary': group.id !== '0', 'panel-default': group.id === '0' }"
         >
           <AccordionHeader :pt="{ root: { as: 'div', role: 'button', tabindex: '0' } }">
             <div class="flex items-center gap-2 flex-1 min-w-0">
@@ -348,6 +290,8 @@
               class="w-full"
               :row-class="() => (group.name.includes('Garantie') ? 'row-guarantee' : '')"
               v-model:expanded-rows="expandedRows[group.id]"
+              context-menu
+              @row-contextmenu="onRowContextMenu"
             >
               <Column selection-mode="multiple" style="width: 3rem" />
 
@@ -533,20 +477,126 @@
                 </div>
               </template>
             </DataTable>
+
+            <!-- Group subtotal -->
+            <div
+              v-if="groupItemCount(group) > 0"
+              class="flex items-center justify-between px-4 py-2.5 border-t border-gray-200 bg-gray-50 text-sm"
+            >
+              <span class="text-gray-500">
+                Subtotaal, {{ groupItemCount(group) }}
+                {{ groupItemCount(group) === 1 ? 'product' : 'producten' }}
+              </span>
+              <span class="font-medium">{{ formatPrice(groupTotal(group)) }}</span>
+            </div>
           </AccordionContent>
         </AccordionPanel>
       </Accordion>
 
       <!-- Cart summary footer -->
-      <div
-        class="flex items-center justify-between px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 mt-1"
-      >
-        <span class="text-sm text-gray-500">
-          {{ cartItemCount }} {{ cartItemCount === 1 ? 'artikel' : 'artikelen' }}
-        </span>
-        <div class="flex items-center gap-3">
-          <span class="text-sm text-gray-400">Totaal excl. BTW</span>
-          <span class="text-lg font-semibold">{{ formatPrice(cartTotal) }}</span>
+      <div class="rounded-lg border border-gray-200 bg-white mt-1 overflow-hidden">
+        <!-- Expandable order discount row (top) -->
+        <Transition name="fade-slide">
+          <div
+            v-if="orderDiscountExpanded"
+            class="flex items-center justify-end gap-3 px-4 py-2.5 border-b border-gray-200 bg-gray-50"
+          >
+            <span class="text-xs text-gray-400 mr-auto"
+              >Deze korting geldt op de gehele bestelling</span
+            >
+            <InputNumber
+              v-model="orderDiscountPercent"
+              :min="0"
+              :max="100"
+              :min-fraction-digits="2"
+              :max-fraction-digits="2"
+              suffix=" %"
+              :input-style="{ width: '5rem', textAlign: 'right' }"
+              class="discount-input"
+            />
+            <InputNumber
+              v-model="orderDiscountAmount"
+              :min="0"
+              :min-fraction-digits="2"
+              :max-fraction-digits="2"
+              prefix="€ "
+              :input-style="{ width: '5rem', textAlign: 'right' }"
+              class="discount-input"
+            />
+            <div class="flex items-center gap-1.5 pl-3 border-l border-gray-200">
+              <ToggleSwitch v-model="orderPrijscorrectie" />
+              <span class="text-xs text-gray-500">Prijscorrectie</span>
+            </div>
+            <div class="flex items-center gap-2 pl-3 border-l border-gray-200">
+              <span class="text-xs text-gray-500">Verzendkosten</span>
+              <InputNumber
+                v-model="verzendkostenValue"
+                :min="0"
+                :min-fraction-digits="2"
+                :max-fraction-digits="2"
+                :input-style="{ width: '5rem', textAlign: 'right' }"
+                class="discount-input"
+              />
+              <span class="text-xs text-gray-400">€</span>
+            </div>
+            <Button
+              icon="pi pi-minus"
+              variant="text"
+              severity="secondary"
+              size="small"
+              rounded
+              class="shrink-0 ml-1"
+              @click="orderDiscountExpanded = false"
+            />
+          </div>
+        </Transition>
+
+        <!-- Main row -->
+        <div class="flex items-center justify-between px-4 py-3 gap-6">
+          <!-- Left: item count -->
+          <span class="text-sm text-gray-500 shrink-0 flex items-center">
+            Totaal (incl. BTW), {{ cartItemCount }}
+            {{ cartItemCount === 1 ? 'product' : 'producten' }}
+            <i class="pi pi-info-circle ml-1" />
+          </span>
+
+          <!-- Right: price breakdown -->
+          <div class="flex flex-col gap-1 min-w-56">
+            <div class="flex justify-end mb-0.5">
+              <Button
+                v-if="!orderDiscountExpanded"
+                icon="pi pi-plus"
+                variant="text"
+                severity="secondary"
+                size="small"
+                rounded
+                @click="orderDiscountExpanded = true"
+              />
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500">Subtotaal</span>
+              <span>{{ formatPrice(cartSubtotal) }}</span>
+            </div>
+            <div v-if="cartDiscount > 0" class="flex justify-between text-sm">
+              <span class="text-gray-500">Extra korting</span>
+              <span class="discount-price">{{ formatPrice(-cartDiscount) }}</span>
+            </div>
+            <div v-if="orderDiscountValue > 0" class="flex justify-between text-sm">
+              <span class="text-gray-500">Orderkorting</span>
+              <span class="discount-price">{{ formatPrice(-orderDiscountValue) }}</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500">Verzendkosten</span>
+              <span :class="verzendkostenValue === 0 ? 'text-primary font-medium' : ''">
+                {{ verzendkostenValue === 0 ? 'Gratis' : formatPrice(verzendkostenValue) }}
+              </span>
+            </div>
+            <Divider class="my-1" />
+            <div class="flex justify-between items-baseline">
+              <span class="text-sm font-semibold">Totaal (incl. BTW)</span>
+              <span class="text-lg font-semibold">{{ formatPrice(orderTotal) }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -662,6 +712,47 @@
     color: var(--p-primary-600) !important;
   }
 
+  /* ── Default panel card (Ongegroepeerd) ──────────────────── */
+  .cart-groups :deep(.panel-default) {
+    border-color: var(--p-gray-200);
+  }
+
+  .cart-groups :deep(.panel-default:hover) {
+    border-color: var(--p-gray-300) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .cart-groups :deep(.panel-default[data-p-active='true']) {
+    border-color: var(--p-gray-300) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .cart-groups :deep(.panel-default .p-accordionheader) {
+    background: var(--p-gray-50);
+    border-bottom-color: var(--p-gray-200);
+    color: var(--p-gray-700);
+  }
+
+  .cart-groups :deep(.panel-default .p-accordionheader:hover) {
+    background: var(--p-gray-100) !important;
+    border-bottom-color: var(--p-gray-200);
+  }
+
+  .cart-groups :deep(.panel-default[data-p-active='true'] .p-accordionheader) {
+    background: var(--p-gray-100) !important;
+    border-bottom-color: var(--p-gray-300) !important;
+    color: var(--p-gray-800);
+  }
+
+  .cart-groups :deep(.panel-default .p-accordionheader-toggle-icon) {
+    order: -1;
+    color: var(--p-gray-400);
+  }
+
+  .cart-groups :deep(.panel-default[data-p-active='true'] .p-accordionheader-toggle-icon) {
+    color: var(--p-gray-500) !important;
+  }
+
   /* ── Action buttons ──────────────────────────────────────── */
   .cart-groups :deep(.header-action-btn) {
     color: var(--p-gray-400) !important;
@@ -767,7 +858,8 @@
   }
 
   /* ── Discount section ────────────────────────────────────── */
-  .cart-groups :deep(.discount-input .p-inputnumber-input) {
+  .cart-groups :deep(.discount-input .p-inputnumber-input),
+  :deep(.discount-input .p-inputnumber-input) {
     padding: 0.25rem 0.5rem;
   }
 

@@ -12,8 +12,8 @@
         <Card
           class="min-h-full shrink-0"
           :pt="{
-            body: { class: 'flex flex-col' },
-            content: { class: 'flex flex-col' },
+            body: { class: 'grow flex flex-col' },
+            content: { class: 'grow flex flex-col' },
           }"
         >
           <template #content>

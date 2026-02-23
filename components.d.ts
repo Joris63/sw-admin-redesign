@@ -17,6 +17,7 @@ declare module 'vue' {
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
     Column: typeof import('primevue/column')['default']
+    ContextMenu: typeof import('primevue/contextmenu')['default']
     DataTable: typeof import('primevue/datatable')['default']
     DatePicker: typeof import('primevue/datepicker')['default']
     Divider: typeof import('primevue/divider')['default']
@@ -32,6 +33,7 @@ declare module 'vue' {
     NavigationItem: typeof import('./src/components/navigation/NavigationItem.vue')['default']
     NavigationSection: typeof import('./src/components/navigation/NavigationSection.vue')['default']
     NavigationTopBar: typeof import('./src/components/navigation/NavigationTopBar.vue')['default']
+    OrderCartTotals: typeof import('./src/components/sales/OrderCartTotals.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']
@@ -47,6 +49,7 @@ declare module 'vue' {
     TabPanels: typeof import('primevue/tabpanels')['default']
     Tabs: typeof import('primevue/tabs')['default']
     Tag: typeof import('primevue/tag')['default']
+    Textarea: typeof import('primevue/textarea')['default']
     ToggleSwitch: typeof import('primevue/toggleswitch')['default']
   }
   export interface ComponentCustomProperties {

@@ -21,7 +21,7 @@
 </script>
 
 <template>
-  <StepPanel v-slot="{ activateCallback }" :value="1" class="flex flex-col">
+  <StepPanel v-slot="{ activateCallback }" :value="1" class="flex flex-col grow">
     <div class="flex flex-col gap-4">
       <!-- Pending orders notice -->
       <div
@@ -40,7 +40,7 @@
         <Button
           icon="pi pi-times"
           variant="text"
-          severity="secondary"
+          severity="warn"
           size="small"
           rounded
           @click="pendingBannerVisible = false"
@@ -49,8 +49,7 @@
 
       <!-- Order configuration card -->
       <div
-        class="grid divide-x divide-gray-200 rounded-xl border border-gray-200 bg-gray-50 overflow-hidden"
-        :class="selectedCustomerType === 2 ? 'grid-cols-3' : 'grid-cols-2'"
+        class="grid divide-x divide-gray-200 rounded-xl border border-gray-200 bg-gray-50 overflow-hidden grid-cols-2"
       >
         <!-- Site selector -->
         <div class="flex flex-col gap-2 p-4">
@@ -66,9 +65,9 @@
 
         <!-- Customer type selector -->
         <div class="flex flex-col gap-2 p-4">
-          <span class="text-xs font-semibold uppercase tracking-wider text-gray-400"
-            >Klanttype</span
-          >
+          <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
+            Klanttype
+          </span>
           <div class="flex gap-3 items-center">
             <SelectButton
               v-model="selectedCustomerType"
@@ -101,13 +100,10 @@
             type="text"
             placeholder="Zoek op productcode, productnaam, fabrikantcode, bestelcode en EAN"
           />
-          <Button
-            label="HM nummer"
-            icon="pi pi-plus"
-            icon-pos="left"
-            variant="outlined"
-            severity="secondary"
-          />
+          <Button label="HM nummer" icon="pi pi-plus" icon-pos="left" class="btn-outlined" />
+          <div class="pl-2 border-l border-gray-200">
+            <Button icon="pi pi-ellipsis-v" class="btn-outlined" />
+          </div>
         </div>
       </div>
 
@@ -116,7 +112,13 @@
     </div>
 
     <div class="flex pt-4 justify-end">
-      <Button label="Next" icon="pi pi-arrow-right" iconPos="right" @click="activateCallback(2)" />
+      <Button
+        label="Volgende"
+        severity="secondary"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+        @click="activateCallback(2)"
+      />
     </div>
   </StepPanel>
 </template>

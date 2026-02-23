@@ -1,5 +1,16 @@
 <script setup lang="ts">
   import { ref } from 'vue';
+
+  // ── Section nav ──────────────────────────────────────────────
+  const sectionGegevens = ref<HTMLElement | null>(null);
+  const sectionAdres = ref<HTMLElement | null>(null);
+  const sectionKanaal = ref<HTMLElement | null>(null);
+  const sectionAanbevolen = ref<HTMLElement | null>(null);
+
+  function scrollTo(el: HTMLElement | null) {
+    el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   import OrdersAdd_CustomerSearch from '../sidebars/OrdersAdd_CustomerSearch.vue';
   import OrdersAdd_AppointmentSearch from '../sidebars/OrdersAdd_AppointmentSearch.vue';
 
@@ -109,7 +120,17 @@
   ];
   const selectedVerkoper = ref(1);
 
-  // ── Extra ────────────────────────────────────────────────────
+  // ── Aanbevolen door ──────────────────────────────────────────
+  type AanbevolenMode = 'search' | 'manual' | null;
+  const aanbevolenMode = ref<AanbevolenMode>('search');
+  const aanbevolenSearchVisible = ref(false);
+  const aanbevolenFound = ref(true);
+  const aanbevolenSearchQuery = ref('');
+  const mockAanbevolenCustomer = { name: 'Showroomworks BV', email: 'info@showroomworks.nl' };
+  function deselectAanbevolen() {
+    aanbevolenFound.value = false;
+  }
+
   const aanbevolenDoor = ref('');
   const woonplaats = ref('');
   const typeBedrijfOptions = [
@@ -123,378 +144,503 @@
 
 <template>
   <StepPanel v-slot="{ activateCallback }" :value="2" class="flex flex-col grow">
-    <div class="flex flex-col grow gap-6">
-      <h1 class="text-2xl font-semibold">Even voorstellen</h1>
+    <div class="flex grow gap-10">
+      <!-- ── Section nav ─────────────────────────────────────── -->
+      <aside class="sticky top-6 self-start flex flex-col gap-1 w-36 shrink-0 pt-1">
+        <button class="section-nav-item" @click="scrollTo(sectionGegevens)">Je gegevens</button>
+        <button class="section-nav-item" @click="scrollTo(sectionAdres)">Je adres</button>
+        <button class="section-nav-item" @click="scrollTo(sectionKanaal)">Kanaal</button>
+        <button class="section-nav-item" @click="scrollTo(sectionAanbevolen)">Aanbevolen</button>
+      </aside>
 
-      <!-- Mode picker -->
-      <div class="grid grid-cols-2 gap-4">
-        <button
-          class="mode-card"
-          :class="{ 'mode-card--active': mode === 'search' }"
-          @click="mode = 'search'"
-        >
-          <div class="mode-card__icon"><i class="pi pi-search" /></div>
-          <div class="flex flex-col text-left">
-            <span class="font-semibold text-sm">Bestaande klant of afspraak</span>
-            <span class="text-xs text-gray-400 mt-0.5">Zoek op e-mail</span>
-          </div>
-          <i v-if="mode === 'search'" class="pi pi-check-circle ml-auto text-primary shrink-0" />
-        </button>
+      <!-- ── Main content ────────────────────────────────────── -->
+      <div class="flex flex-col grow gap-6">
+        <h1 ref="sectionGegevens" class="text-2xl font-semibold">Even voorstellen</h1>
 
-        <button
-          class="mode-card"
-          :class="{ 'mode-card--active': mode === 'new' }"
-          @click="mode = 'new'"
-        >
-          <div class="mode-card__icon"><i class="pi pi-user-plus" /></div>
-          <div class="flex flex-col text-left">
-            <span class="font-semibold text-sm">Nieuwe klant aanmaken</span>
-            <span class="text-xs text-gray-400 mt-0.5">Vul de klantgegevens handmatig in</span>
-          </div>
-          <i v-if="mode === 'new'" class="pi pi-check-circle ml-auto text-primary shrink-0" />
-        </button>
-      </div>
+        <!-- Mode picker -->
+        <div class="grid grid-cols-2 gap-4">
+          <button
+            class="mode-card"
+            :class="{ 'mode-card--active': mode === 'search' }"
+            @click="mode = 'search'"
+          >
+            <div class="mode-card__icon"><i class="pi pi-search" /></div>
+            <div class="flex flex-col text-left">
+              <span class="font-semibold text-sm">Bestaande klant of afspraak</span>
+              <span class="text-xs text-gray-400 mt-0.5">Zoek op e-mail</span>
+            </div>
+            <i v-if="mode === 'search'" class="pi pi-check-circle ml-auto text-primary shrink-0" />
+          </button>
 
-      <!-- Selected customer indicator -->
-      <Transition name="fade">
-        <div v-if="mode === 'search' && customerFound" class="customer-indicator">
-          <div class="customer-indicator__avatar">
-            <i class="pi pi-user" />
-          </div>
-          <div class="flex flex-col leading-snug">
-            <span class="text-sm font-semibold">{{ mockFoundCustomer.name }}</span>
-            <span class="text-xs text-gray-400">{{ mockFoundCustomer.email }}</span>
-          </div>
-          <Button
-            icon="pi pi-times"
-            variant="text"
-            severity="secondary"
-            size="small"
-            rounded
-            class="ml-auto shrink-0"
-            @click="deselectCustomer"
-          />
+          <button
+            class="mode-card"
+            :class="{ 'mode-card--active': mode === 'new' }"
+            @click="mode = 'new'"
+          >
+            <div class="mode-card__icon"><i class="pi pi-user-plus" /></div>
+            <div class="flex flex-col text-left">
+              <span class="font-semibold text-sm">Nieuwe klant aanmaken</span>
+              <span class="text-xs text-gray-400 mt-0.5">Vul de klantgegevens handmatig in</span>
+            </div>
+            <i v-if="mode === 'new'" class="pi pi-check-circle ml-auto text-primary shrink-0" />
+          </button>
         </div>
-      </Transition>
 
-      <!-- ── Mode content ──────────────────────────────────────── -->
-      <Transition name="fade-slide" mode="out-in">
-        <!-- Search mode -->
-        <div v-if="mode === 'search'" key="search" class="flex flex-col gap-4">
-          <div class="flex gap-2">
-            <IconField class="flex-1">
-              <InputText
-                v-model="searchQuery"
-                class="w-full"
-                placeholder="Zoek op e-mailadres"
-                autofocus
-              />
-              <InputIcon class="pi pi-search" />
-            </IconField>
+        <!-- Selected customer indicator -->
+        <Transition name="fade">
+          <div v-if="mode === 'search' && customerFound" class="customer-indicator">
+            <div class="customer-indicator__avatar">
+              <i class="pi pi-user" />
+            </div>
+            <div class="flex flex-col leading-snug">
+              <span class="text-sm font-semibold">{{ mockFoundCustomer.name }}</span>
+              <span class="text-xs text-gray-400">{{ mockFoundCustomer.email }}</span>
+            </div>
             <Button
-              label="Klant zoeken"
-              icon="pi pi-user"
+              icon="pi pi-times"
+              variant="text"
               severity="secondary"
-              @click="customerSearchVisible = true"
-            />
-            <Button
-              label="Afspraak zoeken"
-              icon="pi pi-calendar"
-              severity="secondary"
-              @click="appointmentSearchVisible = true"
+              size="small"
+              rounded
+              class="ml-auto shrink-0"
+              @click="deselectCustomer"
             />
           </div>
+        </Transition>
 
-          <!-- Address section — only when customer is found -->
-          <Transition name="fade-slide">
-            <div v-if="customerFound" class="flex flex-col gap-4">
-              <div class="flex flex-col gap-2">
-                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400"
-                  >Adres</span
-                >
-                <div class="flex flex-col gap-2">
+        <!-- ── Mode content ──────────────────────────────────────── -->
+        <Transition name="fade-slide" mode="out-in">
+          <!-- Search mode -->
+          <div v-if="mode === 'search'" key="search" class="flex flex-col gap-4">
+            <div class="flex gap-2">
+              <IconField class="flex-1">
+                <InputText
+                  v-model="searchQuery"
+                  class="w-full"
+                  placeholder="Zoek op e-mailadres"
+                  autofocus
+                />
+                <InputIcon class="pi pi-search" />
+              </IconField>
+              <Button
+                label="Klant zoeken"
+                icon="pi pi-user"
+                class="btn-outlined"
+                @click="customerSearchVisible = true"
+              />
+              <Button
+                label="Afspraak zoeken"
+                icon="pi pi-calendar"
+                class="btn-outlined"
+                @click="appointmentSearchVisible = true"
+              />
+            </div>
+
+            <!-- Address section — only when customer is found -->
+            <Transition name="fade-slide">
+              <div v-if="customerFound" class="flex flex-col gap-4">
+                <div ref="sectionAdres" class="flex flex-col gap-2">
+                  <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
+                    Adres
+                  </span>
+                  <div class="flex flex-col gap-2">
+                    <button
+                      v-for="addr in existingAddresses"
+                      :key="addr.id"
+                      class="address-card"
+                      :class="{ 'address-card--selected': selectedAddressId === addr.id }"
+                      @click="selectAddress(addr.id)"
+                    >
+                      <i
+                        class="pi shrink-0"
+                        :class="
+                          selectedAddressId === addr.id
+                            ? 'pi-check-circle text-primary'
+                            : 'pi-circle text-gray-300'
+                        "
+                      />
+                      <div class="flex flex-col text-left leading-snug">
+                        <span class="text-sm font-medium">{{ addr.street }}</span>
+                        <span class="text-xs text-gray-400"
+                          >{{ addr.postcode }} {{ addr.city }}</span
+                        >
+                      </div>
+                    </button>
+                  </div>
                   <button
-                    v-for="addr in existingAddresses"
-                    :key="addr.id"
-                    class="address-card"
-                    :class="{ 'address-card--selected': selectedAddressId === addr.id }"
-                    @click="selectAddress(addr.id)"
+                    class="address-card address-card--add"
+                    :class="{ 'address-card--selected': addingNewAddress }"
+                    @click="toggleNewAddress"
                   >
                     <i
                       class="pi shrink-0"
                       :class="
-                        selectedAddressId === addr.id
+                        addingNewAddress
                           ? 'pi-check-circle text-primary'
-                          : 'pi-circle text-gray-300'
+                          : 'pi-plus-circle text-gray-400'
                       "
                     />
                     <div class="flex flex-col text-left leading-snug">
-                      <span class="text-sm font-medium">{{ addr.street }}</span>
-                      <span class="text-xs text-gray-400">{{ addr.postcode }} {{ addr.city }}</span>
+                      <span
+                        class="text-sm font-medium"
+                        :class="{ 'text-gray-500': !addingNewAddress }"
+                      >
+                        Nieuw adres toevoegen
+                      </span>
+                      <span v-if="addingNewAddress" class="text-xs text-gray-400">
+                        Vul het adres hieronder in
+                      </span>
                     </div>
+                    <Button
+                      v-if="addingNewAddress"
+                      icon="pi pi-times"
+                      variant="text"
+                      severity="secondary"
+                      size="small"
+                      rounded
+                      class="ml-auto shrink-0"
+                      @click.stop="toggleNewAddress"
+                    />
                   </button>
-                </div>
-                <button
-                  class="address-card address-card--add"
-                  :class="{ 'address-card--selected': addingNewAddress }"
-                  @click="toggleNewAddress"
-                >
-                  <i
-                    class="pi shrink-0"
-                    :class="
-                      addingNewAddress
-                        ? 'pi-check-circle text-primary'
-                        : 'pi-plus-circle text-gray-400'
-                    "
-                  />
-                  <div class="flex flex-col text-left leading-snug">
-                    <span
-                      class="text-sm font-medium"
-                      :class="{ 'text-gray-500': !addingNewAddress }"
-                    >
-                      Nieuw adres toevoegen
-                    </span>
-                    <span v-if="addingNewAddress" class="text-xs text-gray-400">
-                      Vul het adres hieronder in
-                    </span>
-                  </div>
-                  <Button
-                    v-if="addingNewAddress"
-                    icon="pi pi-times"
-                    variant="text"
-                    severity="secondary"
-                    size="small"
-                    rounded
-                    class="ml-auto shrink-0"
-                    @click.stop="toggleNewAddress"
-                  />
-                </button>
-                <Transition name="fade-slide">
-                  <div v-if="addingNewAddress" class="flex flex-col gap-5">
-                    <div class="form-row">
-                      <label class="form-label">Land</label>
-                      <Select
-                        v-model="selectedCountry"
-                        :options="countryOptions"
-                        option-label="label"
-                        option-value="value"
-                        class="flex-1"
-                      />
-                    </div>
-                    <div class="form-row">
-                      <label class="form-label">Adres</label>
-                      <div class="flex flex-col gap-2 flex-1">
-                        <div class="grid grid-cols-3 gap-2">
-                          <InputText v-model="postcode" placeholder="Postcode" />
-                          <InputText v-model="huisnummer" placeholder="Huisnummer" />
-                          <InputText v-model="toevoeging" placeholder="Toevoeging" />
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                          <InputText v-model="straat" placeholder="Straat" />
-                          <InputText v-model="stad" placeholder="Stad" />
+                  <Transition name="fade-slide">
+                    <div v-if="addingNewAddress" class="flex flex-col gap-5">
+                      <div class="form-row">
+                        <label class="form-label">Land</label>
+                        <Select
+                          v-model="selectedCountry"
+                          :options="countryOptions"
+                          option-label="label"
+                          option-value="value"
+                          class="flex-1"
+                        />
+                      </div>
+                      <div class="form-row">
+                        <label class="form-label">Adres</label>
+                        <div class="flex flex-col gap-2 flex-1">
+                          <div class="grid grid-cols-3 gap-2">
+                            <InputText v-model="postcode" placeholder="Postcode" />
+                            <InputText v-model="huisnummer" placeholder="Huisnummer" />
+                            <InputText v-model="toevoeging" placeholder="Toevoeging" />
+                          </div>
+                          <div class="grid grid-cols-2 gap-2">
+                            <InputText v-model="straat" placeholder="Straat" />
+                            <InputText v-model="stad" placeholder="Stad" />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </Transition>
+                  </Transition>
+                </div>
+              </div>
+            </Transition>
+          </div>
+
+          <!-- New customer mode -->
+          <div v-else-if="mode === 'new'" key="new" class="flex flex-col gap-5">
+            <div class="form-row">
+              <label class="form-label">Klanttype</label>
+              <SelectButton
+                v-model="selectedCustomerType"
+                :options="customerTypes"
+                option-label="label"
+                option-value="value"
+                :allow-empty="false"
+              />
+            </div>
+            <div class="form-row">
+              <label class="form-label">Aanhef</label>
+              <SelectButton
+                v-model="selectedTitle"
+                :options="titles"
+                option-label="label"
+                option-value="value"
+              />
+            </div>
+            <div class="form-row">
+              <label class="form-label">Naam <span class="text-red-400">*</span></label>
+              <div class="flex gap-2 flex-1">
+                <InputText class="flex-1" placeholder="Voer een voornaam in" />
+                <InputText class="flex-1" placeholder="Voer een achternaam in" />
               </div>
             </div>
-          </Transition>
-        </div>
+            <div class="form-row">
+              <label class="form-label">E-mail <span class="text-red-400">*</span></label>
+              <InputText class="flex-1" placeholder="Voer een emailadres in" type="email" />
+            </div>
+            <div class="form-row">
+              <label class="form-label">Telefoonnummer</label>
+              <div class="flex gap-2 flex-1">
+                <Select
+                  :options="[{ label: '🇳🇱 +31', value: 'NL' }]"
+                  option-label="label"
+                  option-value="value"
+                  class="w-32"
+                  :model-value="'NL'"
+                >
+                  <template #value="{ value }">
+                    <div class="flex items-center gap-2">
+                      <span :class="`fi fi-${value.toLowerCase()}`" />
+                      <span>+31</span>
+                    </div>
+                  </template>
+                </Select>
+                <InputText class="flex-1" placeholder="Voer een telefoonnummer in" type="tel" />
+              </div>
+            </div>
+            <div class="form-row">
+              <label class="form-label">Alternatief telefoonnummer</label>
+              <div class="flex gap-2 flex-1">
+                <Select
+                  :options="[{ label: '+31', value: 'NL' }]"
+                  option-label="label"
+                  option-value="value"
+                  class="w-32"
+                  :model-value="'NL'"
+                >
+                  <template #value="{ value }">
+                    <div class="flex items-center gap-2">
+                      <span :class="`fi fi-${value.toLowerCase()}`" />
+                      <span>+31</span>
+                    </div>
+                  </template>
+                </Select>
+                <InputText
+                  class="flex-1"
+                  placeholder="Voer een alternatief telefoonnummer in"
+                  type="tel"
+                />
+              </div>
+            </div>
+            <Divider class="my-0" />
+            <div class="flex flex-col gap-3 rounded-lg bg-gray-50 border border-gray-200 px-4 py-3">
+              <span class="text-xs font-semibold uppercase tracking-wide text-gray-400"
+                >Voorkeuren</span
+              >
+              <div class="flex items-center gap-3">
+                <ToggleSwitch v-model="newsletter" />
+                <span class="text-sm text-gray-600">Inschrijven voor nieuwsbrief</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <ToggleSwitch v-model="createAccount" />
+                <span class="text-sm text-gray-600"
+                  >Account aanmaken na ontvangen uitnodiging via e-mail</span
+                >
+              </div>
+            </div>
 
-        <!-- New customer mode -->
-        <div v-else-if="mode === 'new'" key="new" class="flex flex-col gap-5">
+            <!-- Address form for new customer -->
+            <Divider class="my-0" />
+            <h2 ref="sectionAdres" class="section-heading">Je adres</h2>
+            <div class="form-row">
+              <label class="form-label">Land</label>
+              <Select
+                v-model="selectedCountry"
+                :options="countryOptions"
+                option-label="label"
+                option-value="value"
+                class="flex-1"
+              />
+            </div>
+            <div class="form-row">
+              <label class="form-label">Adres</label>
+              <div class="flex flex-col gap-2 flex-1">
+                <div class="grid grid-cols-3 gap-2">
+                  <InputText v-model="postcode" placeholder="Postcode" />
+                  <InputText v-model="huisnummer" placeholder="Huisnummer" />
+                  <InputText v-model="toevoeging" placeholder="Toevoeging" />
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <InputText v-model="straat" placeholder="Straat" />
+                  <InputText v-model="stad" placeholder="Stad" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Transition>
+
+        <!-- ── Kanaal (always visible) ───────────────────────────── -->
+        <Divider class="my-0" />
+        <div ref="sectionKanaal" class="flex flex-col gap-5">
+          <h2 class="section-heading">Kanaal</h2>
           <div class="form-row">
-            <label class="form-label">Klanttype</label>
+            <label class="form-label">Kanaal</label>
             <SelectButton
-              v-model="selectedCustomerType"
-              :options="customerTypes"
+              v-model="selectedKanaal"
+              :options="kanaalOptions"
               option-label="label"
               option-value="value"
               :allow-empty="false"
             />
           </div>
           <div class="form-row">
-            <label class="form-label">Aanhef</label>
+            <label class="form-label">Afdeling</label>
             <SelectButton
-              v-model="selectedTitle"
-              :options="titles"
+              v-model="selectedAfdeling"
+              :options="afdelingOptions"
               option-label="label"
               option-value="value"
+              :allow-empty="false"
             />
           </div>
           <div class="form-row">
-            <label class="form-label">Naam <span class="text-red-400">*</span></label>
-            <div class="flex gap-2 flex-1">
-              <InputText class="flex-1" placeholder="Voer een voornaam in" />
-              <InputText class="flex-1" placeholder="Voer een achternaam in" />
-            </div>
-          </div>
-          <div class="form-row">
-            <label class="form-label">E-mail <span class="text-red-400">*</span></label>
-            <InputText class="flex-1" placeholder="Voer een emailadres in" type="email" />
-          </div>
-          <div class="form-row">
-            <label class="form-label">Telefoonnummer</label>
-            <div class="flex gap-2 flex-1">
-              <Select
-                :options="[{ label: '🇳🇱 +31', value: 'NL' }]"
-                option-label="label"
-                option-value="value"
-                class="w-32"
-                :model-value="'NL'"
-              />
-              <InputText class="flex-1" placeholder="Voer een telefoonnummer in" type="tel" />
-            </div>
-          </div>
-          <div class="form-row">
-            <label class="form-label">Alternatief telefoonnummer</label>
-            <div class="flex gap-2 flex-1">
-              <Select
-                :options="[{ label: '🇳🇱 +31', value: 'NL' }]"
-                option-label="label"
-                option-value="value"
-                class="w-32"
-                :model-value="'NL'"
-              />
-              <InputText
-                class="flex-1"
-                placeholder="Voer een alternatief telefoonnummer in"
-                type="tel"
-              />
-            </div>
-          </div>
-          <Divider class="my-0" />
-          <div class="flex flex-col gap-3">
-            <div class="flex items-center gap-3">
-              <ToggleSwitch v-model="newsletter" />
-              <span class="text-sm text-gray-600">Inschrijven voor nieuwsbrief</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <ToggleSwitch v-model="createAccount" />
-              <span class="text-sm text-gray-600"
-                >Account aanmaken na ontvangen uitnodiging via e-mail</span
-              >
-            </div>
-          </div>
-
-          <!-- Address form for new customer -->
-          <Divider class="my-0" />
-          <h2 class="section-heading">Je adres</h2>
-          <div class="form-row">
-            <label class="form-label">Land</label>
+            <label class="form-label">Vestiging</label>
             <Select
-              v-model="selectedCountry"
-              :options="countryOptions"
+              v-model="selectedVestiging"
+              :options="vestigingOptions"
               option-label="label"
               option-value="value"
               class="flex-1"
             />
           </div>
           <div class="form-row">
-            <label class="form-label">Adres</label>
-            <div class="flex flex-col gap-2 flex-1">
-              <div class="grid grid-cols-3 gap-2">
-                <InputText v-model="postcode" placeholder="Postcode" />
-                <InputText v-model="huisnummer" placeholder="Huisnummer" />
-                <InputText v-model="toevoeging" placeholder="Toevoeging" />
-              </div>
-              <div class="grid grid-cols-2 gap-2">
-                <InputText v-model="straat" placeholder="Straat" />
-                <InputText v-model="stad" placeholder="Stad" />
-              </div>
-            </div>
+            <label class="form-label">Referentie</label>
+            <InputText
+              v-model="referentie"
+              class="flex-1"
+              placeholder="Vul hier een referentie in"
+            />
+          </div>
+          <div class="form-row">
+            <label class="form-label">Verkoper</label>
+            <Select
+              v-model="selectedVerkoper"
+              :options="verkoperOptions"
+              option-label="label"
+              option-value="value"
+              class="flex-1"
+            />
           </div>
         </div>
-      </Transition>
 
-      <!-- ── Kanaal (always visible) ───────────────────────────── -->
-      <Divider class="my-0" />
-      <div class="flex flex-col gap-5">
-        <h2 class="section-heading">Kanaal</h2>
-        <div class="form-row">
-          <label class="form-label">Kanaal</label>
-          <SelectButton
-            v-model="selectedKanaal"
-            :options="kanaalOptions"
-            option-label="label"
-            option-value="value"
-            :allow-empty="false"
-          />
-        </div>
-        <div class="form-row">
-          <label class="form-label">Afdeling</label>
-          <SelectButton
-            v-model="selectedAfdeling"
-            :options="afdelingOptions"
-            option-label="label"
-            option-value="value"
-            :allow-empty="false"
-          />
-        </div>
-        <div class="form-row">
-          <label class="form-label">Vestiging</label>
-          <Select
-            v-model="selectedVestiging"
-            :options="vestigingOptions"
-            option-label="label"
-            option-value="value"
-            class="flex-1"
-          />
-        </div>
-        <div class="form-row">
-          <label class="form-label">Referentie</label>
-          <InputText v-model="referentie" class="flex-1" placeholder="Vul hier een referentie in" />
-        </div>
-        <div class="form-row">
-          <label class="form-label">Verkoper</label>
-          <Select
-            v-model="selectedVerkoper"
-            :options="verkoperOptions"
-            option-label="label"
-            option-value="value"
-            class="flex-1"
-          />
-        </div>
-      </div>
+        <!-- ── Aanbevolen door ───────────────────────────────────── -->
+        <Divider class="my-0" />
+        <div ref="sectionAanbevolen" class="flex flex-col gap-5">
+          <h2 class="section-heading">Ben je aanbevolen door iemand?</h2>
 
-      <!-- ── Extra (always visible) ────────────────────────────── -->
-      <Divider class="my-0" />
-      <div class="flex flex-col gap-5">
-        <div class="form-row">
-          <label class="form-label">Aanbevolen door</label>
-          <InputText v-model="aanbevolenDoor" class="flex-1" placeholder="Naam bedrijf" />
-        </div>
-        <div class="form-row">
-          <label class="form-label">Woonplaats</label>
-          <InputText v-model="woonplaats" class="flex-1" placeholder="Woonplaats" />
-        </div>
-        <div class="form-row">
-          <label class="form-label">Type bedrijf</label>
-          <Select
-            v-model="selectedTypeBedrijf"
-            :options="typeBedrijfOptions"
-            option-label="label"
-            option-value="value"
-            placeholder="Selecteer een optie"
-            class="flex-1"
-          />
+          <!-- Mode picker -->
+          <div class="grid grid-cols-2 gap-4">
+            <button
+              class="mode-card mode-card--neutral"
+              :class="{ 'mode-card--active-neutral': aanbevolenMode === 'search' }"
+              @click="aanbevolenMode = aanbevolenMode === 'search' ? null : 'search'"
+            >
+              <div class="mode-card__icon mode-card__icon--neutral"><i class="pi pi-search" /></div>
+              <div class="flex flex-col text-left">
+                <span class="font-semibold text-sm">Bestaande klant zoeken</span>
+                <span class="text-xs text-gray-400 mt-0.5">Zoek op e-mail</span>
+              </div>
+              <i
+                v-if="aanbevolenMode === 'search'"
+                class="pi pi-check-circle ml-auto text-gray-400 shrink-0"
+              />
+            </button>
+
+            <button
+              class="mode-card mode-card--neutral"
+              :class="{ 'mode-card--active-neutral': aanbevolenMode === 'manual' }"
+              @click="aanbevolenMode = aanbevolenMode === 'manual' ? null : 'manual'"
+            >
+              <div class="mode-card__icon mode-card__icon--neutral"><i class="pi pi-pencil" /></div>
+              <div class="flex flex-col text-left">
+                <span class="font-semibold text-sm">Handmatig invoeren</span>
+                <span class="text-xs text-gray-400 mt-0.5">Vul de gegevens handmatig in</span>
+              </div>
+              <i
+                v-if="aanbevolenMode === 'manual'"
+                class="pi pi-check-circle ml-auto text-gray-400 shrink-0"
+              />
+            </button>
+          </div>
+
+          <!-- Mode content -->
+          <Transition name="fade-slide" mode="out-in">
+            <!-- Search mode -->
+            <div
+              v-if="aanbevolenMode === 'search'"
+              key="aanbevolen-search"
+              class="flex flex-col gap-4"
+            >
+              <div class="flex gap-2">
+                <IconField class="flex-1">
+                  <InputText
+                    v-model="aanbevolenSearchQuery"
+                    class="w-full"
+                    placeholder="Zoek op naam of e-mailadres"
+                  />
+                  <InputIcon class="pi pi-search" />
+                </IconField>
+                <Button
+                  label="Klant zoeken"
+                  icon="pi pi-user"
+                  class="btn-outlined"
+                  @click="aanbevolenSearchVisible = true"
+                />
+              </div>
+              <Transition name="fade">
+                <div v-if="aanbevolenFound" class="customer-indicator">
+                  <div class="customer-indicator__avatar"><i class="pi pi-user" /></div>
+                  <div class="flex flex-col leading-snug">
+                    <span class="text-sm font-semibold">{{ mockAanbevolenCustomer.name }}</span>
+                    <span class="text-xs text-gray-400">{{ mockAanbevolenCustomer.email }}</span>
+                  </div>
+                  <Button
+                    icon="pi pi-times"
+                    variant="text"
+                    severity="secondary"
+                    size="small"
+                    rounded
+                    class="ml-auto shrink-0"
+                    @click="deselectAanbevolen"
+                  />
+                </div>
+              </Transition>
+            </div>
+
+            <!-- Manual mode -->
+            <div
+              v-else-if="aanbevolenMode === 'manual'"
+              key="aanbevolen-manual"
+              class="flex flex-col gap-5"
+            >
+              <div class="form-row">
+                <label class="form-label">Aanbevolen door</label>
+                <InputText v-model="aanbevolenDoor" class="flex-1" placeholder="Naam bedrijf" />
+              </div>
+              <div class="form-row">
+                <label class="form-label">Woonplaats</label>
+                <InputText v-model="woonplaats" class="flex-1" placeholder="Woonplaats" />
+              </div>
+              <div class="form-row">
+                <label class="form-label">Type bedrijf</label>
+                <Select
+                  v-model="selectedTypeBedrijf"
+                  :options="typeBedrijfOptions"
+                  option-label="label"
+                  option-value="value"
+                  placeholder="Selecteer een optie"
+                  class="flex-1"
+                />
+              </div>
+            </div>
+          </Transition>
         </div>
       </div>
     </div>
 
     <!-- Navigation -->
     <div class="flex pt-6 justify-between">
+      <Button label="Terug" class="btn-back" icon="pi pi-arrow-left" @click="activateCallback(1)" />
       <Button
-        label="Back"
+        label="Volgende"
         severity="secondary"
-        icon="pi pi-arrow-left"
-        @click="activateCallback(1)"
+        icon="pi pi-arrow-right"
+        icon-pos="right"
+        @click="activateCallback(3)"
       />
-      <Button label="Next" icon="pi pi-arrow-right" icon-pos="right" @click="activateCallback(3)" />
     </div>
 
     <OrdersAdd_CustomerSearch v-model="customerSearchVisible" />
+    <OrdersAdd_CustomerSearch v-model="aanbevolenSearchVisible" />
     <OrdersAdd_AppointmentSearch v-model="appointmentSearchVisible" />
   </StepPanel>
 </template>
@@ -544,6 +690,27 @@
 
   .mode-card--active .mode-card__icon {
     background: var(--p-primary-200);
+  }
+
+  /* ── Neutral variant (for optional sections) ──────────────── */
+  .mode-card--neutral:hover {
+    border-color: var(--p-gray-400);
+  }
+
+  .mode-card--active-neutral {
+    border-color: var(--p-gray-400);
+    background: var(--p-gray-50);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-gray-500) 10%, transparent);
+  }
+
+  .mode-card__icon--neutral {
+    background: var(--p-gray-100);
+    color: var(--p-gray-500);
+  }
+
+  .mode-card--active-neutral .mode-card__icon--neutral {
+    background: var(--p-gray-200);
+    color: var(--p-gray-600);
   }
 
   /* ── Selected customer indicator ─────────────────────────── */
@@ -622,6 +789,47 @@
 
   .address-card--add:hover {
     color: var(--p-surface-700);
+  }
+
+  /* ── Section nav ─────────────────────────────────────────── */
+  .section-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.625rem;
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--p-surface-400);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .section-nav-item::before {
+    content: '›';
+    font-size: 1.1rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .section-nav-item:hover {
+    color: var(--p-surface-700);
+    background: var(--p-surface-100);
+  }
+
+  .section-nav-item--active {
+    color: var(--p-primary-700);
+    background: var(--p-primary-50);
+    font-weight: 600;
+  }
+
+  .section-nav-item--active::before {
+    color: var(--p-primary-400);
   }
 
   /* ── Transitions ─────────────────────────────────────────── */

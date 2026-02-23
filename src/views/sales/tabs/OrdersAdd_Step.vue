@@ -5,6 +5,7 @@
     step: OrdersAddStep;
     value: number;
     currentStep: number;
+    lastStep: boolean;
   }
 
   const props = defineProps<Props>();
@@ -17,10 +18,10 @@
 <template>
   <Step :value="props.value" as-child>
     <template #default="{ active, value, activateCallback }">
-      <div class="flex w-full gap-3 pr-3">
+      <div class="flex gap-3 pr-3" :class="{ 'w-full': !props.lastStep, 'w-fit': props.lastStep }">
         <button
           type="button"
-          class="bg-transparent border-0 flex gap-2 items-center grow cursor-pointer"
+          class="bg-transparent border-0 flex gap-2 items-center grow cursor-pointer rounded-md px-3 py-2 -mx-3 -my-2 hover:bg-gray-100 transition-colors duration-150"
           @click="activateCallback"
         >
           <span
@@ -47,7 +48,7 @@
             {{ props.step.label }}
           </span>
         </button>
-        <Divider class="before:border-bs-2!" />
+        <Divider v-if="!props.lastStep" class="before:border-bs-2!" />
       </div>
     </template>
   </Step>
