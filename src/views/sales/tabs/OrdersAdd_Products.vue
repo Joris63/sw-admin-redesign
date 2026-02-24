@@ -98,7 +98,7 @@
           <InputText
             class="flex-1"
             type="text"
-            placeholder="Zoek op productcode, productnaam, fabrikantcode, bestelcode en EAN"
+            placeholder="Zoek op productcode, naam, fabrikantcode of EAN"
           />
           <Button label="HM nummer" icon="pi pi-plus" icon-pos="left" class="btn-outlined" />
           <div class="pl-2 border-l border-gray-200">

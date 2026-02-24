@@ -217,7 +217,7 @@
                 <InputText
                   v-model="searchQuery"
                   class="w-full"
-                  placeholder="Zoek op e-mailadres"
+                  placeholder="naam@bedrijf.nl"
                   autofocus
                 />
                 <InputIcon class="pi pi-search" />
@@ -318,13 +318,13 @@
                         <label class="form-label">Adres</label>
                         <div class="flex flex-col gap-2 flex-1">
                           <div class="grid grid-cols-3 gap-2">
-                            <InputText v-model="postcode" placeholder="Postcode" />
-                            <InputText v-model="huisnummer" placeholder="Huisnummer" />
-                            <InputText v-model="toevoeging" placeholder="Toevoeging" />
+                            <InputText v-model="postcode" placeholder="1234 AB" />
+                            <InputText v-model="huisnummer" placeholder="12" />
+                            <InputText v-model="toevoeging" placeholder="A" />
                           </div>
                           <div class="grid grid-cols-2 gap-2">
-                            <InputText v-model="straat" placeholder="Straat" />
-                            <InputText v-model="stad" placeholder="Stad" />
+                            <InputText v-model="straat" placeholder="Kerkstraat" />
+                            <InputText v-model="stad" placeholder="Amsterdam" />
                           </div>
                         </div>
                       </div>
@@ -359,13 +359,13 @@
             <div class="form-row">
               <label class="form-label">Naam <span class="text-red-400">*</span></label>
               <div class="flex gap-2 flex-1">
-                <InputText class="flex-1" placeholder="Voer een voornaam in" />
-                <InputText class="flex-1" placeholder="Voer een achternaam in" />
+                <InputText class="flex-1" placeholder="Jan" />
+                <InputText class="flex-1" placeholder="de Vries" />
               </div>
             </div>
             <div class="form-row">
               <label class="form-label">E-mail <span class="text-red-400">*</span></label>
-              <InputText class="flex-1" placeholder="Voer een emailadres in" type="email" />
+              <InputText class="flex-1" placeholder="jan@bedrijf.nl" type="email" />
             </div>
             <div class="form-row">
               <label class="form-label">Telefoonnummer</label>
@@ -384,7 +384,7 @@
                     </div>
                   </template>
                 </Select>
-                <InputText class="flex-1" placeholder="Voer een telefoonnummer in" type="tel" />
+                <InputText class="flex-1" placeholder="6 12345678" type="tel" />
               </div>
             </div>
             <div class="form-row">
@@ -406,7 +406,7 @@
                 </Select>
                 <InputText
                   class="flex-1"
-                  placeholder="Voer een alternatief telefoonnummer in"
+                  placeholder="6 87654321"
                   type="tel"
                 />
               </div>
@@ -445,13 +445,13 @@
               <label class="form-label">Adres</label>
               <div class="flex flex-col gap-2 flex-1">
                 <div class="grid grid-cols-3 gap-2">
-                  <InputText v-model="postcode" placeholder="Postcode" />
-                  <InputText v-model="huisnummer" placeholder="Huisnummer" />
-                  <InputText v-model="toevoeging" placeholder="Toevoeging" />
+                  <InputText v-model="postcode" placeholder="1234 AB" />
+                  <InputText v-model="huisnummer" placeholder="12" />
+                  <InputText v-model="toevoeging" placeholder="A" />
                 </div>
                 <div class="grid grid-cols-2 gap-2">
-                  <InputText v-model="straat" placeholder="Straat" />
-                  <InputText v-model="stad" placeholder="Stad" />
+                  <InputText v-model="straat" placeholder="Kerkstraat" />
+                  <InputText v-model="stad" placeholder="Amsterdam" />
                 </div>
               </div>
             </div>
@@ -497,7 +497,7 @@
             <InputText
               v-model="referentie"
               class="flex-1"
-              placeholder="Vul hier een referentie in"
+              placeholder="Bijv. Bestelbon 2024-001"
             />
           </div>
           <div class="form-row">
@@ -604,11 +604,11 @@
             >
               <div class="form-row">
                 <label class="form-label">Aanbevolen door</label>
-                <InputText v-model="aanbevolenDoor" class="flex-1" placeholder="Naam bedrijf" />
+                <InputText v-model="aanbevolenDoor" class="flex-1" placeholder="Bouwbedrijf de Vries" />
               </div>
               <div class="form-row">
                 <label class="form-label">Woonplaats</label>
-                <InputText v-model="woonplaats" class="flex-1" placeholder="Woonplaats" />
+                <InputText v-model="woonplaats" class="flex-1" placeholder="Amsterdam" />
               </div>
               <div class="form-row">
                 <label class="form-label">Type bedrijf</label>
@@ -617,7 +617,7 @@
                   :options="typeBedrijfOptions"
                   option-label="label"
                   option-value="value"
-                  placeholder="Selecteer een optie"
+                  placeholder="Selecteer bedrijfstype"
                   class="flex-1"
                 />
               </div>

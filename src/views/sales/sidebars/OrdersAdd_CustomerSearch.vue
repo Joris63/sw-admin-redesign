@@ -24,24 +24,24 @@
     <div class="flex flex-col gap-2">
       <div class="flex flex-col gap-1">
         <label class="form-label">E-mail</label>
-        <InputText v-model="email" placeholder="Voer een emailadres in" />
+        <InputText v-model="email" placeholder="jan@bedrijf.nl" />
       </div>
       <div class="flex flex-col gap-1">
         <label class="form-label">Bedrijfsnaam</label>
-        <InputText v-model="bedrijfsnaam" placeholder="Voer een bedrijfsnaam in" />
+        <InputText v-model="bedrijfsnaam" placeholder="Showroomworks BV" />
       </div>
       <div class="flex flex-col gap-1">
         <label class="form-label">Achternaam</label>
-        <InputText v-model="achternaam" placeholder="Voer een achternaam in" />
+        <InputText v-model="achternaam" placeholder="de Vries" />
       </div>
       <div class="grid grid-cols-2 gap-2">
         <div class="flex flex-col gap-1">
           <label class="form-label">Postcode</label>
-          <InputText v-model="postcode" placeholder="Voer een postcode in" />
+          <InputText v-model="postcode" placeholder="1234 AB" />
         </div>
         <div class="flex flex-col gap-1">
           <label class="form-label">Huisnummer</label>
-          <InputText v-model="huisnummer" placeholder="Voer een huisnummer in" />
+          <InputText v-model="huisnummer" placeholder="12" />
         </div>
       </div>
       <Button label="Zoeken" :disabled="!canSearch" class="mt-5" />

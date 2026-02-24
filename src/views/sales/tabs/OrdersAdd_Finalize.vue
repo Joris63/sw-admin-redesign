@@ -352,7 +352,7 @@
                       <span class="form-label">Naam bedrijf</span>
                       <InputText
                         v-model="aanbevolenBedrijf"
-                        placeholder="Naam bedrijf"
+                        placeholder="Bouwbedrijf de Vries"
                         class="flex-1"
                       />
                     </div>
@@ -360,7 +360,7 @@
                       <span class="form-label">Woonplaats</span>
                       <InputText
                         v-model="aanbevolenWoonplaats"
-                        placeholder="Woonplaats"
+                        placeholder="Amsterdam"
                         class="flex-1"
                       />
                     </div>
@@ -369,7 +369,7 @@
                       <Select
                         v-model="aanbevolenTypeBedrijf"
                         :options="typeBedrijfOptions"
-                        placeholder="Selecteer een optie"
+                        placeholder="Selecteer bedrijfstype"
                         class="flex-1"
                       />
                     </div>
@@ -427,7 +427,7 @@
                           <span class="form-label">Ter attentie van</span>
                           <InputText
                             v-model="bezorgTerAttentieVan"
-                            placeholder="Ter attentie van"
+                            placeholder="T.a.v. Jan de Vries"
                             class="flex-1"
                           />
                         </div>
@@ -436,12 +436,12 @@
                           <div class="flex gap-2 flex-1">
                             <InputText
                               v-model="bezorgVoornaam"
-                              placeholder="Voornaam"
+                              placeholder="Jan"
                               class="flex-1"
                             />
                             <InputText
                               v-model="bezorgAchternaam"
-                              placeholder="Achternaam"
+                              placeholder="de Vries"
                               class="flex-1"
                             />
                           </div>
@@ -466,7 +466,7 @@
                                   </div>
                                 </template>
                               </Select>
-                              <InputText v-model="bezorgTelefoon" class="flex-1" />
+                              <InputText v-model="bezorgTelefoon" placeholder="6 12345678" class="flex-1" />
                             </div>
                             <div class="flex gap-1 flex-1">
                               <Select
@@ -485,7 +485,7 @@
                               </Select>
                               <InputText
                                 v-model="bezorgTelefoonAlt"
-                                placeholder="Alternatief"
+                                placeholder="6 87654321"
                                 class="flex-1"
                               />
                             </div>
@@ -496,6 +496,7 @@
                           <Select
                             v-model="bezorgLand"
                             :options="['Nederland', 'België', 'Duitsland']"
+                            placeholder="Selecteer een land"
                             class="flex-1"
                           />
                         </div>
@@ -503,13 +504,13 @@
                           <span class="form-label">Adres <span class="text-red-400">*</span></span>
                           <div class="flex flex-col gap-2 flex-1">
                             <div class="grid grid-cols-3 gap-2">
-                              <InputText v-model="bezorgPostcode" placeholder="Postcode" />
-                              <InputText v-model="bezorgHuisnummer" placeholder="Huisnummer" />
-                              <InputText v-model="bezorgToevoeging" placeholder="Toevoeging" />
+                              <InputText v-model="bezorgPostcode" placeholder="1234 AB" />
+                              <InputText v-model="bezorgHuisnummer" placeholder="12" />
+                              <InputText v-model="bezorgToevoeging" placeholder="A" />
                             </div>
                             <div class="grid grid-cols-2 gap-2">
-                              <InputText v-model="bezorgStraat" placeholder="Straat" />
-                              <InputText v-model="bezorgStad" placeholder="Stad" />
+                              <InputText v-model="bezorgStraat" placeholder="Kerkstraat" />
+                              <InputText v-model="bezorgStad" placeholder="Amsterdam" />
                             </div>
                           </div>
                         </div>
@@ -544,13 +545,13 @@
                     <span class="form-label">Adres</span>
                     <div class="flex flex-col gap-2 flex-1">
                       <div class="grid grid-cols-3 gap-2">
-                        <InputText v-model="pickupPostcode" placeholder="Postcode" />
-                        <InputText v-model="pickupHuisnummer" placeholder="Huisnummer" />
-                        <InputText v-model="pickupToevoeging" placeholder="Toevoeging" />
+                        <InputText v-model="pickupPostcode" placeholder="1234 AB" />
+                        <InputText v-model="pickupHuisnummer" placeholder="12" />
+                        <InputText v-model="pickupToevoeging" placeholder="A" />
                       </div>
                       <div class="grid grid-cols-2 gap-2">
-                        <InputText v-model="pickupStraat" placeholder="Straat" />
-                        <InputText v-model="pickupStad" placeholder="Stad" />
+                        <InputText v-model="pickupStraat" placeholder="Kerkstraat" />
+                        <InputText v-model="pickupStad" placeholder="Amsterdam" />
                       </div>
                     </div>
                   </div>
@@ -597,7 +598,7 @@
                 <DatePicker
                   v-model="gewensteLeverdatum"
                   date-format="dd-mm-yy"
-                  placeholder="Wanneer is de gewenste leverdatum"
+                  placeholder="DD-MM-JJJJ"
                   class="w-72"
                   show-icon
                   icon-display="input"
@@ -640,7 +641,7 @@
                 <span class="form-label">Wat zullen we afspreken?</span>
                 <Textarea
                   v-model="afspraakNotitie"
-                  placeholder="Omschrijf je afspraken hier"
+                  placeholder="Bijv. levering na 10:00, bel vooraf aan, parkeren bij zijdeur..."
                   rows="5"
                   class="w-full"
                 />
@@ -663,6 +664,7 @@
                 <DatePicker
                   v-model="afspraakDatum"
                   date-format="dd-mm-yy"
+                  placeholder="DD-MM-JJJJ"
                   class="w-72"
                   show-icon
                   icon-display="input"
