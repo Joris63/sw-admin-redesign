@@ -9,21 +9,21 @@
   }
 
   const customers = ref<Customer[]>([
-    { id: 1,  lastName: 'Versantvoort',            email: 'johan.versantvoort@gmail.com',  lastModified: '17 mei 2024 11:00'      },
-    { id: 2,  lastName: 'Albers',                  email: 'renavanvught@hotmail.com',      lastModified: '08 juni 2016 05:06'     },
-    { id: 3,  lastName: 'van Eisden',              email: 'a.eisden9@upcmail.nl',          lastModified: '17 mei 2024 11:00'      },
-    { id: 4,  lastName: 'Hogt',                    email: 'bennohogt@gmail.com',           lastModified: '17 mei 2024 11:00'      },
-    { id: 5,  lastName: 'Oldenhof',                email: 'g.oldenhof@xmsnet.nl',          lastModified: '17 mei 2024 11:00'      },
-    { id: 6,  lastName: 'Clarys',                  email: 'vickyclarys@hotmail.com',       lastModified: '02 november 2020 14:04' },
-    { id: 7,  lastName: 'tav Bart van den Brekel', email: 'info@bstechniek.nl',            lastModified: '17 mei 2024 11:00'      },
-    { id: 8,  lastName: 'Heezius',                 email: 'J.heezius@home.nl',             lastModified: '17 mei 2024 11:00'      },
-    { id: 9,  lastName: 'Jan-Frans Afbouw',        email: 'jan.frans.afbouw@gmail.com',    lastModified: '17 mei 2024 11:00'      },
-    { id: 10, lastName: 'Venema',                  email: 'jannes@venemaj.nl',             lastModified: '08 juni 2016 05:06'     },
-    { id: 11, lastName: 'Prinzie',                 email: 'jeffreyprinzie@msn.com',        lastModified: '17 mei 2024 11:00'      },
-    { id: 12, lastName: 'Hendrikse',               email: 'johanny@maxilia.nl',            lastModified: '17 mei 2024 11:00'      },
-    { id: 13, lastName: 'de Groot',                email: 'info@degroot.nl',               lastModified: '12 januari 2024 09:15'  },
-    { id: 14, lastName: 'Smit',                    email: 'k.smit@gmail.com',              lastModified: '05 maart 2023 14:32'    },
-    { id: 15, lastName: 'van der Berg',            email: 'contact@berginstallaties.nl',   lastModified: '22 april 2024 08:00'    },
+    { id: 1,  lastName: 'Bakker',          email: 'thomas.bakker@gmail.com',         lastModified: '3 februari 2026 09:14'  },
+    { id: 2,  lastName: 'de Vries',       email: 'nora.devries@outlook.com',        lastModified: '21 januari 2026 16:42'  },
+    { id: 3,  lastName: 'van Dijk',       email: 'r.vandijk@kpnmail.nl',            lastModified: '14 januari 2026 11:05'  },
+    { id: 4,  lastName: 'Janssen',        email: 'lienekejanssen@hotmail.com',      lastModified: '9 december 2025 08:30'  },
+    { id: 5,  lastName: 'Smit',           email: 'p.smit82@ziggo.nl',               lastModified: '2 december 2025 14:17'  },
+    { id: 6,  lastName: 'Meijer',         email: 'erik.meijer@gmail.com',           lastModified: '18 november 2025 10:55' },
+    { id: 7,  lastName: 'van den Berg',   email: 'anneke.vdberg@live.nl',           lastModified: '5 november 2025 13:22'  },
+    { id: 8,  lastName: 'Visser',         email: 'm.visser@upcmail.nl',             lastModified: '29 oktober 2025 09:48'  },
+    { id: 9,  lastName: 'Mulder',         email: 'hansmulder@gmail.com',            lastModified: '14 oktober 2025 17:03'  },
+    { id: 10, lastName: 'de Boer',        email: 'deboer.sandra@hetnet.nl',         lastModified: '1 oktober 2025 12:30'   },
+    { id: 11, lastName: 'Bos',            email: 'w.bos@planet.nl',                 lastModified: '22 september 2025 08:11'},
+    { id: 12, lastName: 'van Leeuwen',    email: 'cvanleeuwen@gmail.com',           lastModified: '10 september 2025 15:44'},
+    { id: 13, lastName: 'Dekker',         email: 'jos.dekker@xs4all.nl',            lastModified: '28 augustus 2025 11:29' },
+    { id: 14, lastName: 'Hendriks',       email: 'f.hendriks@outlook.com',          lastModified: '15 augustus 2025 09:00' },
+    { id: 15, lastName: 'Peters',         email: 'margriet.peters@gmail.com',       lastModified: '3 augustus 2025 16:58'  },
   ]);
 
   const totalRecords = ref(1609688);
