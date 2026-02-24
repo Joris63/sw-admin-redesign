@@ -22,7 +22,7 @@
             },
             {
               label: 'Product invoeren',
-              route: '/',
+              route: '/sales/orders/add',
             },
             {
               label: 'Offertes',
@@ -105,7 +105,7 @@
             },
             {
               label: 'Klanten',
-              route: '/',
+              route: '/sales/customers',
             },
             {
               label: 'Omzet',
