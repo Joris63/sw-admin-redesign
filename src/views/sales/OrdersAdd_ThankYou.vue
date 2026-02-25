@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
+  import { useRoute } from 'vue-router';
 
-  const props = defineProps<{
-    mode: 'offerte' | 'bestelling';
-    orderNumber: number;
-  }>();
+  const route = useRoute();
+  const mode = computed(() => route.query.mode as 'offerte' | 'bestelling');
+  const orderNumber = computed(() => Number(route.query.order));
 
   // ── Confetti ─────────────────────────────────────────────────
   const confettiPieces = [
@@ -72,10 +72,10 @@
       <!-- Heading -->
       <div class="text-center">
         <h1 class="text-2xl font-bold text-gray-900 tracking-tight">
-          {{ props.mode === 'bestelling' ? 'Bestelling geplaatst!' : 'Offerte opgeslagen!' }}
+          {{ mode === 'bestelling' ? 'Bestelling geplaatst!' : 'Offerte opgeslagen!' }}
         </h1>
         <p class="mt-2 text-sm text-gray-500 leading-relaxed max-w-xs mx-auto">
-          <template v-if="props.mode === 'bestelling'">
+          <template v-if="mode === 'bestelling'">
             Top gedaan — de bestelling is verwerkt en de klant wordt op de hoogte gesteld.
           </template>
           <template v-else>
@@ -87,7 +87,7 @@
       <!-- Order summary pill -->
       <div class="summary-pill">
         <div class="flex items-center gap-1.5">
-          <span class="font-mono font-bold text-gray-800">#{{ props.orderNumber }}</span>
+          <span class="font-mono font-bold text-gray-800">#{{ orderNumber }}</span>
           <i class="pi pi-external-link text-xs text-gray-400 cursor-pointer hover:text-primary-500 transition-colors" />
         </div>
         <div class="pill-divider" />

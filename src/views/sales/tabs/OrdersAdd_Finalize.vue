@@ -236,14 +236,11 @@
       </aside>
 
       <!-- Main content -->
-      <div class="flex flex-col gap-4 flex-1 min-w-0 pb-4">
+      <div class="flex flex-col flex-1 min-w-0 pb-4">
         <!-- ── Planning ────────────────────────────────────────── -->
-        <section ref="sectionPlanning">
-          <div class="section-card rounded-lg overflow-hidden">
-            <div class="section-card__header">
-              <span class="font-semibold text-sm">Planning</span>
-            </div>
-            <div class="px-6 py-5 flex flex-col gap-4">
+        <section ref="sectionPlanning" class="flex flex-col gap-4 py-1 pb-6">
+          <h2 class="section-heading">Planning</h2>
+          <div class="flex flex-col gap-4">
               <!-- Wanneer verbouwen — offerte only -->
               <template v-if="finalizeMode === 'offerte'">
                 <div class="form-row">
@@ -378,17 +375,15 @@
                   </div>
                 </Transition>
               </div>
-            </div>
           </div>
         </section>
 
+        <Divider class="my-0!" />
+
         <!-- ── Levering (bestelling only) ─────────────────────── -->
-        <section v-if="finalizeMode === 'bestelling'" ref="sectionLevering">
-          <div class="section-card rounded-lg overflow-hidden">
-            <div class="section-card__header">
-              <span class="font-semibold text-sm">Levering</span>
-            </div>
-            <div class="px-6 py-5 flex flex-col gap-4">
+        <section v-if="finalizeMode === 'bestelling'" ref="sectionLevering" class="flex flex-col gap-4 py-6">
+          <h2 class="section-heading">Levering</h2>
+          <div class="flex flex-col gap-4">
               <div class="form-row items-center">
                 <span class="form-label">Eindbestemming</span>
                 <SelectButton v-model="eindbestemming" :options="eindbestemmingOptions" />
@@ -410,110 +405,85 @@
                     </div>
                   </div>
                   <Transition name="fade-slide">
-                    <div
-                      v-if="afwijkendBezorgadres"
-                      class="section-card rounded-lg overflow-hidden -mx-1"
-                    >
-                      <div class="section-card__header">
-                        <span class="font-semibold text-sm flex items-center gap-2">
-                          Bezorgadres
-                          <i class="pi pi-search text-gray-400 text-xs cursor-pointer" />
-                        </span>
+                    <div v-if="afwijkendBezorgadres" class="subform">
+                      <div class="form-row items-center">
+                        <span class="form-label">Aanhef</span>
+                        <SelectButton v-model="bezorgAanhef" :options="bezorgAanhefOptions" />
                       </div>
-                      <div class="px-6 py-5 flex flex-col gap-4">
-                        <div class="form-row items-center">
-                          <span class="form-label">Aanhef</span>
-                          <SelectButton v-model="bezorgAanhef" :options="bezorgAanhefOptions" />
+                      <div class="form-row items-center">
+                        <span class="form-label">Ter attentie van</span>
+                        <InputText
+                          v-model="bezorgTerAttentieVan"
+                          placeholder="T.a.v. Jan de Vries"
+                          class="flex-1"
+                        />
+                      </div>
+                      <div class="form-row items-center">
+                        <span class="form-label">Naam <span class="text-red-400">*</span></span>
+                        <div class="flex gap-2 flex-1">
+                          <InputText v-model="bezorgVoornaam" placeholder="Jan" class="flex-1" />
+                          <InputText v-model="bezorgAchternaam" placeholder="de Vries" class="flex-1" />
                         </div>
-                        <div class="form-row items-center">
-                          <span class="form-label">Ter attentie van</span>
-                          <InputText
-                            v-model="bezorgTerAttentieVan"
-                            placeholder="T.a.v. Jan de Vries"
-                            class="flex-1"
-                          />
-                        </div>
-                        <div class="form-row items-center">
-                          <span class="form-label">Naam <span class="text-red-400">*</span></span>
-                          <div class="flex gap-2 flex-1">
-                            <InputText
-                              v-model="bezorgVoornaam"
-                              placeholder="Jan"
-                              class="flex-1"
-                            />
-                            <InputText
-                              v-model="bezorgAchternaam"
-                              placeholder="de Vries"
-                              class="flex-1"
-                            />
+                      </div>
+                      <div class="form-row items-center">
+                        <span class="form-label">Telefoonnummer <span class="text-red-400">*</span></span>
+                        <div class="flex gap-2 flex-1">
+                          <div class="flex gap-1 flex-1">
+                            <Select
+                              :options="[{ label: '+31', value: 'NL' }]"
+                              option-label="label"
+                              option-value="value"
+                              class="w-32"
+                              :model-value="'NL'"
+                            >
+                              <template #value="{ value }">
+                                <div class="flex items-center gap-2">
+                                  <span :class="`fi fi-${value.toLowerCase()}`" />
+                                  <span>+31</span>
+                                </div>
+                              </template>
+                            </Select>
+                            <InputText v-model="bezorgTelefoon" placeholder="6 12345678" class="flex-1" />
+                          </div>
+                          <div class="flex gap-1 flex-1">
+                            <Select
+                              :options="[{ label: '+31', value: 'NL' }]"
+                              option-label="label"
+                              option-value="value"
+                              class="w-32"
+                              :model-value="'NL'"
+                            >
+                              <template #value="{ value }">
+                                <div class="flex items-center gap-2">
+                                  <span :class="`fi fi-${value.toLowerCase()}`" />
+                                  <span>+31</span>
+                                </div>
+                              </template>
+                            </Select>
+                            <InputText v-model="bezorgTelefoonAlt" placeholder="6 87654321" class="flex-1" />
                           </div>
                         </div>
-                        <div class="form-row items-center">
-                          <span class="form-label"
-                            >Telefoonnummer <span class="text-red-400">*</span></span
-                          >
-                          <div class="flex gap-2 flex-1">
-                            <div class="flex gap-1 flex-1">
-                              <Select
-                                :options="[{ label: '+31', value: 'NL' }]"
-                                option-label="label"
-                                option-value="value"
-                                class="w-32"
-                                :model-value="'NL'"
-                              >
-                                <template #value="{ value }">
-                                  <div class="flex items-center gap-2">
-                                    <span :class="`fi fi-${value.toLowerCase()}`" />
-                                    <span>+31</span>
-                                  </div>
-                                </template>
-                              </Select>
-                              <InputText v-model="bezorgTelefoon" placeholder="6 12345678" class="flex-1" />
-                            </div>
-                            <div class="flex gap-1 flex-1">
-                              <Select
-                                :options="[{ label: '+31', value: 'NL' }]"
-                                option-label="label"
-                                option-value="value"
-                                class="w-32"
-                                :model-value="'NL'"
-                              >
-                                <template #value="{ value }">
-                                  <div class="flex items-center gap-2">
-                                    <span :class="`fi fi-${value.toLowerCase()}`" />
-                                    <span>+31</span>
-                                  </div>
-                                </template>
-                              </Select>
-                              <InputText
-                                v-model="bezorgTelefoonAlt"
-                                placeholder="6 87654321"
-                                class="flex-1"
-                              />
-                            </div>
+                      </div>
+                      <div class="form-row items-center">
+                        <span class="form-label">Land</span>
+                        <Select
+                          v-model="bezorgLand"
+                          :options="['Nederland', 'België', 'Duitsland']"
+                          placeholder="Selecteer een land"
+                          class="flex-1"
+                        />
+                      </div>
+                      <div class="form-row items-center">
+                        <span class="form-label">Adres <span class="text-red-400">*</span></span>
+                        <div class="flex flex-col gap-2 flex-1">
+                          <div class="grid grid-cols-3 gap-2">
+                            <InputText v-model="bezorgPostcode" placeholder="1234 AB" />
+                            <InputText v-model="bezorgHuisnummer" placeholder="12" />
+                            <InputText v-model="bezorgToevoeging" placeholder="A" />
                           </div>
-                        </div>
-                        <div class="form-row items-center">
-                          <span class="form-label">Land</span>
-                          <Select
-                            v-model="bezorgLand"
-                            :options="['Nederland', 'België', 'Duitsland']"
-                            placeholder="Selecteer een land"
-                            class="flex-1"
-                          />
-                        </div>
-                        <div class="form-row items-center">
-                          <span class="form-label">Adres <span class="text-red-400">*</span></span>
-                          <div class="flex flex-col gap-2 flex-1">
-                            <div class="grid grid-cols-3 gap-2">
-                              <InputText v-model="bezorgPostcode" placeholder="1234 AB" />
-                              <InputText v-model="bezorgHuisnummer" placeholder="12" />
-                              <InputText v-model="bezorgToevoeging" placeholder="A" />
-                            </div>
-                            <div class="grid grid-cols-2 gap-2">
-                              <InputText v-model="bezorgStraat" placeholder="Kerkstraat" />
-                              <InputText v-model="bezorgStad" placeholder="Amsterdam" />
-                            </div>
+                          <div class="grid grid-cols-2 gap-2">
+                            <InputText v-model="bezorgStraat" placeholder="Kerkstraat" />
+                            <InputText v-model="bezorgStad" placeholder="Amsterdam" />
                           </div>
                         </div>
                       </div>
@@ -613,32 +583,28 @@
                   <i class="pi pi-info-circle text-gray-400 text-sm" />
                 </div>
               </div>
-            </div>
           </div>
         </section>
 
+        <Divider v-if="finalizeMode === 'bestelling'" class="my-0!" />
+
         <!-- ── Betaalmethode (bestelling only) ────────────────── -->
-        <section v-if="finalizeMode === 'bestelling'" ref="sectionBetaalmethode">
-          <div class="section-card rounded-lg overflow-hidden">
-            <div class="section-card__header">
-              <span class="font-semibold text-sm">Betaalmethode</span>
-            </div>
-            <div class="px-6 py-5">
+        <section v-if="finalizeMode === 'bestelling'" ref="sectionBetaalmethode" class="flex flex-col gap-4 py-6">
+          <h2 class="section-heading">Betaalmethode</h2>
+          <div>
               <div class="form-row items-center">
                 <span class="form-label">Betaalmethode</span>
                 <SelectButton v-model="betaalmethode" :options="betaalmethodeOptions" />
               </div>
-            </div>
           </div>
         </section>
 
+        <Divider class="my-0!" />
+
         <!-- ── Afspraken ───────────────────────────────────────── -->
-        <section ref="sectionAfspraken">
-          <div class="section-card rounded-lg overflow-hidden">
-            <div class="section-card__header">
-              <span class="font-semibold text-sm">Afspraken</span>
-            </div>
-            <div class="px-6 py-5 flex flex-col gap-4">
+        <section ref="sectionAfspraken" class="flex flex-col gap-4 py-6">
+          <h2 class="section-heading">Afspraken</h2>
+          <div class="flex flex-col gap-4">
               <div class="form-row">
                 <span class="form-label">Wat zullen we afspreken?</span>
                 <Textarea
@@ -676,17 +642,15 @@
                 <span class="form-label">Wil je ook een taak aanmaken?</span>
                 <ToggleSwitch v-model="maakTaak" />
               </div>
-            </div>
           </div>
         </section>
 
+        <Divider v-if="finalizeMode === 'offerte'" class="my-0!" />
+
         <!-- ── Afronding (offerte only) ────────────────────────── -->
-        <section v-if="finalizeMode === 'offerte'" ref="sectionAfronding">
-          <div class="section-card rounded-lg overflow-hidden">
-            <div class="section-card__header">
-              <span class="font-semibold text-sm">Afronding</span>
-            </div>
-            <div class="px-6 py-5">
+        <section v-if="finalizeMode === 'offerte'" ref="sectionAfronding" class="flex flex-col gap-4 py-6">
+          <h2 class="section-heading">Afronding</h2>
+          <div>
               <div class="form-row items-center">
                 <span class="form-label">Automatische offerte mail</span>
                 <div class="flex items-center gap-2.5">
@@ -696,27 +660,27 @@
                   </span>
                 </div>
               </div>
-            </div>
           </div>
         </section>
 
+        <Divider v-if="finalizeMode === 'bestelling'" class="my-0!" />
+
         <!-- ── Voorwaarden (bestelling only) ──────────────────── -->
-        <section v-if="finalizeMode === 'bestelling'" ref="sectionVoorwaarden">
-          <div class="section-card rounded-lg overflow-hidden">
-            <div class="section-card__header">
-              <span class="font-semibold text-sm">Voorwaarden</span>
-            </div>
-            <div class="px-6 py-5">
+        <section v-if="finalizeMode === 'bestelling'" ref="sectionVoorwaarden" class="flex flex-col gap-4 py-6">
+          <h2 class="section-heading">Voorwaarden</h2>
+          <div>
               <div class="form-row items-center">
                 <span class="form-label">Extra voorwaarden</span>
                 <Button label="Kies voorwaarden" class="btn-outlined" />
               </div>
-            </div>
           </div>
         </section>
 
         <!-- Price summary -->
-        <OrderCartTotals v-if="finalizeMode !== null" />
+        <Divider class="my-0!" />
+        <div class="py-6">
+          <OrderCartTotals v-if="finalizeMode !== null" />
+        </div>
       </div>
     </div>
     <!-- end v-else form -->
@@ -756,19 +720,23 @@
 </template>
 
 <style scoped>
-  /* ── Section cards ────────────────────────────────────────── */
-  .section-card {
-    border: 1px solid var(--p-gray-200);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  /* ── Section headings ─────────────────────────────────────── */
+  .section-heading {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--p-gray-800);
+    margin: 0;
   }
 
-  .section-card__header {
+  /* ── Sub-form ─────────────────────────────────────────────── */
+  .subform {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1.25rem;
+    flex-direction: column;
+    gap: 1rem;
     background: var(--p-gray-50);
-    border-bottom: 1px solid var(--p-gray-200);
+    border: 1px solid var(--p-gray-200);
+    border-radius: 0.625rem;
+    padding: 1.25rem 1.5rem;
   }
 
   /* ── Form layout ──────────────────────────────────────────── */

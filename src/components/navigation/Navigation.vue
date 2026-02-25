@@ -18,7 +18,7 @@
           children: [
             {
               label: 'Directe verkoop',
-              route: '/',
+              route: '/sales/direct',
             },
             {
               label: 'Product invoeren',
@@ -91,7 +91,7 @@
             },
             {
               label: 'Directe verkoop',
-              route: '/',
+              route: '/sales/direct',
             },
             {
               label: 'Bedrijfsbestellingen',
