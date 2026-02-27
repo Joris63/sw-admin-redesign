@@ -6,8 +6,8 @@ import Components from 'unplugin-vue-components/vite';
 import { PrimeVueResolver } from '@primevue/auto-import-resolver';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  base: '/',
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/sw-admin-redesign/' : '/',
   plugins: [
     vue(),
     tailwindcss(),
@@ -20,4 +20,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-});
+}));
