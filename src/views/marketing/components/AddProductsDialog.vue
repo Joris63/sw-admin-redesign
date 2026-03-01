@@ -528,58 +528,12 @@
 </template>
 
 <style scoped>
-  .drw-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1.125rem;
-    padding: 1.25rem 1.5rem;
-  }
   .drw-section--compact {
     gap: 0.625rem;
     padding: 0.75rem 1.5rem;
   }
-  .drw-section-hdr {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--p-gray-400);
-  }
-  .drw-sep {
-    height: 1px;
-    background: var(--p-gray-100);
-    flex-shrink: 0;
-  }
   .drw-sep--sm {
     margin: 0;
-  }
-  .drw-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
-  .drw-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--p-surface-700);
-  }
-  .drw-hint {
-    font-size: 0.75rem;
-    color: var(--p-gray-400);
-    line-height: 1.4;
-  }
-  .drw-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  .drw-inset {
-    margin-top: 0.625rem;
-    padding: 0.75rem 1rem;
-    background: var(--p-gray-50);
-    border-radius: 0.5rem;
-    border: 1px solid var(--p-gray-100);
   }
   .drw-hint-row {
     display: flex;
@@ -604,19 +558,6 @@
     background: var(--p-blue-50);
     border-radius: 0.5rem;
     border: 1px solid var(--p-blue-100);
-  }
-  .drw-subtitle {
-    font-size: 0.75rem;
-    color: var(--p-gray-400);
-    margin-top: 0.125rem;
-  }
-  .drw-group-chip {
-    display: inline-block;
-    padding: 0.05rem 0.4rem;
-    background: var(--p-primary-50);
-    color: var(--p-primary-700);
-    border-radius: 0.25rem;
-    font-weight: 500;
   }
 
   /* Subgroup card */
@@ -917,17 +858,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  /* Footer */
-  .drawer-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    padding: 0.875rem 1.25rem;
-    border-top: 1px solid var(--p-gray-100);
-    background: white;
-    flex-shrink: 0;
   }
 
   /* Transitions */

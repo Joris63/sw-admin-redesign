@@ -173,43 +173,6 @@
 </template>
 
 <style scoped>
-  .drw-scroll {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .drw-section-hdr {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--p-gray-400);
-  }
-
-  .drw-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-  .drw-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--p-surface-700);
-  }
-  .drw-req {
-    color: var(--p-red-500);
-  }
-  .drw-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-
   .addr-grid-3 {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -219,15 +182,5 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
-  }
-
-  .drawer-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    padding: 0.875rem 1.25rem;
-    border-top: 1px solid var(--p-gray-100);
-    background: white;
-    flex-shrink: 0;
   }
 </style>

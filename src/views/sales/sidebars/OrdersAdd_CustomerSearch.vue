@@ -55,26 +55,3 @@
   </Drawer>
 </template>
 
-<style scoped>
-  .form-label {
-    font-size: 0.875rem;
-    color: var(--p-gray-500);
-    padding-top: 0.375rem;
-  }
-  .drw-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.25rem 1.5rem;
-  }
-  .drw-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-  .drw-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--p-surface-700);
-  }
-</style>

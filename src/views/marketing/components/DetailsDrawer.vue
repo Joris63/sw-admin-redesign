@@ -155,30 +155,6 @@
 </template>
 
 <style scoped>
-  .drw-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
-  .drw-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--p-surface-700);
-  }
-  .drw-req {
-    color: var(--p-red-500);
-  }
-
-  .drawer-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    padding: 0.875rem 1.25rem;
-    border-top: 1px solid var(--p-gray-100);
-    background: white;
-    flex-shrink: 0;
-  }
-
   .drw-pending-sites {
     display: flex;
     align-items: flex-start;

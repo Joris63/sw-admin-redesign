@@ -1,0 +1,114 @@
+/* ── Shared drawer & form styles ───────────────────────────────────────
+   Used across: AddressDrawer, DetailsDrawer, GroupDrawer, AddProductsDialog
+   ─────────────────────────────────────────────────────────────────── */
+
+/* ── Layout ─────────────────────────────────────────────────────────── */
+
+.drw-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.drw-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.drw-sep {
+  height: 1px;
+  background: var(--p-gray-100);
+  flex-shrink: 0;
+}
+
+.drawer-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.875rem 1.25rem;
+  border-top: 1px solid var(--p-gray-100);
+  background: white;
+  flex-shrink: 0;
+}
+
+/* ── Form fields ─────────────────────────────────────────────────────── */
+
+.drw-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.drw-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--p-surface-700);
+}
+
+.drw-req {
+  color: var(--p-red-500);
+}
+
+/* 2-column form grid */
+.drw-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+/* ── Typography ──────────────────────────────────────────────────────── */
+
+.drw-section-hdr {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--p-gray-400);
+}
+
+.drw-hint {
+  font-size: 0.75rem;
+  color: var(--p-gray-400);
+  line-height: 1.4;
+}
+
+.drw-subtitle {
+  font-size: 0.75rem;
+  color: var(--p-gray-400);
+  margin-top: 0.125rem;
+}
+
+/* ── Composites ──────────────────────────────────────────────────────── */
+
+/* Label + toggle/action side-by-side */
+.drw-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Inset box (sub-input, color picker, etc.) */
+.drw-inset {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--p-gray-50);
+  border-radius: 0.5rem;
+  border: 1px solid var(--p-gray-100);
+}
+
+/* Inline group label chip (used in drawer header subtitles) */
+.drw-group-chip {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  background: var(--p-primary-50);
+  color: var(--p-primary-700);
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
