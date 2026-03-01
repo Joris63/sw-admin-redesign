@@ -801,7 +801,8 @@
       <div class="ce-header-info">
         <div class="ce-header-top">
           <span class="ce-title">{{ fullName }}</span>
-          <span class="ce-pill ce-pill--active">{{ customer.accountStatus }}</span>
+          <span class="ce-pill ce-pill--credit">B2B</span>
+          <span class="ce-pill ce-pill--active">Account {{ customer.accountStatus.toLowerCase() }}</span>
         </div>
         <span class="ce-subtitle">{{ customer.email }}</span>
       </div>
@@ -1247,9 +1248,9 @@
                 <span class="view-card-title">Afspraken URLs</span>
                 <div class="flex items-center gap-2">
                   <ToggleSwitch v-model="customer.afspraakURLsActief" />
-                  <span class="view-card-toggle-lbl">{{
-                    customer.afspraakURLsActief ? 'Actief' : 'Inactief'
-                  }}</span>
+                  <span class="view-card-toggle-lbl">
+                    {{ customer.afspraakURLsActief ? 'Actief' : 'Inactief' }}
+                  </span>
                 </div>
               </div>
               <div v-if="customer.afspraakURLsActief" class="view-card-body">
