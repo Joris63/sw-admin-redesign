@@ -1087,8 +1087,8 @@
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    background: var(--p-surface-50);
-    border-right: 1px solid var(--p-gray-150, var(--p-gray-200));
+    background: white;
+    border-right: 1px solid var(--p-gray-100);
   }
   .groups-panel__header {
     display: flex;

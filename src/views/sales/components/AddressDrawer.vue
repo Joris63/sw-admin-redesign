@@ -184,10 +184,11 @@
   }
 
   .drw-section-hdr {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--p-gray-800);
-    margin-bottom: 0.125rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--p-gray-400);
   }
 
   .drw-field {
@@ -196,9 +197,9 @@
     gap: 0.3rem;
   }
   .drw-label {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     font-weight: 500;
-    color: var(--p-surface-500);
+    color: var(--p-surface-700);
   }
   .drw-req {
     color: var(--p-red-500);

@@ -217,11 +217,8 @@
           </div>
         </div>
         <Divider class="my-0!" />
-        <div class="flex flex-col gap-2">
-          <p class="text-sm font-medium flex items-center gap-1.5">
-            Mail inhoud
-            <i class="pi pi-info-circle text-xs text-gray-400" />
-          </p>
+        <div class="drw-field">
+          <label class="drw-label"> Mail inhoud </label>
           <Textarea v-model="mailInhoud" rows="7" class="w-full text-sm" auto-resize />
         </div>
       </div>
@@ -251,6 +248,18 @@
     justify-content: center;
     overflow: hidden;
     background: linear-gradient(160deg, #f0fdf4 0%, #ffffff 45%, #eff6ff 100%);
+  }
+
+  .drw-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .drw-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--p-surface-700);
   }
 
   /* ── Confetti ──────────────────────────────────────────────── */

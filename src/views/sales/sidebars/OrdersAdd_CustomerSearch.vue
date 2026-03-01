@@ -20,27 +20,33 @@
 </script>
 
 <template>
-  <Drawer v-model:visible="visible" header="Zoek klant" position="right" class="w-120!">
-    <div class="flex flex-col gap-2">
-      <div class="flex flex-col gap-1">
-        <label class="form-label">E-mail</label>
+  <Drawer
+    v-model:visible="visible"
+    header="Zoek klant"
+    position="right"
+    class="w-120!"
+    :pt="{ content: { class: 'flex flex-col gap-0 p-0! overflow-hidden' } }"
+  >
+    <div class="drw-section">
+      <div class="drw-field">
+        <label class="drw-label">E-mail</label>
         <InputText v-model="email" placeholder="jan@bedrijf.nl" />
       </div>
-      <div class="flex flex-col gap-1">
-        <label class="form-label">Bedrijfsnaam</label>
+      <div class="drw-field">
+        <label class="drw-label">Bedrijfsnaam</label>
         <InputText v-model="bedrijfsnaam" placeholder="Showroomworks BV" />
       </div>
-      <div class="flex flex-col gap-1">
-        <label class="form-label">Achternaam</label>
+      <div class="drw-field">
+        <label class="drw-label">Achternaam</label>
         <InputText v-model="achternaam" placeholder="de Vries" />
       </div>
       <div class="grid grid-cols-2 gap-2">
-        <div class="flex flex-col gap-1">
-          <label class="form-label">Postcode</label>
+        <div class="drw-field">
+          <label class="drw-label">Postcode</label>
           <InputText v-model="postcode" placeholder="1234 AB" />
         </div>
-        <div class="flex flex-col gap-1">
-          <label class="form-label">Huisnummer</label>
+        <div class="drw-field">
+          <label class="drw-label">Huisnummer</label>
           <InputText v-model="huisnummer" placeholder="12" />
         </div>
       </div>
@@ -54,5 +60,21 @@
     font-size: 0.875rem;
     color: var(--p-gray-500);
     padding-top: 0.375rem;
+  }
+  .drw-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+  }
+  .drw-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .drw-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--p-surface-700);
   }
 </style>

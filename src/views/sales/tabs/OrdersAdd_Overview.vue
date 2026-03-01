@@ -291,6 +291,7 @@
   .section-card {
     border: 1px solid var(--p-gray-200);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    background: white;
   }
 
   .section-card__header {

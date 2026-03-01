@@ -163,7 +163,7 @@
   >
     <template #header>
       <div>
-        <span class="font-semibold text-surface-800">
+        <span class="font-semibold text-surface-800 text-2xl">
           {{ isEdit ? 'Groep bewerken' : 'Nieuwe groep aanmaken' }}
         </span>
         <Transition name="fade">
