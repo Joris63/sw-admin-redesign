@@ -62,9 +62,7 @@
       <DataTable :value="logboek" class="ce-table">
         <Column header="Gebruiker" style="width: 17rem">
           <template #body="{ data }">
-            <a href="#" class="text-primary-600 hover:underline text-sm">{{
-              data.gebruiker
-            }}</a>
+            <a href="#" class="text-primary-600 hover:underline text-sm">{{ data.gebruiker }}</a>
             <div class="text-xs text-gray-400 mt-0.5">{{ data.datum }}</div>
           </template>
         </Column>
@@ -82,9 +80,7 @@
             </div>
           </template>
         </Column>
-        <template #empty
-          ><span class="table-empty">Geen activiteit gevonden</span></template
-        >
+        <template #empty><span class="table-empty">Geen activiteit gevonden</span></template>
       </DataTable>
     </div>
   </div>

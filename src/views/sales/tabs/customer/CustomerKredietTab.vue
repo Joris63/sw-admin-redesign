@@ -111,9 +111,7 @@
       <Transition name="card-fade">
         <div v-if="geleverdNietBetaaldOpen">
           <DataTable :value="customer.geleverdNietBetaald" class="ce-table">
-            <template #empty
-              ><span class="table-empty">Geen resultaten gevonden</span></template
-            >
+            <template #empty><span class="table-empty">Geen resultaten gevonden</span></template>
             <Column field="levering" header="Levering" />
             <Column field="factuurnummer" header="Factuurnummer" />
             <Column field="factuurdatum" header="Factuurdatum" />
@@ -143,9 +141,7 @@
       <div class="view-card-hdr">
         <div class="flex items-center gap-2">
           <span class="view-card-title">Gereserveerd krediet</span>
-          <span class="kort-count-badge">{{
-            customer.gereserveerdKredietItems.length
-          }}</span>
+          <span class="kort-count-badge">{{ customer.gereserveerdKredietItems.length }}</span>
         </div>
         <Button
           :icon="gereserveerdKredietOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
@@ -158,9 +154,7 @@
       <Transition name="card-fade">
         <div v-if="gereserveerdKredietOpen">
           <DataTable :value="customer.gereserveerdKredietItems" class="ce-table">
-            <template #empty
-              ><span class="table-empty">Geen resultaten gevonden</span></template
-            >
+            <template #empty><span class="table-empty">Geen resultaten gevonden</span></template>
             <Column field="levering" header="Levering" />
             <Column field="status" header="Status" />
             <Column field="dropshipping" header="Dropshipping">
@@ -209,18 +203,14 @@
       <Transition name="card-fade">
         <div v-if="kredietIngeplandOpen">
           <DataTable :value="customer.kredietIngepland" class="ce-table">
-            <template #empty
-              ><span class="table-empty">Geen resultaten gevonden</span></template
-            >
+            <template #empty><span class="table-empty">Geen resultaten gevonden</span></template>
             <Column field="levering" header="Levering" />
             <Column field="status" header="Status" />
             <Column field="voltooid" header="Voltooid">
               <template #body="{ data }">
                 <i
                   :class="
-                    data.voltooid
-                      ? 'pi pi-check text-green-500'
-                      : 'pi pi-minus text-surface-300'
+                    data.voltooid ? 'pi pi-check text-green-500' : 'pi pi-minus text-surface-300'
                   "
                 />
               </template>
@@ -260,9 +250,7 @@
       <Transition name="card-fade">
         <div v-if="kredietAankomendeOpen">
           <DataTable :value="customer.kredietAankomend" class="ce-table">
-            <template #empty
-              ><span class="table-empty">Geen resultaten gevonden</span></template
-            >
+            <template #empty><span class="table-empty">Geen resultaten gevonden</span></template>
             <Column field="levering" header="Levering" />
             <Column field="ingeplandeDatum" header="Ingeplande datum" />
             <Column field="waarde" header="Waarde" body-class="col-right">

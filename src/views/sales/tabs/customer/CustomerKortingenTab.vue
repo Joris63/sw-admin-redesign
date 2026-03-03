@@ -152,11 +152,7 @@
               class="w-full"
             />
           </div>
-          <DataTable
-            :value="filteredProductKortingen"
-            class="ce-table"
-            :empty-message="' '"
-          >
+          <DataTable :value="filteredProductKortingen" class="ce-table" :empty-message="' '">
             <template #empty>
               <span class="table-empty">{{
                 productFilter ? 'Geen producten gevonden' : 'Geen product kortingen'

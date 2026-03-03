@@ -275,11 +275,7 @@
               </Transition>
               <div class="flex gap-2">
                 <IconField class="flex-1">
-                  <InputText
-                    v-model="searchQuery"
-                    class="w-full"
-                    placeholder="naam@voorbeeld.nl"
-                  />
+                  <InputText v-model="searchQuery" class="w-full" placeholder="naam@voorbeeld.nl" />
                   <InputIcon class="pi pi-search" />
                 </IconField>
                 <Button

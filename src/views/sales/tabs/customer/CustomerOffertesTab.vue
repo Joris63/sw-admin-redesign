@@ -83,9 +83,7 @@
             <span
               class="offerte-badge"
               :class="
-                data.status === 'Geaccepteerd'
-                  ? 'offerte-badge--success'
-                  : 'offerte-badge--warn'
+                data.status === 'Geaccepteerd' ? 'offerte-badge--success' : 'offerte-badge--warn'
               "
             >
               {{ data.status }}
@@ -96,9 +94,7 @@
           <template #body="{ data }">{{ data.opmerkingen || 'Geen' }}</template>
         </Column>
         <Column style="width: 3rem">
-          <template #body
-            ><i class="pi pi-pencil text-primary-400 cursor-pointer"
-          /></template>
+          <template #body><i class="pi pi-pencil text-primary-400 cursor-pointer" /></template>
         </Column>
         <template #empty
           ><span class="table-empty">Er zijn geen resultaten gevonden</span></template

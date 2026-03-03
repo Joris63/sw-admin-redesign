@@ -49,12 +49,7 @@
         </p>
       </div>
       <div class="view-card-action">
-        <Button
-          label="Stuur wachtwoord reset e-mail"
-          size="small"
-          severity="secondary"
-          outlined
-        />
+        <Button label="Stuur wachtwoord reset e-mail" size="small" severity="secondary" outlined />
       </div>
     </div>
 
@@ -65,8 +60,8 @@
       </div>
       <div class="view-card-body">
         <p class="acct-desc">
-          Wijzig het e-mailadres van de klant. Er wordt een bevestigingsmail gestuurd naar
-          het nieuwe adres.
+          Wijzig het e-mailadres van de klant. Er wordt een bevestigingsmail gestuurd naar het
+          nieuwe adres.
         </p>
       </div>
       <div class="view-card-action">

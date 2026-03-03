@@ -8,16 +8,9 @@
   import OfferGroupTree from './components/OfferGroupTree.vue';
   import OfferProductPanel from './components/OfferProductPanel.vue';
 
-  import type {
-    OfferStatus,
-    OfferGroup as Group,
-  } from '@/types/offer';
+  import type { OfferStatus, OfferGroup as Group } from '@/types/offer';
   import { parseDMY } from '@/utils/format';
-  import {
-    MOCK_GROUPS,
-    PENDING_CHANGES,
-    PENDING_SITE_CHANGES,
-  } from '@/mocks/offers';
+  import { MOCK_GROUPS, PENDING_CHANGES, PENDING_SITE_CHANGES } from '@/mocks/offers';
 
   const route = useRoute();
   const router = useRouter();

@@ -85,9 +85,7 @@
         <i
           v-if="groupHasPending(node.id)"
           class="pi pi-clock pending-clock"
-          :class="
-            groupHasPendingRemove(node.id) ? 'pending-clock--mixed' : 'pending-clock--add'
-          "
+          :class="groupHasPendingRemove(node.id) ? 'pending-clock--mixed' : 'pending-clock--add'"
         />
         <span class="item-count">{{ node.products.length || '' }}</span>
         <div class="row-actions">

@@ -1,11 +1,7 @@
 <script setup lang="ts">
   import { ref, computed, provide } from 'vue';
   import { useRouter } from 'vue-router';
-  import type {
-    CustomerData,
-    OmzetPerJaar,
-    CustomerOfferte,
-  } from '@/types/customer';
+  import type { CustomerData, OmzetPerJaar, CustomerOfferte } from '@/types/customer';
 
   import CustomerPersonalTab from './tabs/customer/CustomerPersonalTab.vue';
   import CustomerAddressesTab from './tabs/customer/CustomerAddressesTab.vue';
@@ -324,11 +320,51 @@
   ];
 
   const offertes: CustomerOfferte[] = [
-    { id: 1, offertenummer: '1761598', datum: '19 mei 2022 14:53', door: 'Job Vermue', prijs: 3666.83, status: 'Geaccepteerd', opmerkingen: 0 },
-    { id: 2, offertenummer: '1895180', datum: '20 oktober 2022 15:07', door: 'Bart Onstenk', prijs: 1595.1, status: 'Geaccepteerd', opmerkingen: 0 },
-    { id: 3, offertenummer: '1917050', datum: '11 november 2022 12:22', door: 'Bart Onstenk', prijs: 2405.34, status: 'Geaccepteerd', opmerkingen: 0 },
-    { id: 4, offertenummer: '2005823', datum: '03 februari 2023 16:01', door: 'Mark Roeters', prijs: 10380.6, status: 'Geaccepteerd', opmerkingen: 0 },
-    { id: 5, offertenummer: '2697404', datum: '18 maart 2025 10:42', door: 'Luke Derkzen', prijs: 14.95, status: 'Niet geaccepteerd', opmerkingen: 0 },
+    {
+      id: 1,
+      offertenummer: '1761598',
+      datum: '19 mei 2022 14:53',
+      door: 'Job Vermue',
+      prijs: 3666.83,
+      status: 'Geaccepteerd',
+      opmerkingen: 0,
+    },
+    {
+      id: 2,
+      offertenummer: '1895180',
+      datum: '20 oktober 2022 15:07',
+      door: 'Bart Onstenk',
+      prijs: 1595.1,
+      status: 'Geaccepteerd',
+      opmerkingen: 0,
+    },
+    {
+      id: 3,
+      offertenummer: '1917050',
+      datum: '11 november 2022 12:22',
+      door: 'Bart Onstenk',
+      prijs: 2405.34,
+      status: 'Geaccepteerd',
+      opmerkingen: 0,
+    },
+    {
+      id: 4,
+      offertenummer: '2005823',
+      datum: '03 februari 2023 16:01',
+      door: 'Mark Roeters',
+      prijs: 10380.6,
+      status: 'Geaccepteerd',
+      opmerkingen: 0,
+    },
+    {
+      id: 5,
+      offertenummer: '2697404',
+      datum: '18 maart 2025 10:42',
+      door: 'Luke Derkzen',
+      prijs: 14.95,
+      status: 'Niet geaccepteerd',
+      opmerkingen: 0,
+    },
   ];
 
   // ── Navigation ─────────────────────────────────────────────────────────────
@@ -381,7 +417,9 @@
         <div class="ce-header-top">
           <span class="ce-title">{{ fullName }}</span>
           <span class="ce-pill ce-pill--credit">B2B</span>
-          <span class="ce-pill ce-pill--active">Account {{ customer.accountStatus.toLowerCase() }}</span>
+          <span class="ce-pill ce-pill--active"
+            >Account {{ customer.accountStatus.toLowerCase() }}</span
+          >
         </div>
         <span class="ce-subtitle">{{ customer.email }}</span>
       </div>

@@ -39,7 +39,6 @@
           ]
   );
 
-
   // ── Offerte: Planning ────────────────────────────────────────
   const selectedYear = ref(new Date().getFullYear());
   const years = [2026, 2027, 2028].map((y) => ({ label: String(y), value: y }));

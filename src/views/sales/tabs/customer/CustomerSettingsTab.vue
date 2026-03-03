@@ -48,9 +48,7 @@
           </div>
           <div class="fr-row">
             <span class="fr-label">Reviews</span>
-            <span class="fr-value">{{
-              customer.reviewsActief ? 'Actief' : 'Inactief'
-            }}</span>
+            <span class="fr-value">{{ customer.reviewsActief ? 'Actief' : 'Inactief' }}</span>
           </div>
           <div v-if="!customer.reviewsActief" class="fr-row">
             <span class="fr-label">Inactief reden</span>
@@ -167,16 +165,13 @@
                   <div class="fr-row">
                     <span class="fr-label">Tijdelijk limiet</span>
                     <span class="fr-value">{{
-                      customer.tijdelijkKredietLimiet
-                        ? `€ ${customer.tijdelijkKredietLimiet}`
-                        : '—'
+                      customer.tijdelijkKredietLimiet ? `€ ${customer.tijdelijkKredietLimiet}` : '—'
                     }}</span>
                   </div>
                   <div class="fr-row">
                     <span class="fr-label">Vervaldatum</span>
                     <span class="fr-value">{{
-                      customer.tijdelijkKredietVervalDatum?.toLocaleDateString('nl-NL') ||
-                      '—'
+                      customer.tijdelijkKredietVervalDatum?.toLocaleDateString('nl-NL') || '—'
                     }}</span>
                   </div>
                 </div>
@@ -188,10 +183,7 @@
           <div class="fr-row">
             <label class="fr-label">Betalen op rekening</label>
             <div class="flex items-center gap-3">
-              <ToggleSwitch
-                v-model="customer.kanBetalenOpRekening"
-                input-id="betalen-rekening"
-              />
+              <ToggleSwitch v-model="customer.kanBetalenOpRekening" input-id="betalen-rekening" />
               <label for="betalen-rekening" class="text-sm text-surface-600 cursor-pointer"
                 >Kan betalen op rekening</label
               >
@@ -209,11 +201,7 @@
               </div>
               <div class="fr-row">
                 <label class="fr-label">Kredietlimiet</label>
-                <InputNumber
-                  v-model="customer.kredietlimiet"
-                  class="w-full"
-                  placeholder="0"
-                />
+                <InputNumber v-model="customer.kredietlimiet" class="w-full" placeholder="0" />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Vervaldagen factuur</label>
@@ -233,9 +221,7 @@
                     v-model="customer.tijdelijkKredietToestaan"
                     input-id="tijdelijk-krediet"
                   />
-                  <label
-                    for="tijdelijk-krediet"
-                    class="text-sm text-surface-600 cursor-pointer"
+                  <label for="tijdelijk-krediet" class="text-sm text-surface-600 cursor-pointer"
                     >Tijdelijk krediet toestaan</label
                   >
                 </div>

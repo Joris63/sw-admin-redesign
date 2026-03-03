@@ -96,20 +96,12 @@
           </div>
           <div class="fr-row">
             <label class="fr-label">Bedrijfsnaam</label>
-            <InputText
-              v-model="customer.bedrijfsnaam"
-              class="w-full"
-              placeholder="Bedrijfsnaam"
-            />
+            <InputText v-model="customer.bedrijfsnaam" class="w-full" placeholder="Bedrijfsnaam" />
           </div>
           <div class="fr-row">
             <label class="fr-label">BTW-nummer</label>
             <div class="flex gap-2">
-              <Select
-                v-model="customer.btwLand"
-                :options="btwLandOptions"
-                style="width: 7.5rem"
-              >
+              <Select v-model="customer.btwLand" :options="btwLandOptions" style="width: 7.5rem">
                 <template #value="{ value }">
                   <div class="flex items-center gap-2">
                     <span
@@ -143,20 +135,12 @@
                   </div>
                 </template>
               </Select>
-              <InputText
-                v-model="customer.btwNummer"
-                class="flex-1"
-                placeholder="BTW-nummer"
-              />
+              <InputText v-model="customer.btwNummer" class="flex-1" placeholder="BTW-nummer" />
             </div>
           </div>
           <div class="fr-row">
             <label class="fr-label">KVK-nummer</label>
-            <InputText
-              v-model="customer.kvkNummer"
-              class="w-full"
-              placeholder="KVK-nummer"
-            />
+            <InputText v-model="customer.kvkNummer" class="w-full" placeholder="KVK-nummer" />
           </div>
         </div>
       </Transition>
@@ -239,11 +223,7 @@
           </div>
           <div class="fr-row">
             <label class="fr-label">Achternaam <span class="fr-req">*</span></label>
-            <InputText
-              v-model="customer.achternaam"
-              class="w-full"
-              placeholder="Achternaam"
-            />
+            <InputText v-model="customer.achternaam" class="w-full" placeholder="Achternaam" />
           </div>
           <div class="fr-row">
             <span class="fr-label">E-mail</span>
@@ -272,17 +252,11 @@
                         background-position: center;
                       "
                     />
-                    <span>{{
-                      telefoonLandOptions.find((o) => o.value === value)?.label
-                    }}</span>
+                    <span>{{ telefoonLandOptions.find((o) => o.value === value)?.label }}</span>
                   </div>
                 </template>
               </Select>
-              <InputText
-                v-model="customer.telefoon"
-                class="flex-1"
-                placeholder="Telefoonnummer"
-              />
+              <InputText v-model="customer.telefoon" class="flex-1" placeholder="Telefoonnummer" />
             </div>
           </div>
           <div class="fr-row">

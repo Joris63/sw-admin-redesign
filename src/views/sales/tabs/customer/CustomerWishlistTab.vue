@@ -49,8 +49,7 @@
           body-class="col-right"
         >
           <template #body="{ data }"
-            >€
-            {{ data.prijs.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
+            >€ {{ data.prijs.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
           >
         </Column>
         <Column style="width: 3rem">
@@ -61,8 +60,7 @@
         <template #footer>
           <div v-if="selectedWishlist.items.length" class="table-subtotal">
             <span
-              >Subtotaal,
-              {{ selectedWishlist.items.reduce((s, i) => s + i.aantal, 0) }} product{{
+              >Subtotaal, {{ selectedWishlist.items.reduce((s, i) => s + i.aantal, 0) }} product{{
                 selectedWishlist.items.reduce((s, i) => s + i.aantal, 0) !== 1 ? 'en' : ''
               }}</span
             >

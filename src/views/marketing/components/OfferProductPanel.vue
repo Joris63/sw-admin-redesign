@@ -53,9 +53,8 @@
     activeProducts.value.slice(productFirst.value, productFirst.value + productRows.value)
   );
 
-  const selectedGroupPending = computed(
-    (): PendingGroupChanges | null =>
-      props.selectedGroupId !== null ? (props.pendingChanges[props.selectedGroupId] ?? null) : null
+  const selectedGroupPending = computed((): PendingGroupChanges | null =>
+    props.selectedGroupId !== null ? (props.pendingChanges[props.selectedGroupId] ?? null) : null
   );
 
   const pendingAddCount = computed(() => {
@@ -98,7 +97,10 @@
   }
 
   function deleteSelected() {
-    emit('delete-products', selectedProducts.value.map((p) => p.id));
+    emit(
+      'delete-products',
+      selectedProducts.value.map((p) => p.id)
+    );
     selectedProducts.value = [];
   }
 
@@ -109,7 +111,10 @@
   }
 
   function deleteFiltered() {
-    emit('delete-filtered-products', activeProducts.value.map((p) => p.id));
+    emit(
+      'delete-filtered-products',
+      activeProducts.value.map((p) => p.id)
+    );
     selectedProducts.value = [];
     productSearch.value = '';
     productMenuRef.value?.hide();
@@ -198,9 +203,7 @@
                   "
                 >
                   Groep
-                  {{
-                    selectedGroupPending!.groupAction === 'remove' ? 'verwijderd' : 'toegevoegd'
-                  }}
+                  {{ selectedGroupPending!.groupAction === 'remove' ? 'verwijderd' : 'toegevoegd' }}
                 </span>
               </template>
               <template v-else>
@@ -291,12 +294,7 @@
           />
         </IconField>
         <template v-if="!isVerlopen">
-          <Button
-            label="Toevoegen"
-            icon="pi pi-plus"
-            size="small"
-            @click="emit('add-products')"
-          />
+          <Button label="Toevoegen" icon="pi pi-plus" size="small" @click="emit('add-products')" />
           <Button
             icon="pi pi-trash"
             label="Verwijderen"

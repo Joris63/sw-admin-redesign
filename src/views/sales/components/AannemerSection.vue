@@ -85,11 +85,7 @@
           </div>
         </Transition>
       </div>
-      <div
-        v-else-if="aannemerMode === 'manual'"
-        key="aannemer-manual"
-        class="flex flex-col gap-4"
-      >
+      <div v-else-if="aannemerMode === 'manual'" key="aannemer-manual" class="flex flex-col gap-4">
         <div class="form-row items-center">
           <span class="form-label">Naam bedrijf</span>
           <InputText

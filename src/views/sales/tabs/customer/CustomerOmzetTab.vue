@@ -25,8 +25,7 @@
         <Column field="jaar" header="Jaar" style="width: 8rem" />
         <Column field="omzet" header="Omzet">
           <template #body="{ data }"
-            >€
-            {{ data.omzet.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
+            >€ {{ data.omzet.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
           >
         </Column>
         <template #empty><span class="table-empty">Geen omzet gevonden</span></template>

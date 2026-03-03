@@ -36,8 +36,7 @@
           body-class="col-right"
         >
           <template #body="{ data }"
-            >€
-            {{ data.prijs.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
+            >€ {{ data.prijs.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
           >
         </Column>
         <Column style="width: 3rem">

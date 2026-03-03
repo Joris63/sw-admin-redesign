@@ -151,7 +151,14 @@
     moveToTop,
     moveToBottom,
     getLabelForKey,
-  } = useFilterBar(allFilterDefs, ['email', 'achternaam', 'postcode', 'huisnummer', 'huisnummerToevoeging', 'isB2BKlant']);
+  } = useFilterBar(allFilterDefs, [
+    'email',
+    'achternaam',
+    'postcode',
+    'huisnummer',
+    'huisnummerToevoeging',
+    'isB2BKlant',
+  ]);
 </script>
 
 <template>
