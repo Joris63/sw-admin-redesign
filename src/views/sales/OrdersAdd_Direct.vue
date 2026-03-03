@@ -4,6 +4,7 @@
   import OrdersAdd_ShoppingCart from './tabs/OrdersAdd_ShoppingCart.vue';
   import OrdersAdd_CustomerSearch from './sidebars/OrdersAdd_CustomerSearch.vue';
   import { useOrderCart } from '@/composables/useOrderCart';
+  import { useScrollNav } from '@/composables/useScrollNav';
 
   const router = useRouter();
   const {
@@ -15,6 +16,7 @@
     formatPrice,
     cartItemCount,
   } = useOrderCart();
+  const { scrollTo } = useScrollNav();
 
   // ── Section refs ──────────────────────────────────────────────
   const sectionWinkelwagen = ref<HTMLElement | null>(null);
@@ -22,10 +24,6 @@
   const sectionLevering = ref<HTMLElement | null>(null);
   const sectionBetaalmethode = ref<HTMLElement | null>(null);
   const sectionVoorwaarden = ref<HTMLElement | null>(null);
-
-  function scrollTo(el: HTMLElement | null) {
-    el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
 
   const navItems = [
     { label: 'Winkelwagen', ref: sectionWinkelwagen },

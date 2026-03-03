@@ -1,16 +1,14 @@
 <script setup lang="ts">
   import { ref } from 'vue';
+  import { useScrollNav } from '@/composables/useScrollNav';
+  import OrdersAdd_CustomerSearch from '../sidebars/OrdersAdd_CustomerSearch.vue';
+
+  const { scrollTo } = useScrollNav();
 
   const sectionGegevens = ref<HTMLElement | null>(null);
   const sectionAdres = ref<HTMLElement | null>(null);
   const sectionKanaal = ref<HTMLElement | null>(null);
   const sectionAanbevolen = ref<HTMLElement | null>(null);
-
-  function scrollTo(el: HTMLElement | null) {
-    el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  import OrdersAdd_CustomerSearch from '../sidebars/OrdersAdd_CustomerSearch.vue';
   import OrdersAdd_AppointmentSearch from '../sidebars/OrdersAdd_AppointmentSearch.vue';
 
   type Mode = 'search' | 'new' | null;

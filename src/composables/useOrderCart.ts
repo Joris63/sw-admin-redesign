@@ -1,23 +1,8 @@
 import { ref, computed } from 'vue';
+import type { CartItem, CartGroup, FinalizeMode } from '@/types/orders';
+import { formatPrice } from '@/utils/format';
 
-export interface CartItem {
-  naam: string;
-  productcode: string;
-  levertijd: string;
-  voorraad: number;
-  aantal: number;
-  prijs: number;
-  imageUrl?: string;
-  discountPercent: number;
-  discountAmount: number;
-  prijscorrectie: boolean;
-}
-
-export interface CartGroup {
-  id: string;
-  name: string;
-  items: CartItem[];
-}
+export type { CartItem, CartGroup };
 
 // ── Singleton state (shared across all component instances) ───
 const groups = ref<CartGroup[]>([
@@ -103,10 +88,6 @@ const orderPrijscorrectie = ref(false);
 const verzendkostenValue = ref(0);
 
 // ── Helper functions ──────────────────────────────────────────
-function formatPrice(value: number) {
-  return '€\u00a0' + value.toFixed(2).replace('.', ',');
-}
-
 function rowTotal(item: CartItem): number {
   const unitPrice = item.prijs * (1 - item.discountPercent / 100) - item.discountAmount;
   return Math.max(0, item.aantal * unitPrice);
@@ -145,7 +126,6 @@ const orderTotal = computed(() =>
 );
 
 // ── Finalize mode ─────────────────────────────────────────────
-type FinalizeMode = 'offerte' | 'bestelling' | null;
 const finalizeMode = ref<FinalizeMode>(null);
 
 // ── Non-empty groups (for overview) ──────────────────────────

@@ -1,21 +1,10 @@
 <script setup lang="ts">
   import { ref, computed, watch } from 'vue';
+  import type { AddressForm } from '@/types/address';
+  import AddressFields from '@/components/form/AddressFields.vue';
+  import PhoneField from '@/components/form/PhoneField.vue';
 
-  export interface AddressForm {
-    id: number | null;
-    aanhef: string | null;
-    voornaam: string;
-    achternaam: string;
-    telefoonLand: string;
-    telefoon: string;
-    terAttentieVan: string;
-    land: string;
-    postcode: string;
-    huisnummer: string;
-    toevoeging: string;
-    straat: string;
-    woonplaats: string;
-  }
+  export type { AddressForm };
 
   const props = defineProps<{ address?: AddressForm | null }>();
   const visible = defineModel<boolean>('visible', { required: true });
@@ -24,14 +13,6 @@
   const isEdit = computed(() => !!props.address?.id);
 
   const aanhefOptions = ['Fam.', 'Dhr.', 'Mevr.'];
-
-  const telefoonLandOptions = [
-    { label: '+31', value: '+31', code: 'nl' },
-    { label: '+32', value: '+32', code: 'be' },
-    { label: '+33', value: '+33', code: 'fr' },
-    { label: '+49', value: '+49', code: 'de' },
-  ];
-
   const landOptions = ['Nederland', 'België', 'Duitsland', 'Frankrijk', 'Luxemburg'];
 
   const empty: AddressForm = {
@@ -92,49 +73,7 @@
 
       <div class="drw-field">
         <label class="drw-label">Telefoonnummer</label>
-        <div class="flex gap-2">
-          <Select
-            v-model="form.telefoonLand"
-            :options="telefoonLandOptions"
-            option-label="label"
-            option-value="value"
-            style="width: 8.5rem"
-          >
-            <template #value="{ value }">
-              <div class="flex items-center gap-2">
-                <span
-                  :class="`fi fi-${telefoonLandOptions.find((o) => o.value === value)?.code}`"
-                  style="
-                    width: 1.5rem;
-                    height: 1.125rem;
-                    display: inline-block;
-                    flex-shrink: 0;
-                    background-size: cover;
-                    background-position: center;
-                  "
-                />
-                <span>{{ value }}</span>
-              </div>
-            </template>
-            <template #option="{ option }">
-              <div class="flex items-center gap-2">
-                <span
-                  :class="`fi fi-${option.code}`"
-                  style="
-                    width: 1.5rem;
-                    height: 1.125rem;
-                    display: inline-block;
-                    flex-shrink: 0;
-                    background-size: cover;
-                    background-position: center;
-                  "
-                />
-                <span>{{ option.label }}</span>
-              </div>
-            </template>
-          </Select>
-          <InputText v-model="form.telefoon" class="flex-1" placeholder="Telefoonnummer" />
-        </div>
+        <PhoneField v-model:land="form.telefoonLand" v-model:nummer="form.telefoon" />
       </div>
 
       <!-- Adresgegevens -->
@@ -153,15 +92,13 @@
 
       <div class="drw-field">
         <label class="drw-label">Adres <span class="drw-req">*</span></label>
-        <div class="addr-grid-3">
-          <InputText v-model="form.postcode" placeholder="Postcode" />
-          <InputText v-model="form.huisnummer" placeholder="Huisnummer" />
-          <InputText v-model="form.toevoeging" placeholder="Toevoeging" />
-        </div>
-        <div class="addr-grid-2 mt-2">
-          <InputText v-model="form.straat" placeholder="Straat" />
-          <InputText v-model="form.woonplaats" placeholder="Stad" />
-        </div>
+        <AddressFields
+          v-model:postcode="form.postcode"
+          v-model:huisnummer="form.huisnummer"
+          v-model:toevoeging="form.toevoeging"
+          v-model:straat="form.straat"
+          v-model:woonplaats="form.woonplaats"
+        />
       </div>
     </div>
 
@@ -171,16 +108,3 @@
     </div>
   </Drawer>
 </template>
-
-<style scoped>
-  .addr-grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.5rem;
-  }
-  .addr-grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
-  }
-</style>

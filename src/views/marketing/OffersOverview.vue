@@ -1,20 +1,9 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue';
   import { useRouter } from 'vue-router';
+  import type { Offer, OfferStatus } from '@/types/offer';
 
   const router = useRouter();
-
-  type OfferStatus = 'Actief' | 'Verlopen' | 'Binnenkort gepland';
-
-  interface Offer {
-    id: number;
-    naam: string;
-    startdatum: string;
-    einddatum: string;
-    status: OfferStatus;
-    sites: string[];
-    lastTask: string | null;
-  }
 
   const offers = ref<Offer[]>([
     {
