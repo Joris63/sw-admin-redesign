@@ -210,7 +210,7 @@
             </div>
           </div>
           <!-- Cart -->
-          <OrdersAdd_ShoppingCart />
+          <OrdersAdd_ShoppingCart class="pt-2" />
         </section>
 
         <Divider class="my-0!" />

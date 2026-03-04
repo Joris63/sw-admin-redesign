@@ -26,8 +26,7 @@
             },
             {
               label: 'Offertes',
-              route: '/',
-              isOldAdmin: true,
+              route: '/sales/quotations'
             },
             {
               label: 'Bestellingen',
@@ -100,8 +99,7 @@
             },
             {
               label: 'Offertes',
-              route: '/',
-              isOldAdmin: true,
+              route: '/sales/quotations'
             },
             {
               label: 'Klanten',

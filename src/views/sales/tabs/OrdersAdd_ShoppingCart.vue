@@ -4,6 +4,8 @@
   import { useOrderCart } from '@/composables/useOrderCart';
   import type { CartItem } from '@/types/orders';
 
+  const props = withDefaults(defineProps<{ readonly?: boolean }>(), { readonly: false });
+
   const {
     groups,
     orderDiscountExpanded,
@@ -108,13 +110,20 @@
 </script>
 
 <template>
-  <div class="flex pt-2 gap-3">
+  <div class="flex gap-3">
     <!-- Sidebar -->
     <div class="w-2/10 flex flex-col">
       <!-- Groepen header -->
       <div class="flex items-center justify-between px-1 mb-1">
         <span class="text-xs font-bold tracking-wider uppercase text-gray-400">Groepen</span>
-        <Button rounded icon="pi pi-plus" variant="text" severity="secondary" size="small" />
+        <Button
+          v-if="!props.readonly"
+          rounded
+          icon="pi pi-plus"
+          variant="text"
+          severity="secondary"
+          size="small"
+        />
       </div>
 
       <!-- Group nav items -->
@@ -138,6 +147,7 @@
             </span>
           </button>
           <button
+            v-if="!props.readonly"
             class="opacity-0 group-hover:opacity-100 mr-1.5 shrink-0 w-5 h-5 flex items-center justify-center rounded hover:bg-gray-200 border-0 bg-transparent cursor-pointer text-gray-400 transition-opacity p-0"
             @click="toggleGroupMenu($event)"
           >
@@ -147,10 +157,10 @@
       </div>
 
       <!-- Suggesties header -->
-      <div class="px-1 mb-1 mt-4">
+      <div v-if="!props.readonly" class="px-1 mb-1 mt-4">
         <span class="text-xs font-bold tracking-wider uppercase text-gray-400">Suggesties</span>
       </div>
-      <div class="flex flex-col">
+      <div v-if="!props.readonly" class="flex flex-col">
         <Button
           label="Badmeubel"
           variant="text"
@@ -243,7 +253,7 @@
               </span>
             </div>
             <div class="flex items-center shrink-0 gap-1" @click.stop>
-              <template v-if="group.id !== '0'">
+              <template v-if="group.id !== '0' && !props.readonly">
                 <Button
                   icon="pi pi-pencil"
                   variant="text"
@@ -259,7 +269,7 @@
                   class="header-action-btn"
                 />
               </template>
-              <div class="flex flex-col">
+              <div v-if="!props.readonly" class="flex flex-col">
                 <Button
                   icon="pi pi-chevron-up"
                   variant="text"
@@ -293,7 +303,7 @@
               context-menu
               @row-contextmenu="onRowContextMenu"
             >
-              <Column selection-mode="multiple" style="width: 3rem" />
+              <Column v-if="!props.readonly" selection-mode="multiple" style="width: 3rem" />
 
               <!-- Naam + image -->
               <Column header="Naam">
@@ -403,6 +413,7 @@
                       @click="toggleActionMenu"
                     />
                     <Button
+                      v-if="!props.readonly"
                       icon="pi pi-trash"
                       variant="text"
                       severity="danger"
@@ -417,7 +428,7 @@
                       class="row-action-btn"
                       @click="toggleRowExpansion(group.id, data)"
                     />
-                    <div class="flex flex-col ml-1">
+                    <div v-if="!props.readonly" class="flex flex-col ml-1">
                       <Button
                         icon="pi pi-chevron-up"
                         variant="text"
@@ -444,6 +455,7 @@
                 >
                   <span class="text-xs text-gray-400 mr-auto">Korting per eenheid</span>
                   <InputNumber
+                    v-if="!props.readonly"
                     v-model="data.discountPercent"
                     :min="0"
                     :max="100"
@@ -455,6 +467,7 @@
                     class="discount-input"
                   />
                   <InputNumber
+                    v-if="!props.readonly"
                     v-model="data.discountAmount"
                     :min="0"
                     :min-fraction-digits="2"
@@ -464,7 +477,18 @@
                     :pt="{ input: { placeholder: '€ 0,00' } }"
                     class="discount-input"
                   />
-                  <div class="flex items-center gap-1.5 pl-2 border-l border-gray-200">
+                  <span v-if="props.readonly">
+                    {{
+                      data.discountPercent > 0
+                        ? `${data.discountPercent} %`
+                        : formatPrice(data.discountAmount)
+                    }}
+                    <span class="text-xs text-gray-400 mr-auto">korting</span>
+                  </span>
+                  <div
+                    v-if="!props.readonly"
+                    class="flex items-center gap-1.5 pl-2 border-l border-gray-200"
+                  >
                     <ToggleSwitch v-model="data.prijscorrectie" />
                     <span class="text-xs text-gray-500">Prijscorrectie</span>
                   </div>
@@ -505,6 +529,7 @@
               >Deze korting geldt op de gehele bestelling</span
             >
             <InputNumber
+              v-if="!props.readonly"
               v-model="orderDiscountPercent"
               :min="0"
               :max="100"
@@ -515,6 +540,7 @@
               class="discount-input"
             />
             <InputNumber
+              v-if="!props.readonly"
               v-model="orderDiscountAmount"
               :min="0"
               :min-fraction-digits="2"
@@ -523,13 +549,25 @@
               :input-style="{ width: '5rem', textAlign: 'right' }"
               class="discount-input"
             />
-            <div class="flex items-center gap-1.5 pl-3 border-l border-gray-200">
+            <span v-if="props.readonly">
+              {{
+                orderDiscountPercent > 0
+                  ? `${orderDiscountPercent} %`
+                  : formatPrice(orderDiscountAmount)
+              }}
+              <span class="text-xs text-gray-400 mr-auto">korting</span>
+            </span>
+            <div
+              v-if="!props.readonly"
+              class="flex items-center gap-1.5 pl-3 border-l border-gray-200"
+            >
               <ToggleSwitch v-model="orderPrijscorrectie" />
               <span class="text-xs text-gray-500">Prijscorrectie</span>
             </div>
             <div class="flex items-center gap-2 pl-3 border-l border-gray-200">
               <span class="text-xs text-gray-500">Verzendkosten</span>
               <InputNumber
+                v-if="!props.readonly"
                 v-model="verzendkostenValue"
                 :min="0"
                 :min-fraction-digits="2"
@@ -537,6 +575,7 @@
                 :input-style="{ width: '5rem', textAlign: 'right' }"
                 class="discount-input"
               />
+              <span v-if="props.readonly"> {{ formatPrice(verzendkostenValue) }}</span>
               <span class="text-xs text-gray-400">€</span>
             </div>
             <Button

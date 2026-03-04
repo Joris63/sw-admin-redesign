@@ -1,9 +1,14 @@
 import { ref, computed } from 'vue';
 import type { FilterConfig } from '@/types/filters';
 
-export function useFilterBar(allFilterDefs: FilterConfig[], defaultActiveKeys: string[]) {
+export function useFilterBar(
+  allFilterDefs: FilterConfig[],
+  defaultActiveKeys: (string | { key: string; value: any })[]
+) {
   // Which filter keys are currently shown as chips (ordered)
-  const activeFilterKeys = ref<string[]>([...defaultActiveKeys]);
+  const activeFilterKeys = ref<string[]>([
+    ...defaultActiveKeys.map((item) => (typeof item === 'string' ? item : item.key)),
+  ]);
 
   // Derived: only the configs for active keys, in order
   const filterConfigs = computed(() =>
@@ -14,7 +19,21 @@ export function useFilterBar(allFilterDefs: FilterConfig[], defaultActiveKeys: s
 
   // One value slot per possible filter (never shrinks)
   const filterValues = ref<Record<string, string | boolean | null>>(
-    Object.fromEntries(allFilterDefs.map((f) => [f.key, f.type === 'boolean' ? null : '']))
+    Object.fromEntries(
+      allFilterDefs.map((f) => {
+        const defaultActiveKey = defaultActiveKeys.find(
+          (k) => typeof k !== 'string' && k.key === f.key
+        ) as { key: string; value: any } | undefined;
+
+        console.log(f.key, defaultActiveKey?.value);
+        return [
+          f.key,
+          f.type === 'boolean'
+            ? (defaultActiveKey?.value ?? null)
+            : (defaultActiveKey?.value ?? ''),
+        ];
+      })
+    )
   );
 
   // ── Popover management ───────────────────────────────────────────
@@ -55,7 +74,7 @@ export function useFilterBar(allFilterDefs: FilterConfig[], defaultActiveKeys: s
   }
 
   const hasActiveFilters = computed(() =>
-    filterConfigs.value.some((f) => getDisplayValue(f.key) !== null)
+    filterConfigs.value.some((f) => getDisplayValue(f.key) !== null && !f.required)
   );
 
   // ── Filters beheren dialog ───────────────────────────────────────

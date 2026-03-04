@@ -7,6 +7,8 @@ import CustomersOverview from '@/views/sales/CustomersOverview.vue';
 import CustomerEdit from '@/views/sales/CustomerEdit.vue';
 import OffersOverview from '@/views/marketing/OffersOverview.vue';
 import OffersEdit from '@/views/marketing/OffersEdit.vue';
+import QuotationsOverview from '@/views/sales/QuotationsOverview.vue';
+import QuotationEdit from '@/views/sales/QuotationEdit.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,6 +56,22 @@ const router = createRouter({
       component: CustomerEdit,
       meta: {
         breadcrumbs: ['Verkoop', { label: 'Klanten', route: '/sales/customers' }, 'Klant bewerken'],
+      },
+    },
+    {
+      path: '/sales/quotations',
+      name: 'QuotationsOverview',
+      component: QuotationsOverview,
+      meta: {
+        breadcrumbs: ['Verkoop', 'Offertes'],
+      },
+    },
+    {
+      path: '/sales/quotations/:id',
+      name: 'QuotationEdit',
+      component: QuotationEdit,
+      meta: {
+        breadcrumbs: ['Verkoop', { label: 'Offertes', route: '/sales/quotations' }, 'Offerte bewerken'],
       },
     },
     {

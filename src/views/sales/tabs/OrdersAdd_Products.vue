@@ -111,7 +111,7 @@
       </div>
 
       <!-- Shopping cart -->
-      <OrdersAdd_ShoppingCart />
+      <OrdersAdd_ShoppingCart class="pt-2" />
     </div>
 
     <div class="flex pt-4 justify-end">
