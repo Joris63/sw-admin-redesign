@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
   import { useRouter } from 'vue-router';
   import type { Offer, OfferStatus } from '@/types/offer';
   import type { FilterConfig } from '@/types/filters';
@@ -184,10 +184,37 @@
 
   const defaultActiveKeys = ['naam', 'status', 'site'];
 
+  const appliedFilters = ref<Record<string, string | boolean | null>>({});
+
   function handleFilter(values: Record<string, string | boolean | null>) {
-    // In production: trigger API call with filter values
-    console.log('Filters applied:', values);
+    appliedFilters.value = values;
   }
+
+  const filteredOffers = computed(() => {
+    const f = appliedFilters.value;
+    return offers.value.filter((offer) => {
+      const naam = offer.naam.toLowerCase();
+      if (f.q && typeof f.q === 'string') {
+        if (!naam.includes(f.q.toLowerCase())) return false;
+      }
+      if (f.naam && typeof f.naam === 'string') {
+        if (!naam.includes(f.naam.toLowerCase())) return false;
+      }
+      if (f.status && typeof f.status === 'string') {
+        if (offer.status !== (f.status as string)) return false;
+      }
+      if (f.site && typeof f.site === 'string') {
+        if (!offer.sites.some((s) => s.toLowerCase().includes((f.site as string).toLowerCase()))) return false;
+      }
+      if (f.jaar && typeof f.jaar === 'string') {
+        if (!offer.naam.includes(f.jaar)) return false;
+      }
+      if (f.kwartaal && typeof f.kwartaal === 'string') {
+        if (!offer.naam.includes(f.kwartaal)) return false;
+      }
+      return true;
+    });
+  });
 
   // ── Sites display ────────────────────────────────────────────────
   const MAX_SITES_SHOWN = 2;
@@ -219,11 +246,11 @@
     <!-- Result count + pagination -->
     <div class="flex items-center justify-between">
       <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
-        {{ totalRecords.toLocaleString('nl-NL') }} acties
+        {{ filteredOffers.length.toLocaleString('nl-NL') }} acties
       </span>
       <Paginator
         :rows="15"
-        :total-records="totalRecords"
+        :total-records="filteredOffers.length"
         :rows-per-page-options="[15, 30, 50]"
         class="p-0! border-0! bg-transparent!"
         template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
@@ -232,7 +259,7 @@
 
     <!-- Table -->
     <DataTable
-      :value="offers"
+      :value="filteredOffers"
       class="offers-table"
       :pt="{ thead: { class: 'border-b border-gray-200' } }"
     >

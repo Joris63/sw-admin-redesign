@@ -78,7 +78,6 @@ export function useFilterBar(
 
   const hasActiveFilters = computed(() =>
     filterConfigs.value.some((f) => {
-      if (f.required) return false;
       const val = appliedValues.value[f.key];
       return val !== '' && val !== null && val !== undefined;
     })

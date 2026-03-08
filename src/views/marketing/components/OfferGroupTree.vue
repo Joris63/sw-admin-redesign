@@ -173,6 +173,7 @@
     cursor: pointer;
     transition: background 0.1s;
     margin-bottom: 0.125rem;
+    position: relative;
   }
   .group-row:hover {
     background: var(--p-gray-100);
@@ -180,7 +181,8 @@
   .group-row:hover .row-actions {
     opacity: 1 !important;
   }
-  .group-row:hover .item-count {
+  .group-row:hover .item-count,
+  .group-row:hover .pending-clock {
     opacity: 0;
   }
   .group-row--active {
@@ -214,12 +216,15 @@
   }
 
   .row-actions {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
     opacity: 0;
     display: flex;
     align-items: center;
     gap: 0.25rem;
     transition: opacity 0.1s;
-    flex-shrink: 0;
   }
 
   .expand-btn,
@@ -255,6 +260,7 @@
     font-size: 0.6rem;
     flex-shrink: 0;
     margin-right: -0.125rem;
+    transition: opacity 0.1s;
   }
   .pending-clock--add {
     color: var(--p-amber-400);

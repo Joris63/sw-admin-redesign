@@ -75,6 +75,34 @@
     );
   });
 
+  const PRODUCT_PREVIEW = 6;
+  const LARGE_THRESHOLD = 50;
+  const showAllProducts = ref(false);
+  const showProductsDialog = ref(false);
+  const dialogSearch = ref('');
+
+  const pendingProductAddCount = computed(
+    () => selectedGroupPending.value?.products.filter((c) => c.action === 'add').length ?? 0
+  );
+  const pendingProductRemoveCount = computed(
+    () => selectedGroupPending.value?.products.filter((c) => c.action === 'remove').length ?? 0
+  );
+  const totalPendingProducts = computed(
+    () => selectedGroupPending.value?.products.length ?? 0
+  );
+  const isLargeList = computed(() => totalPendingProducts.value > LARGE_THRESHOLD);
+  const visiblePendingProducts = computed(() => {
+    const list = selectedGroupPending.value?.products ?? [];
+    return showAllProducts.value ? list : list.slice(0, PRODUCT_PREVIEW);
+  });
+  const hiddenPendingCount = computed(() => Math.max(0, totalPendingProducts.value - PRODUCT_PREVIEW));
+  const dialogProducts = computed(() => {
+    const list = selectedGroupPending.value?.products ?? [];
+    if (!dialogSearch.value.trim()) return list;
+    const q = dialogSearch.value.trim().toLowerCase();
+    return list.filter((p) => p.code.toLowerCase().includes(q) || p.merk.toLowerCase().includes(q));
+  });
+
   // ── Watchers ─────────────────────────────────────────────────────
   watch(productSearch, () => {
     productFirst.value = 0;
@@ -84,6 +112,9 @@
     () => props.selectedGroupId,
     () => {
       wijzigingenOpen.value = false;
+      showAllProducts.value = false;
+      showProductsDialog.value = false;
+      dialogSearch.value = '';
       selectedProducts.value = [];
       productSearch.value = '';
       productFirst.value = 0;
@@ -263,11 +294,19 @@
 
               <!-- Product changes -->
               <template v-if="selectedGroupPending!.products.length">
-                <div v-if="selectedGroupPending!.options.length" class="wijz-section-label">
+                <div class="wijz-section-label">
                   Producten
+                  <span class="wijz-prod-counts">
+                    <span v-if="pendingProductAddCount" class="wijz-prod-count--add"
+                      >+{{ pendingProductAddCount }}</span
+                    >
+                    <span v-if="pendingProductRemoveCount" class="wijz-prod-count--remove"
+                      >−{{ pendingProductRemoveCount }}</span
+                    >
+                  </span>
                 </div>
                 <div
-                  v-for="change in selectedGroupPending!.products"
+                  v-for="change in visiblePendingProducts"
                   :key="change.code + change.action"
                   class="wijz-item"
                   :class="`wijz-item--${change.action}`"
@@ -276,11 +315,67 @@
                   <span class="wijz-code">{{ change.code }}</span>
                   <span class="wijz-merk">{{ change.merk }}</span>
                 </div>
+                <button
+                  v-if="!showAllProducts && hiddenPendingCount > 0"
+                  class="wijz-show-more"
+                  @click="isLargeList ? (showProductsDialog = true) : (showAllProducts = true)"
+                >
+                  en {{ hiddenPendingCount }} meer&hellip;
+                </button>
               </template>
             </div>
           </Transition>
         </div>
       </Transition>
+
+      <!-- ── Products dialog (large lists) ─────────────────────────── -->
+      <Dialog
+        v-model:visible="showProductsDialog"
+        modal
+        :header="`Wijzigingen vannacht · ${totalPendingProducts} producten`"
+        :style="{ width: '480px' }"
+        @hide="dialogSearch = ''"
+      >
+        <div class="pdlg-body">
+          <div class="pdlg-summary">
+            <span v-if="pendingProductAddCount" class="pdlg-sum--add"
+              >+{{ pendingProductAddCount }} toegevoegd</span
+            >
+            <span
+              v-if="pendingProductAddCount && pendingProductRemoveCount"
+              class="pdlg-sum-sep"
+            >·</span>
+            <span v-if="pendingProductRemoveCount" class="pdlg-sum--remove"
+              >−{{ pendingProductRemoveCount }} verwijderd</span
+            >
+          </div>
+          <IconField class="pdlg-search">
+            <InputIcon class="pi pi-search" />
+            <InputText
+              v-model="dialogSearch"
+              placeholder="Zoeken op code of merk…"
+              size="small"
+              class="w-full"
+              autofocus
+            />
+          </IconField>
+          <div class="pdlg-list">
+            <div
+              v-for="change in dialogProducts"
+              :key="change.code + change.action"
+              class="pdlg-item"
+              :class="`pdlg-item--${change.action}`"
+            >
+              <span class="pdlg-sign">{{ change.action === 'add' ? '+' : '−' }}</span>
+              <span class="pdlg-code">{{ change.code }}</span>
+              <span class="pdlg-merk">{{ change.merk }}</span>
+            </div>
+            <div v-if="dialogProducts.length === 0" class="pdlg-empty">
+              Geen resultaten gevonden
+            </div>
+          </div>
+        </div>
+      </Dialog>
 
       <!-- ── Row 2: search + add + delete ──────────────────────────── -->
       <div class="products-toolbar">
@@ -361,6 +456,15 @@
 
       <!-- ── Table + paginator ────────────────────────────────────────── -->
       <template v-else>
+        <Paginator
+          :first="productFirst"
+          :rows="productRows"
+          :total-records="activeProducts.length"
+          :rows-per-page-options="[15, 25, 50]"
+          template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+          class="products-pager"
+          @page="onPage"
+        />
         <div class="products-table-wrap">
           <DataTable
             v-model:selection="selectedProducts"
@@ -387,15 +491,6 @@
             </Column>
           </DataTable>
         </div>
-        <Paginator
-          :first="productFirst"
-          :rows="productRows"
-          :total-records="activeProducts.length"
-          :rows-per-page-options="[15, 25, 50]"
-          template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-          class="products-pager"
-          @page="onPage"
-        />
       </template>
 
       <Transition name="slide-up">
@@ -448,7 +543,7 @@
   }
 
   .products-pager {
-    border-top: 1px solid var(--p-surface-100);
+    border-bottom: 1px solid var(--p-surface-100);
     background: transparent;
     flex-shrink: 0;
     padding: 0.125rem 0.5rem;
@@ -604,11 +699,11 @@
 
   /* Floating selection bar */
   .selection-bar {
-    position: absolute;
-    bottom: 1rem;
+    position: fixed;
+    bottom: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
+    z-index: 50;
     pointer-events: none;
   }
   .selection-bar__inner {
@@ -742,6 +837,22 @@
     flex-direction: column;
     padding: 0 1rem 0.625rem;
     gap: 0.2rem;
+    max-height: 16rem;
+    overflow-y: auto;
+  }
+  .wijz-show-more {
+    align-self: flex-start;
+    margin-top: 0.1rem;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--p-primary-500);
+    font-weight: 500;
+  }
+  .wijz-show-more:hover {
+    text-decoration: underline;
   }
 
   .wijz-group-action {
@@ -766,12 +877,27 @@
   }
 
   .wijz-section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
     font-size: 0.6875rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--p-gray-400);
     padding: 0.25rem 0 0.125rem;
+  }
+  .wijz-prod-counts {
+    display: flex;
+    gap: 0.25rem;
+  }
+  .wijz-prod-count--add {
+    color: var(--p-green-600);
+    font-weight: 700;
+  }
+  .wijz-prod-count--remove {
+    color: var(--p-red-500);
+    font-weight: 700;
   }
   .wijz-separator {
     height: 1px;
@@ -868,5 +994,77 @@
   .slide-up-leave-to {
     opacity: 0;
     transform: translateX(-50%) translateY(0.5rem) scale(0.97);
+  }
+
+  /* Products dialog */
+  .pdlg-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .pdlg-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+  .pdlg-sum--add {
+    color: var(--p-green-600);
+  }
+  .pdlg-sum--remove {
+    color: var(--p-red-500);
+  }
+  .pdlg-sum-sep {
+    color: var(--p-gray-300);
+  }
+  .pdlg-search {
+    width: 100%;
+  }
+  .pdlg-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    max-height: 22rem;
+    overflow-y: auto;
+  }
+  .pdlg-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    padding: 0.1rem 0;
+  }
+  .pdlg-sign {
+    font-weight: 700;
+    width: 0.75rem;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .pdlg-item--add .pdlg-sign {
+    color: var(--p-green-600);
+  }
+  .pdlg-item--remove .pdlg-sign {
+    color: var(--p-red-500);
+  }
+  .pdlg-code {
+    font-family: monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--p-surface-700);
+    flex-shrink: 0;
+  }
+  .pdlg-merk {
+    color: var(--p-gray-400);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pdlg-empty {
+    font-size: 0.8125rem;
+    color: var(--p-gray-400);
+    text-align: center;
+    padding: 1rem 0;
   }
 </style>

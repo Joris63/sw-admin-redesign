@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
   import { useRouter } from 'vue-router';
   import type { FilterConfig } from '@/types/filters';
   import FilterBar from '@/components/FilterBar.vue';
@@ -128,10 +128,28 @@
     'isB2BKlant',
   ];
 
+  const appliedFilters = ref<Record<string, string | boolean | null>>({});
+
   function handleFilter(values: Record<string, string | boolean | null>) {
-    // In production: trigger API call with filter values
-    console.log('Filters applied:', values);
+    appliedFilters.value = values;
   }
+
+  const filteredCustomers = computed(() => {
+    const f = appliedFilters.value;
+    return customers.value.filter((customer) => {
+      if (f.q && typeof f.q === 'string') {
+        const q = f.q.toLowerCase();
+        if (!customer.email.toLowerCase().includes(q) && !customer.lastName.toLowerCase().includes(q)) return false;
+      }
+      if (f.email && typeof f.email === 'string') {
+        if (!customer.email.toLowerCase().includes(f.email.toLowerCase())) return false;
+      }
+      if (f.achternaam && typeof f.achternaam === 'string') {
+        if (!customer.lastName.toLowerCase().includes(f.achternaam.toLowerCase())) return false;
+      }
+      return true;
+    });
+  });
 </script>
 
 <template>
@@ -152,11 +170,11 @@
     <!-- Result count + pagination -->
     <div class="flex items-center justify-between">
       <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
-        {{ totalRecords.toLocaleString('nl-NL') }} klanten
+        {{ filteredCustomers.length.toLocaleString('nl-NL') }} klanten
       </span>
       <Paginator
         :rows="15"
-        :total-records="totalRecords"
+        :total-records="filteredCustomers.length"
         :rows-per-page-options="[15, 30, 50]"
         class="p-0! border-0! bg-transparent!"
         template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
@@ -165,7 +183,7 @@
 
     <!-- Table -->
     <DataTable
-      :value="customers"
+      :value="filteredCustomers"
       class="customers-table"
       :pt="{ thead: { class: 'border-b border-gray-200' } }"
     >
