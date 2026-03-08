@@ -33,8 +33,6 @@
     { id: 1, offertenummer: '299438', datum: '03 februari 2025 09:12', door: 'Emma de Vries', prijs: 7421.58, site: 'SWNL' },
   ]);
 
-  const totalRecords = ref(1609688);
-
   // ── Filter definitions ──────────────────────────────────────────
   const allFilterDefs: FilterConfig[] = [
     {

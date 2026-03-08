@@ -96,8 +96,6 @@
     },
   ]);
 
-  const totalRecords = ref(1609688);
-
   // ── Filter definitions ──────────────────────────────────────────
   const allFilterDefs: FilterConfig[] = [
     { key: 'email', label: 'Email', type: 'text', placeholder: 'jan@bedrijf.nl' },

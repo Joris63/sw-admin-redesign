@@ -145,8 +145,6 @@
     },
   ]);
 
-  const totalRecords = ref(106);
-
   // ── Status badge helpers ─────────────────────────────────────────
   const statusConfig: Record<OfferStatus, { label: string; classes: string }> = {
     Actief: { label: 'Actief', classes: 'status-badge--actief' },
