@@ -116,9 +116,9 @@
 
   // ── Active filter chips (from applied state) ───────────────────
   const activeChips = computed(() => {
-    const chips: { key: string; label: string; value: string }[] = [];
+    const chips: { key: string; label: string; value: string; required: boolean }[] = [];
     if (appliedSearch.value) {
-      chips.push({ key: '_search', label: 'Zoeken', value: appliedSearch.value });
+      chips.push({ key: '_search', label: 'Zoeken', value: appliedSearch.value, required: false });
     }
     for (const filter of props.allFilterDefs) {
       const val = appliedValues.value[filter.key];
@@ -129,7 +129,7 @@
           : filter.type === 'select'
             ? (filter.options?.find((o) => o.value === val)?.label ?? String(val))
             : String(val);
-      chips.push({ key: filter.key, label: filter.label, value: display });
+      chips.push({ key: filter.key, label: filter.label, value: display, required: !!filter.required });
     }
     return chips;
   });
@@ -282,14 +282,17 @@
 
       <!-- Active chips (always visible, even when collapsed) -->
       <div v-if="hasAnythingApplied" class="filter-chips">
+        <span class="filter-chips__heading">Actief:</span>
         <span
           v-for="chip in activeChips"
           :key="chip.key"
           class="active-chip"
+          :class="{ 'active-chip--required': chip.required }"
         >
           <span class="active-chip__label">{{ chip.label }}:</span>
           <span class="active-chip__value">{{ chip.value }}</span>
-          <button class="active-chip__remove" @click="handleClearAppliedFilter(chip.key)">
+          <i v-if="chip.required" class="pi pi-lock active-chip__lock" />
+          <button v-else class="active-chip__remove" @click="handleClearAppliedFilter(chip.key)">
             <i class="pi pi-times" />
           </button>
         </span>
@@ -585,7 +588,18 @@
     align-items: center;
     gap: 0.375rem;
     padding: 0.5rem 0.75rem;
-    border-top: 1px solid var(--p-surface-200);
+    border-top: 1px solid var(--p-primary-200);
+    background: var(--p-primary-50);
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+
+  .filter-chips__heading {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--p-primary-400);
+    margin-right: 0.125rem;
   }
 
   .active-chip {
@@ -593,20 +607,44 @@
     align-items: center;
     gap: 0.3rem;
     background: white;
-    border: 1px solid var(--p-primary-200);
+    border: 1.5px solid var(--p-primary-300);
     border-radius: 999px;
     padding: 0.2rem 0.375rem 0.2rem 0.625rem;
     font-size: 0.8125rem;
     color: var(--p-primary-800);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+
+  .active-chip--required {
+    background: var(--p-primary-50);
+    border-color: var(--p-primary-200);
+    border-style: dashed;
+    color: var(--p-primary-600);
+    box-shadow: none;
   }
 
   .active-chip__label {
-    font-weight: 600;
-    color: var(--p-primary-600);
+    font-weight: 700;
+    color: var(--p-primary-500);
+  }
+
+  .active-chip--required .active-chip__label {
+    color: var(--p-primary-400);
   }
 
   .active-chip__value {
+    font-weight: 500;
     color: var(--p-primary-800);
+  }
+
+  .active-chip--required .active-chip__value {
+    color: var(--p-primary-600);
+  }
+
+  .active-chip__lock {
+    font-size: 0.5rem;
+    color: var(--p-primary-400);
+    margin-left: 0.125rem;
   }
 
   .active-chip__remove {
