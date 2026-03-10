@@ -32,6 +32,37 @@
   const customizePopoverRef = ref<any>(null);
   const collapsed = ref(false);
 
+  function onCollapseEnter(el: Element, done: () => void) {
+    const h = el as HTMLElement;
+    h.style.height = '0';
+    h.style.opacity = '0';
+    h.style.overflow = 'hidden';
+    h.offsetHeight; // force reflow
+    h.style.transition = 'height 0.2s ease, opacity 0.2s ease';
+    h.style.height = h.scrollHeight + 'px';
+    h.style.opacity = '1';
+    setTimeout(done, 200);
+  }
+  function onCollapseAfterEnter(el: Element) {
+    const h = el as HTMLElement;
+    h.style.height = '';
+    h.style.opacity = '';
+    h.style.overflow = '';
+    h.style.transition = '';
+  }
+  function onCollapseLeave(el: Element, done: () => void) {
+    const h = el as HTMLElement;
+    h.style.overflow = 'hidden';
+    h.style.height = h.scrollHeight + 'px';
+    h.offsetHeight; // force reflow
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      h.style.transition = 'height 0.22s ease-in, opacity 0.15s ease-in';
+      h.style.height = '0';
+      h.style.opacity = '0';
+      setTimeout(done, 230);
+    }));
+  }
+
   // ── Customize ─────────────────────────────────────────────────
   const customizeItems = computed(() =>
     props.allFilterDefs.map((f) => ({
@@ -149,15 +180,17 @@
         </button>
         <span class="filter-card__title" style="cursor:pointer" @click="collapsed = !collapsed">Filters</span>
         <div class="filter-card__actions">
-          <Transition name="fade">
-            <button v-if="hasPendingValues || pendingSearch" class="clear-btn" @click="handleClearPending">
-              <i class="pi pi-times" />
-              Waardes wissen
-            </button>
-          </Transition>
-          <Button label="Filteren" size="small" @click="handleApply" />
-          <div class="filter-card__sep" />
-          <button class="customize-btn" title="Filters aanpassen" @click="customizePopoverRef?.toggle($event)">
+          <template v-if="!collapsed">
+            <Transition name="fade">
+              <button v-if="hasPendingValues || pendingSearch" class="clear-btn" @click="handleClearPending">
+                <i class="pi pi-times" />
+                Waardes wissen
+              </button>
+            </Transition>
+            <Button label="Filteren" size="small" @click="handleApply" />
+            <div class="filter-card__sep" />
+          </template>
+          <button class="customize-btn" title="Filters aanpassen" @click="collapsed = false; customizePopoverRef?.toggle($event)">
             <i class="pi pi-sliders-h" />
           </button>
           <Popover ref="customizePopoverRef">
@@ -188,8 +221,14 @@
         </div>
       </div>
 
-      <!-- Filter modules -->
-      <div v-show="!collapsed" class="filter-modules">
+      <!-- Filter modules (collapsible) -->
+      <Transition
+        :css="false"
+        @enter="onCollapseEnter"
+        @after-enter="onCollapseAfterEnter"
+        @leave="onCollapseLeave"
+      >
+        <div v-if="!collapsed" class="filter-modules">
         <div
           v-for="filter in filterConfigs"
           :key="filter.key"
@@ -239,33 +278,27 @@
           </div>
         </div>
       </div>
-    </div>
+      </Transition>
 
-    <!-- ── Active filters section ─────────────────────────────── -->
-    <Transition name="slide-fade">
-      <div v-if="hasAnythingApplied" class="active-filters">
-        <div class="active-filters__header">
-          <span class="active-filters__label">Actieve filters</span>
-          <button v-if="hasResettableFilters" class="reset-btn" @click="handleReset">
+      <!-- Active chips (always visible, even when collapsed) -->
+      <div v-if="hasAnythingApplied" class="filter-chips">
+        <span
+          v-for="chip in activeChips"
+          :key="chip.key"
+          class="active-chip"
+        >
+          <span class="active-chip__label">{{ chip.label }}:</span>
+          <span class="active-chip__value">{{ chip.value }}</span>
+          <button class="active-chip__remove" @click="handleClearAppliedFilter(chip.key)">
             <i class="pi pi-times" />
-            Alles wissen
           </button>
-        </div>
-        <div class="active-filters__chips">
-          <span
-            v-for="chip in activeChips"
-            :key="chip.key"
-            class="active-chip"
-          >
-            <span class="active-chip__label">{{ chip.label }}:</span>
-            <span class="active-chip__value">{{ chip.value }}</span>
-            <button class="active-chip__remove" @click="handleClearAppliedFilter(chip.key)">
-              <i class="pi pi-times" />
-            </button>
-          </span>
-        </div>
+        </span>
+        <button v-if="hasResettableFilters" class="reset-btn reset-btn--inline" @click="handleReset">
+          <i class="pi pi-times" />
+          Filters wissen
+        </button>
       </div>
-    </Transition>
+    </div>
   </div>
 </template>
 
@@ -439,9 +472,27 @@
     cursor: pointer;
     white-space: nowrap;
     transition: color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 
   .clear-btn:hover {
+    color: var(--p-red-500);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .reset-btn--inline {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--p-surface-400);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .reset-btn--inline:hover {
     color: var(--p-red-500);
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -527,35 +578,14 @@
     font-style: italic;
   }
 
-  /* ── Active filters section ───────────────────────────────── */
-  .active-filters {
-    border: 1px solid var(--p-primary-200);
-    border-radius: 0.5rem;
-    background: var(--p-primary-50);
-    padding: 0.5rem 0.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .active-filters__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .active-filters__label {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--p-primary-500);
-  }
-
-  .active-filters__chips {
+  /* ── Active chips (inside filter card) ───────────────────── */
+  .filter-chips {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    border-top: 1px solid var(--p-surface-200);
   }
 
   .active-chip {

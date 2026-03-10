@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { Message } from 'primevue';
   import { ref } from 'vue';
   import { useOrderCart } from '@/composables/useOrderCart';
   import type { CartItem } from '@/types/orders';
@@ -496,8 +495,8 @@
               </template>
 
               <template #empty>
-                <div class="p-3">
-                  <Message class="w-full text-center">Nog geen producten toegevoegd</Message>
+                <div class="px-4 py-3 text-sm text-gray-400 italic">
+                  Nog geen producten toegevoegd
                 </div>
               </template>
             </DataTable>
