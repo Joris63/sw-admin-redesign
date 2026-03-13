@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import { ref, computed, provide } from 'vue';
   import { useRouter } from 'vue-router';
+  import EditPageLayout from '@/components/layout/EditPageLayout.vue';
+  import EditPageHeader from '@/components/layout/EditPageHeader.vue';
+  import EditPageNav from '@/components/layout/EditPageNav.vue';
+  import type { NavGroup } from '@/components/layout/EditPageNav.vue';
   import QuotationCustomerTab from './tabs/quotation/QuotationCustomerTab.vue';
   import QuotationOfferTab from './tabs/quotation/QuotationOfferTab.vue';
   import QuotationDetailsTab from './tabs/quotation/QuotationDetailsTab.vue';
@@ -387,102 +391,77 @@
 
   const activeSection = ref('offer');
 
-  const navGroups = [
+  const navGroups = computed<NavGroup[]>(() => [
     {
       label: 'Offerte',
       items: [
-        { id: 'customer', label: 'Klant', icon: 'pi-user' },
-        { id: 'offer', label: 'Aanbod', icon: 'pi-shopping-cart' },
-        { id: 'details', label: 'Offerte gegevens', icon: 'pi-cog' },
-        { id: 'communications', label: 'Communicatie', icon: 'pi-comment' },
-        { id: 'tasks', label: 'Taken', icon: 'pi-list-check' },
-        { id: 'logs', label: 'Log', icon: 'pi-history' },
+        { id: 'customer', label: 'Klant',   icon: 'pi-user'          },
+        { id: 'offer',    label: 'Aanbod',  icon: 'pi-shopping-cart' },
+        { id: 'details',  label: 'Details', icon: 'pi-cog'           },
       ],
     },
-  ];
+    {
+      label: 'Beheer',
+      items: [
+        { id: 'communications', label: 'Communicatie', icon: 'pi-comment'    },
+        { id: 'tasks',          label: 'Taken',        icon: 'pi-list-check', badge: quotation.value.taken.length || undefined },
+        { id: 'logs',           label: 'Log',          icon: 'pi-history'   },
+      ],
+    },
+  ]);
 
   const statusStyle = computed(() => {
     const s = quotation.value.status;
-    if (s === 'Omgezet') return 'qe-pill--accepted';
-    if (s === 'Verlopen') return 'qe-pill--expired';
-    if (s === 'Geannuleerd') return 'qe-pill--cancelled';
-    return 'qe-pill--open';
+    if (s === 'Omgezet') return 'status-pill--accepted';
+    if (s === 'Verlopen') return 'status-pill--expired';
+    if (s === 'Geannuleerd') return 'status-pill--cancelled';
+    return 'status-pill--open';
   });
 </script>
 
 <template>
-  <div class="qe-page">
+  <EditPageLayout>
     <!-- ── Page header ─────────────────────────────────────────────────────── -->
-    <div class="qe-header">
-      <Button
-        icon="pi pi-arrow-left"
-        severity="secondary"
-        text
-        rounded
-        @click="router.push({ name: 'QuotationsOverview' })"
-      />
-      <div class="qe-avatar">{{ initials }}</div>
-      <div class="qe-header-info">
-        <div class="qe-header-top">
-          <span class="qe-title">Offerte {{ quotation.offertenummer }}</span>
-          <span class="qe-pill" :class="statusStyle">{{ quotation.status }}</span>
-          <span class="qe-pill qe-pill--site">{{ quotation.site }}</span>
+    <EditPageHeader
+      :title="`Offerte ${quotation.offertenummer}`"
+      :subtitle="fullName"
+      :back="{ name: 'QuotationsOverview' }"
+      avatar-class="qe-avatar"
+    >
+      <template #avatar>{{ initials }}</template>
+      <template #pills>
+        <span class="status-pill" :class="statusStyle">{{ quotation.status }}</span>
+        <span class="status-pill status-pill--site">{{ quotation.site }}</span>
+      </template>
+      <template #stats>
+        <div class="edit-hdr-stats">
+          <div class="edit-hdr-stat">
+            <span class="edit-hdr-stat-val">{{ formatTotal(totalPrice) }}</span>
+            <span class="edit-hdr-stat-lbl">Totaal</span>
+          </div>
+          <div class="edit-hdr-stat-sep" />
+          <div class="edit-hdr-stat">
+            <span class="edit-hdr-stat-val">{{ productCount }}</span>
+            <span class="edit-hdr-stat-lbl">Producten</span>
+          </div>
+          <div class="edit-hdr-stat-sep" />
+          <div class="edit-hdr-stat">
+            <span class="edit-hdr-stat-val">{{ quotation.besteldatum.split(' ').slice(0, 3).join(' ') }}</span>
+            <span class="edit-hdr-stat-lbl">Datum</span>
+          </div>
         </div>
-        <span class="qe-subtitle">{{ fullName }}</span>
-      </div>
-      <div class="qe-hdr-stats">
-        <div class="qe-hdr-stat">
-          <span class="qe-hdr-stat-val">{{ formatTotal(totalPrice) }}</span>
-          <span class="qe-hdr-stat-lbl">Totaal</span>
-        </div>
-        <div class="qe-hdr-stat-sep" />
-        <div class="qe-hdr-stat">
-          <span class="qe-hdr-stat-val">{{ productCount }}</span>
-          <span class="qe-hdr-stat-lbl">Producten</span>
-        </div>
-        <div class="qe-hdr-stat-sep" />
-        <div class="qe-hdr-stat">
-          <span class="qe-hdr-stat-val">{{
-            quotation.besteldatum.split(' ').slice(0, 3).join(' ')
-          }}</span>
-          <span class="qe-hdr-stat-lbl">Datum</span>
-        </div>
-      </div>
-      <div style="margin-left: auto; display: flex; gap: 0.5rem; align-items: center">
-        <Button
-          label="Omzetten"
-          icon="pi pi-arrow-right-arrow-left"
-          severity="secondary"
-          text
-        />
+      </template>
+      <template #actions>
+        <Button label="Omzetten" icon="pi pi-arrow-right-arrow-left" severity="secondary" text />
         <Button icon="pi pi-ellipsis-v" severity="secondary" text rounded />
-      </div>
-    </div>
+      </template>
+    </EditPageHeader>
 
-    <!-- ── Body ────────────────────────────────────────────────────────────── -->
-    <div class="qe-body">
-      <!-- ── Sidebar nav ─────────────────────────────────────────────────── -->
-      <nav class="qe-nav">
-        <template v-for="group in navGroups" :key="group.label">
-          <div class="qe-nav-group">{{ group.label }}</div>
-          <button
-            v-for="item in group.items"
-            :key="item.id"
-            class="qe-nav-item"
-            :class="{ 'qe-nav-item--active': activeSection === item.id }"
-            @click="activeSection = item.id"
-          >
-            <i class="pi nav-icon" :class="item.icon" />
-            <span>{{ item.label }}</span>
-            <span v-if="item.id === 'tasks' && quotation.taken.length" class="nav-badge">
-              {{ quotation.taken.length }}
-            </span>
-          </button>
-        </template>
-      </nav>
+    <!-- ── Body ─────────────────────────────────────────────────────────────── -->
+    <div class="edit-body">
+      <EditPageNav v-model="activeSection" :groups="navGroups" />
 
-      <!-- ── Content ────────────────────────────────────────────────────── -->
-      <div class="qe-content">
+      <div class="edit-content">
         <QuotationCustomerTab v-if="activeSection === 'customer'" />
         <QuotationOfferTab v-else-if="activeSection === 'offer'" />
         <QuotationDetailsTab v-else-if="activeSection === 'details'" />
@@ -491,212 +470,16 @@
         <QuotationLogTab v-else-if="activeSection === 'logs'" />
       </div>
     </div>
-  </div>
+  </EditPageLayout>
 </template>
 
 <style scoped>
-  /* ── Page ────────────────────────────────────────────────────────────── */
-  .qe-page {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: clip;
-  }
-
-  /* ── Header ──────────────────────────────────────────────────────────── */
-  .qe-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1.25rem;
-    border-bottom: 1px solid var(--p-gray-100);
-    background: white;
-    flex-shrink: 0;
-  }
-  .qe-avatar {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
+  /* ── Avatar color (layout handled by shared .edit-hdr-avatar) ────────── */
+  :deep(.qe-avatar) {
     background: linear-gradient(135deg, var(--p-primary-400) 0%, var(--p-primary-600) 100%);
     color: white;
     font-size: 0.875rem;
     font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
     letter-spacing: 0.03em;
-  }
-  .qe-header-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-  .qe-header-top {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-  }
-  .qe-title {
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--p-surface-800);
-    line-height: 1.2;
-  }
-  .qe-subtitle {
-    font-size: 0.8125rem;
-    color: var(--p-surface-400);
-  }
-
-  /* ── Header pills ────────────────────────────────────────────────────── */
-  .qe-pill {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    border: 1px solid;
-    line-height: 1.5;
-    width: fit-content;
-  }
-  .qe-pill--open {
-    background: #eff6ff;
-    color: #1e40af;
-    border-color: #bfdbfe;
-  }
-  .qe-pill--accepted {
-    background: #dcfce7;
-    color: #166534;
-    border-color: #bbf7d0;
-  }
-  .qe-pill--expired {
-    background: #fef9c3;
-    color: #854d0e;
-    border-color: #fef08a;
-  }
-  .qe-pill--cancelled {
-    background: #fee2e2;
-    color: #991b1b;
-    border-color: #fecaca;
-  }
-  .qe-pill--site {
-    background: var(--p-primary-50);
-    color: var(--p-primary-700);
-    border-color: var(--p-primary-100);
-  }
-
-  /* ── Header stats ────────────────────────────────────────────────────── */
-  .qe-hdr-stats {
-    display: flex;
-    align-items: center;
-    border-left: 1px solid var(--p-gray-100);
-    border-right: 1px solid var(--p-gray-100);
-    margin: 0 0.5rem;
-    padding: 0 0.25rem;
-  }
-  .qe-hdr-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 1rem;
-  }
-  .qe-hdr-stat-val {
-    font-size: 0.9375rem;
-    font-weight: 700;
-    color: var(--p-surface-800);
-    line-height: 1.3;
-  }
-  .qe-hdr-stat-lbl {
-    font-size: 0.6875rem;
-    color: var(--p-surface-400);
-    white-space: nowrap;
-  }
-  .qe-hdr-stat-sep {
-    width: 1px;
-    height: 2rem;
-    background: var(--p-gray-100);
-    flex-shrink: 0;
-  }
-
-  /* ── Body & sidebar nav ──────────────────────────────────────────────── */
-  .qe-body {
-    display: flex;
-    flex: 1;
-    overflow: clip;
-  }
-  .qe-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: clip;
-  }
-  .qe-nav {
-    width: 13rem;
-    flex-shrink: 0;
-    border-right: 1px solid var(--p-gray-100);
-    overflow-y: auto;
-    padding: 0.5rem 0 1rem;
-    background: white;
-  }
-  .qe-nav-group {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--p-surface-400);
-    padding: 1rem 1.25rem 0.25rem;
-  }
-  .qe-nav-item {
-    display: flex;
-    align-items: center;
-    gap: 0.575rem;
-    width: 100%;
-    padding: 0.4375rem 1rem 0.4375rem 1.125rem;
-    text-align: left;
-    background: none;
-    border: none;
-    border-left: 2px solid transparent;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: var(--p-surface-600);
-    transition:
-      background 0.1s,
-      color 0.1s;
-  }
-  .qe-nav-item:hover {
-    background: var(--p-gray-50);
-    color: var(--p-surface-800);
-  }
-  .qe-nav-item--active {
-    color: var(--p-primary-600);
-    font-weight: 500;
-    background: var(--p-primary-50);
-    border-left-color: var(--p-primary-500);
-  }
-  .nav-icon {
-    font-size: 0.8125rem;
-    width: 1rem;
-    text-align: center;
-    flex-shrink: 0;
-    opacity: 0.7;
-  }
-  .qe-nav-item--active .nav-icon {
-    opacity: 1;
-  }
-  .nav-badge {
-    margin-left: auto;
-    background: var(--p-gray-100);
-    color: var(--p-surface-500);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    min-width: 1.25rem;
-    padding: 0.1rem 0.375rem;
-    border-radius: 999px;
-    text-align: center;
-    line-height: 1.4;
-  }
-  .qe-nav-item--active .nav-badge {
-    background: var(--p-primary-100);
-    color: var(--p-primary-700);
   }
 </style>

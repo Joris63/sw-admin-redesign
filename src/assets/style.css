@@ -5,6 +5,7 @@
 @import 'flag-icons/css/flag-icons.min.css';
 @import './drawer.css';
 @import './cards.css';
+@import './edit.css';
 @import './overview.css';
 
 @theme inline {

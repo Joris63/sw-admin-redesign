@@ -3,6 +3,10 @@
   import { useRouter } from 'vue-router';
   import FilterBar from '@/components/FilterBar.vue';
   import type { FilterConfig } from '@/types/filters';
+  import OverviewLayout from '@/components/layout/OverviewLayout.vue';
+  import OverviewHeader from '@/components/layout/OverviewHeader.vue';
+  import OverviewToolbar from '@/components/layout/OverviewToolbar.vue';
+  import OverviewTable from '@/components/layout/OverviewTable.vue';
 
   const router = useRouter();
 
@@ -133,7 +137,7 @@
 </script>
 
 <template>
-  <div class="flex flex-col gap-5 grow">
+  <OverviewLayout>
 
     <!-- Tab navigation -->
     <Tabs v-model:value="activeTab">
@@ -146,31 +150,16 @@
       </TabList>
     </Tabs>
 
-    <!-- Dynamic header -->
-    <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-semibold text-surface-800">{{ currentTab.title }}</h1>
-    </div>
+    <OverviewHeader :title="currentTab.title">
+      <template #actions>
+        <Button :label="currentTab.addLabel" icon="pi pi-plus" icon-pos="right" />
+      </template>
+    </OverviewHeader>
 
     <!-- ── Winkels ─────────────────────────────────────────────────── -->
     <template v-if="activeTab === 'winkels'">
-      <div class="flex items-center justify-between gap-3">
-        <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 whitespace-nowrap">
-          {{ winkels.length.toLocaleString('nl-NL') }} winkels
-        </span>
-        <Paginator
-          v-if="winkels.length > 15"
-          :rows="15"
-          :total-records="winkels.length"
-          :rows-per-page-options="[15, 30, 50]"
-          class="p-0! border-0! bg-transparent!"
-          template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
-        />
-      </div>
-      <DataTable
-        :value="winkels"
-        class="overview-table"
-        :pt="{ thead: { class: 'border-b border-gray-200' } }"
-      >
+      <OverviewToolbar :count="winkels.length" label="winkels" />
+      <OverviewTable :value="winkels">
         <Column field="naam" header="Naam">
           <template #body="{ data }">
             <span class="font-medium text-surface-700">{{ data.naam }}</span>
@@ -200,7 +189,7 @@
             />
           </template>
         </Column>
-      </DataTable>
+      </OverviewTable>
     </template>
 
     <!-- ── Magazijnen ─────────────────────────────────────────────── -->
@@ -212,24 +201,8 @@
         :show-search="false"
         @filter="handleMagazijnFilter"
       />
-      <div class="flex items-center justify-between gap-3">
-        <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 whitespace-nowrap">
-          {{ filteredMagazijnen.length.toLocaleString('nl-NL') }} magazijnen
-        </span>
-        <Paginator
-          v-if="filteredMagazijnen.length > 15"
-          :rows="15"
-          :total-records="filteredMagazijnen.length"
-          :rows-per-page-options="[15, 30, 50]"
-          class="p-0! border-0! bg-transparent!"
-          template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
-        />
-      </div>
-      <DataTable
-        :value="filteredMagazijnen"
-        class="overview-table"
-        :pt="{ thead: { class: 'border-b border-gray-200' } }"
-      >
+      <OverviewToolbar :count="filteredMagazijnen.length" label="magazijnen" />
+      <OverviewTable :value="filteredMagazijnen">
         <Column field="naam" header="Naam">
           <template #body="{ data }">
             <span class="font-medium text-surface-700">{{ data.naam }}</span>
@@ -257,29 +230,13 @@
             <Button icon="pi pi-pencil" variant="text" severity="secondary" size="small" rounded />
           </template>
         </Column>
-      </DataTable>
+      </OverviewTable>
     </template>
 
     <!-- ── Magazijngroepen ────────────────────────────────────────── -->
     <template v-else-if="activeTab === 'magazijngroepen'">
-      <div class="flex items-center justify-between gap-3">
-        <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 whitespace-nowrap">
-          {{ magazijngroepen.length.toLocaleString('nl-NL') }} magazijngroepen
-        </span>
-        <Paginator
-          v-if="magazijngroepen.length > 15"
-          :rows="15"
-          :total-records="magazijngroepen.length"
-          :rows-per-page-options="[15, 30, 50]"
-          class="p-0! border-0! bg-transparent!"
-          template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
-        />
-      </div>
-      <DataTable
-        :value="magazijngroepen"
-        class="overview-table"
-        :pt="{ thead: { class: 'border-b border-gray-200' } }"
-      >
+      <OverviewToolbar :count="magazijngroepen.length" label="magazijngroepen" />
+      <OverviewTable :value="magazijngroepen">
         <Column field="afkorting" header="Afkorting" style="width: 8rem">
           <template #body="{ data }">
             <span class="font-mono text-sm font-medium text-surface-600">{{ data.afkorting }}</span>
@@ -295,29 +252,13 @@
             <Button icon="pi pi-pencil" variant="text" severity="secondary" size="small" rounded />
           </template>
         </Column>
-      </DataTable>
+      </OverviewTable>
     </template>
 
     <!-- ── Afhaallocaties ─────────────────────────────────────────── -->
     <template v-else-if="activeTab === 'afhaallocaties'">
-      <div class="flex items-center justify-between gap-3">
-        <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 whitespace-nowrap">
-          {{ afhaallocaties.length.toLocaleString('nl-NL') }} afhaallocaties
-        </span>
-        <Paginator
-          v-if="afhaallocaties.length > 15"
-          :rows="15"
-          :total-records="afhaallocaties.length"
-          :rows-per-page-options="[15, 30, 50]"
-          class="p-0! border-0! bg-transparent!"
-          template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
-        />
-      </div>
-      <DataTable
-        :value="afhaallocaties"
-        class="overview-table"
-        :pt="{ thead: { class: 'border-b border-gray-200' } }"
-      >
+      <OverviewToolbar :count="afhaallocaties.length" label="afhaallocaties" />
+      <OverviewTable :value="afhaallocaties">
         <Column field="land" header="Land" style="width: 5rem">
           <template #body="{ data }">
             <span class="site-tag">{{ data.land }}</span>
@@ -343,29 +284,13 @@
             <Button icon="pi pi-pencil" variant="text" severity="secondary" size="small" rounded />
           </template>
         </Column>
-      </DataTable>
+      </OverviewTable>
     </template>
 
     <!-- ── Klantenservice ─────────────────────────────────────────── -->
     <template v-else-if="activeTab === 'klantenservice'">
-      <div class="flex items-center justify-between gap-3">
-        <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 whitespace-nowrap">
-          {{ klantenservice.length.toLocaleString('nl-NL') }} klantenservice locaties
-        </span>
-        <Paginator
-          v-if="klantenservice.length > 15"
-          :rows="15"
-          :total-records="klantenservice.length"
-          :rows-per-page-options="[15, 30, 50]"
-          class="p-0! border-0! bg-transparent!"
-          template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
-        />
-      </div>
-      <DataTable
-        :value="klantenservice"
-        class="overview-table"
-        :pt="{ thead: { class: 'border-b border-gray-200' } }"
-      >
+      <OverviewToolbar :count="klantenservice.length" label="klantenservice locaties" />
+      <OverviewTable :value="klantenservice">
         <Column field="naam" header="Naam">
           <template #body="{ data }">
             <span class="font-medium text-surface-700">{{ data.naam }}</span>
@@ -381,8 +306,8 @@
             <Button icon="pi pi-pencil" variant="text" severity="secondary" size="small" rounded />
           </template>
         </Column>
-      </DataTable>
+      </OverviewTable>
     </template>
 
-  </div>
+  </OverviewLayout>
 </template>

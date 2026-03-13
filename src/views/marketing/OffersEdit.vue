@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue';
-  import { useRoute, useRouter } from 'vue-router';
+  import { useRoute } from 'vue-router';
+  import EditPageLayout from '@/components/layout/EditPageLayout.vue';
+  import EditPageHeader from '@/components/layout/EditPageHeader.vue';
+  import EditPageTabs from '@/components/layout/EditPageTabs.vue';
+  import type { TabDef } from '@/components/layout/EditPageTabs.vue';
   import GroupDrawer from './components/GroupDrawer.vue';
   import AddProductsDialog from './components/AddProductsDialog.vue';
   import DuplicateDialog from './components/DuplicateDialog.vue';
@@ -13,7 +17,7 @@
   import { MOCK_GROUPS, PENDING_CHANGES, PENDING_SITE_CHANGES } from '@/mocks/offers';
 
   const route = useRoute();
-  const router = useRouter();
+  const moreMenuRef = ref();
 
   // ── Tab ───────────────────────────────────────────────────────────
   const activeTab = ref('groepen');
@@ -121,12 +125,18 @@
 
   const statusBadgeClass = computed(() => {
     const map: Record<OfferStatus, string> = {
-      Actief: 'oe-pill--active',
-      Verlopen: 'oe-pill--expired',
-      'Binnenkort gepland': 'oe-pill--planned',
+      Actief: 'status-pill--active',
+      Verlopen: 'status-pill--expired',
+      'Binnenkort gepland': 'status-pill--planned',
     };
     return map[actie.value.status];
   });
+
+  const tabs: TabDef[] = [
+    { id: 'details', label: 'Details', icon: 'pi-info-circle' },
+    { id: 'groepen', label: 'Groepen', icon: 'pi-sitemap'     },
+    { id: 'taken',   label: 'Taken',   icon: 'pi-list-check', soon: true, disabled: true },
+  ];
 
   // ── Tree helpers ──────────────────────────────────────────────────
   function findGroup(id: number, nodes: Group[] = groups.value): Group | null {
@@ -289,45 +299,57 @@
 </script>
 
 <template>
-  <div class="oe-page">
+  <EditPageLayout>
     <!-- ── Header ────────────────────────────────────────────────── -->
-    <div class="oe-hdr">
-      <Button
-        icon="pi pi-arrow-left"
-        severity="secondary"
-        text
-        rounded
-        @click="router.push({ name: 'OffersOverview' })"
-      />
-      <div class="oe-avatar">
-        <i class="pi pi-tag" />
-      </div>
-      <div class="oe-header-info">
-        <div class="oe-header-top">
-          <span class="oe-title">{{ actie.naam }}</span>
-          <span class="oe-pill" :class="statusBadgeClass">{{ actie.status }}</span>
+    <EditPageHeader
+      :title="actie.naam"
+      :subtitle="websiteSubtitle"
+      :back="{ name: 'OffersOverview' }"
+      avatar-class="oe-avatar"
+    >
+      <template #avatar><i class="pi pi-tag" /></template>
+      <template #pills>
+        <span class="status-pill" :class="statusBadgeClass">{{ actie.status }}</span>
+      </template>
+      <template #stats>
+        <div class="edit-hdr-stats">
+          <div class="edit-hdr-stat">
+            <span class="edit-hdr-stat-val">{{ totalGroups }}</span>
+            <span class="edit-hdr-stat-lbl">Groepen</span>
+          </div>
+          <div class="edit-hdr-stat-sep" />
+          <div class="edit-hdr-stat">
+            <span class="edit-hdr-stat-val">{{ totalProducts }}</span>
+            <span class="edit-hdr-stat-lbl">Producten</span>
+          </div>
+          <div class="edit-hdr-stat-sep" />
+          <div class="edit-hdr-stat">
+            <span class="edit-hdr-stat-val">{{ looptijdLabel }}</span>
+            <span class="edit-hdr-stat-lbl">Looptijd</span>
+          </div>
         </div>
-        <span class="oe-subtitle">{{ websiteSubtitle }}</span>
-      </div>
-      <div class="oe-hdr-stats">
-        <div class="oe-hdr-stat">
-          <span class="oe-hdr-stat-val">{{ totalGroups }}</span>
-          <span class="oe-hdr-stat-lbl">Groepen</span>
-        </div>
-        <div class="oe-hdr-stat-sep" />
-        <div class="oe-hdr-stat">
-          <span class="oe-hdr-stat-val">{{ totalProducts }}</span>
-          <span class="oe-hdr-stat-lbl">Producten</span>
-        </div>
-        <div class="oe-hdr-stat-sep" />
-        <div class="oe-hdr-stat">
-          <span class="oe-hdr-stat-val">{{ looptijdLabel }}</span>
-          <span class="oe-hdr-stat-lbl">Looptijd</span>
-        </div>
-      </div>
-
-      <Button icon="pi pi-ellipsis-v" severity="secondary" text rounded style="margin-left: auto" />
-    </div>
+      </template>
+      <template #actions>
+        <Button
+          icon="pi pi-ellipsis-v"
+          severity="secondary"
+          text
+          rounded
+          @click="(moreMenuRef as any)?.toggle($event)"
+        />
+        <Popover ref="moreMenuRef">
+          <div class="ctx-menu">
+            <button class="ctx-item" @click="showDuplicateDialog = true; moreMenuRef?.hide()">
+              <i class="pi pi-copy" />Kopieer actie
+            </button>
+            <div class="ctx-sep" />
+            <button class="ctx-item ctx-item--danger">
+              <i class="pi pi-trash" />Verwijder actie
+            </button>
+          </div>
+        </Popover>
+      </template>
+    </EditPageHeader>
 
     <!-- ── Verlopen banner ────────────────────────────────────────── -->
     <Transition name="fade">
@@ -341,29 +363,7 @@
     </Transition>
 
     <!-- ── Tabs ───────────────────────────────────────────────────── -->
-    <div class="oe-tabs">
-      <button
-        class="oe-tab"
-        :class="{ 'oe-tab--active': activeTab === 'details' }"
-        @click="activeTab = 'details'"
-      >
-        <i class="pi pi-info-circle" />Details
-      </button>
-      <button
-        class="oe-tab"
-        :class="{ 'oe-tab--active': activeTab === 'groepen' }"
-        @click="activeTab = 'groepen'"
-      >
-        <i class="pi pi-sitemap" />Groepen
-      </button>
-      <button
-        class="oe-tab"
-        :class="{ 'oe-tab--active': activeTab === 'taken' }"
-        @click="activeTab = 'taken'"
-      >
-        <i class="pi pi-list-check" />Taken
-      </button>
-    </div>
+    <EditPageTabs v-model="activeTab" :tabs="tabs" />
 
     <!-- ── Tab 1: Details ─────────────────────────────────────────── -->
     <div v-if="activeTab === 'details'" class="tab-scroll">
@@ -593,113 +593,18 @@
       :editing-root-group="gdEditingRootGroup"
       @save="handleGroupSave"
     />
-  </div>
+  </EditPageLayout>
 </template>
 
 <style scoped>
-  /* ── Page ────────────────────────────────────────────────────── */
-  .oe-page {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: clip;
+  /* ── Avatar color (layout handled by shared .edit-hdr-avatar) ────────── */
+  :deep(.oe-avatar) {
+    background: var(--p-primary-100);
+    color: var(--p-primary-600);
   }
 
-  /* ── Header ──────────────────────────────────────────────────── */
-  .oe-hdr {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1.25rem;
-    border-bottom: 1px solid var(--p-gray-100);
-    background: white;
-    flex-shrink: 0;
-  }
-  .oe-avatar {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--p-primary-400) 0%, var(--p-primary-600) 100%);
-    color: white;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .oe-header-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-  .oe-header-top {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-  }
-  .oe-title {
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--p-surface-800);
-    line-height: 1.2;
-  }
-  .oe-subtitle {
-    font-size: 0.8125rem;
-    color: var(--p-surface-400);
-  }
-  .back-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: 0.375rem;
-    flex-shrink: 0;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--p-gray-400);
-    transition:
-      background 0.1s,
-      color 0.1s;
-  }
-  .back-btn:hover {
-    background: var(--p-gray-100);
-    color: var(--p-gray-700);
-  }
-
-  /* ── Header stats ────────────────────────────────────────────── */
-  .oe-hdr-stats {
-    display: flex;
-    align-items: center;
-    border-left: 1px solid var(--p-gray-100);
-    margin: 0 0.5rem;
-    padding: 0 0.25rem;
-  }
-  .oe-hdr-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 1rem;
-  }
-  .oe-hdr-stat-val {
-    font-size: 0.9375rem;
-    font-weight: 700;
-    color: var(--p-surface-800);
-    line-height: 1.3;
-    white-space: nowrap;
-  }
-  .oe-hdr-stat-lbl {
-    font-size: 0.6875rem;
-    color: var(--p-surface-400);
-    white-space: nowrap;
-  }
-  .oe-hdr-stat-sep {
-    width: 1px;
-    height: 2rem;
-    background: var(--p-gray-100);
-  }
+  /* ── Pills ───────────────────────────────────────────────────────────────── */
+  /* (pill colors now use shared status-pill--* from cards.css) */
 
   /* ── Verlopen banner ─────────────────────────────────────────── */
   .verlopen-banner {
@@ -730,71 +635,6 @@
   .verlopen-copy-btn:hover {
     background: var(--p-blue-100);
   }
-  /* ── Pills ───────────────────────────────────────────────────────────────── */
-  .oe-pill {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    border: 1px solid;
-    line-height: 1.5;
-    width: fit-content;
-  }
-  .oe-pill--active {
-    background: #dcfce7;
-    color: #166534;
-    border-color: #bbf7d0;
-  }
-  .oe-pill--expired {
-    background: var(--p-gray-100);
-    color: var(--p-gray-500);
-    border-color: var(--p-gray-200);
-  }
-  .oe-pill--planned {
-    background: var(--p-warn-100);
-    color: var(--p-warn-500);
-    border-color: var(--p-warn-200);
-  }
-
-  /* ── Tabs ────────────────────────────────────────────────────── */
-  .oe-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--p-gray-200);
-    background: white;
-    flex-shrink: 0;
-    padding-top: 0.5rem;
-  }
-  .oe-tab {
-    display: flex;
-    align-items: center;
-    gap: 0.575rem;
-    padding: 0.4375rem 1rem 0.4375rem 1.125rem;
-    text-align: left;
-    background: none;
-    border: none;
-    border-left: 2px solid transparent;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: var(--p-surface-600);
-    transition:
-      background 0.1s,
-      color 0.1s;
-    border-bottom: 2px solid transparent;
-  }
-  .oe-tab .pi {
-    font-size: 0.875rem;
-  }
-  .oe-tab:not(.se-tab--active):hover {
-    background: var(--p-gray-50);
-    color: var(--p-surface-800);
-  }
-  .oe-tab--active {
-    color: var(--p-surface-800);
-    font-weight: 500;
-    border-bottom-color: var(--p-primary-500);
-    background: var(--p-primary-50);
-  }
-
   /* ── Tab 2: Groepen layout ───────────────────────────────────── */
   .oe-groepen-tab {
     display: flex;

@@ -3,6 +3,10 @@
   import { useRouter } from 'vue-router';
   import AddressFields from '@/components/form/AddressFields.vue';
   import PhoneField from '@/components/form/PhoneField.vue';
+  import EditPageLayout from '@/components/layout/EditPageLayout.vue';
+  import EditPageHeader from '@/components/layout/EditPageHeader.vue';
+  import EditPageTabs from '@/components/layout/EditPageTabs.vue';
+  import type { TabDef } from '@/components/layout/EditPageTabs.vue';
 
   const router = useRouter();
 
@@ -116,6 +120,12 @@
 
   const activeTab = ref('algemeen');
 
+  const tabs: TabDef[] = [
+    { id: 'algemeen',      label: 'Algemene informatie', icon: 'pi-building' },
+    { id: 'openingstijden',label: 'Openingstijden',      icon: 'pi-clock'    },
+    { id: 'content',       label: 'Content website',     icon: 'pi-globe'    },
+  ];
+
   const isEditingBasis   = ref(false);
   const isEditingAdres   = ref(false);
   const isEditingContact = ref(false);
@@ -169,57 +179,29 @@
 </script>
 
 <template>
-  <div class="se-page">
+  <EditPageLayout>
 
     <!-- ── Header ──────────────────────────────────────────────────────────── -->
-    <div class="se-header">
-      <Button
-        icon="pi pi-arrow-left"
-        severity="secondary"
-        text
-        rounded
-        @click="router.push({ name: 'LocationsOverview' })"
-      />
-      <div class="se-avatar">
-        <i class="pi pi-building" />
-      </div>
-      <div class="se-header-info">
-        <div class="se-header-top">
-          <span class="se-title">{{ winkel.naam }}</span>
-          <span class="se-pill se-pill--type">{{ winkel.afkorting }}</span>
-          <span class="se-pill" :class="winkel.actief ? 'se-pill--active' : 'se-pill--inactive'">
-            {{ winkel.actief ? 'Actief' : 'Inactief' }}
-          </span>
-        </div>
-        <span class="se-subtitle">{{ winkel.straat }} {{ winkel.huisnummer }}, {{ winkel.stad }}</span>
-      </div>
-      <Button icon="pi pi-ellipsis-v" severity="secondary" text rounded style="margin-left: auto" />
-    </div>
+    <EditPageHeader
+      :title="winkel.naam"
+      :subtitle="`${winkel.straat} ${winkel.huisnummer}, ${winkel.stad}`"
+      :back="{ name: 'LocationsOverview' }"
+      avatar-class="se-avatar"
+    >
+      <template #avatar><i class="pi pi-building" /></template>
+      <template #pills>
+        <span class="status-pill status-pill--type">{{ winkel.afkorting }}</span>
+        <span class="status-pill" :class="winkel.actief ? 'status-pill--active' : 'status-pill--inactive'">
+          {{ winkel.actief ? 'Actief' : 'Inactief' }}
+        </span>
+      </template>
+      <template #actions>
+        <Button icon="pi pi-ellipsis-v" severity="secondary" text rounded />
+      </template>
+    </EditPageHeader>
 
     <!-- ── Tabs ─────────────────────────────────────────────────────────────── -->
-    <div class="se-tabs">
-      <button
-        class="se-tab"
-        :class="{ 'se-tab--active': activeTab === 'algemeen' }"
-        @click="activeTab = 'algemeen'"
-      >
-        <i class="pi pi-building" />Algemene informatie
-      </button>
-      <button
-        class="se-tab"
-        :class="{ 'se-tab--active': activeTab === 'openingstijden' }"
-        @click="activeTab = 'openingstijden'"
-      >
-        <i class="pi pi-clock" />Openingstijden
-      </button>
-      <button
-        class="se-tab"
-        :class="{ 'se-tab--active': activeTab === 'content' }"
-        @click="activeTab = 'content'"
-      >
-        <i class="pi pi-globe" />Content website
-      </button>
-    </div>
+    <EditPageTabs v-model="activeTab" :tabs="tabs" />
 
     <!-- ── Tab content ──────────────────────────────────────────────────────── -->
     <div class="tab-scroll">
@@ -727,122 +709,15 @@
       </template>
 
     </div>
-  </div>
+  </EditPageLayout>
 </template>
 
 <style scoped>
-  .se-page {
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── Header ──────────────────────────────────────────────────────────────── */
-  .se-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1.25rem;
-    border-bottom: 1px solid var(--p-gray-100);
-    background: white;
-    flex-shrink: 0;
-  }
-  .se-avatar {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
+  /* ── Avatar color (layout handled by shared .edit-hdr-avatar) ───────────── */
+  :deep(.se-avatar) {
     background: linear-gradient(135deg, var(--p-primary-400) 0%, var(--p-primary-600) 100%);
     color: white;
     font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .se-header-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-  .se-header-top {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-  }
-  .se-title {
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--p-surface-800);
-    line-height: 1.2;
-  }
-  .se-subtitle {
-    font-size: 0.8125rem;
-    color: var(--p-surface-400);
-  }
-
-  /* ── Pills ───────────────────────────────────────────────────────────────── */
-  .se-pill {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    border: 1px solid;
-    line-height: 1.5;
-    width: fit-content;
-  }
-  .se-pill--type {
-    background: var(--p-primary-50);
-    color: var(--p-primary-700);
-    border-color: var(--p-primary-100);
-  }
-  .se-pill--active {
-    background: #dcfce7;
-    color: #166534;
-    border-color: #bbf7d0;
-  }
-  .se-pill--inactive {
-    background: var(--p-gray-100);
-    color: var(--p-gray-500);
-    border-color: var(--p-gray-200);
-  }
-
-  /* ── Tabs ────────────────────────────────────────────────────────────────── */
-  .se-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--p-gray-200);
-    background: white;
-    flex-shrink: 0;
-    padding-top: 0.5rem;
-  }
-  .se-tab {
-    display: flex;
-    align-items: center;
-    gap: 0.575rem;
-    padding: 0.4375rem 1rem 0.4375rem 1.125rem;
-    text-align: left;
-    background: none;
-    border: none;
-    border-left: 2px solid transparent;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: var(--p-surface-600);
-    transition:
-      background 0.1s,
-      color 0.1s;
-    border-bottom: 2px solid transparent;
-  }
-  .se-tab .pi {
-    font-size: 0.875rem;
-  }
-  .se-tab:not(.se-tab--active):hover {
-    background: var(--p-gray-50);
-    color: var(--p-surface-800);
-  }
-  .se-tab--active {
-    color: var(--p-surface-800);
-    font-weight: 500;
-    border-bottom-color: var(--p-primary-500);
-    background: var(--p-primary-50);
   }
 
   /* ── Uitzonderingen ─────────────────────────────────────────────────────── */

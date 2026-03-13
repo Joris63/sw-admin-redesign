@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import { ref, computed, provide } from 'vue';
   import { useRouter } from 'vue-router';
+  import EditPageLayout from '@/components/layout/EditPageLayout.vue';
+  import EditPageHeader from '@/components/layout/EditPageHeader.vue';
+  import EditPageNav from '@/components/layout/EditPageNav.vue';
+  import type { NavGroup } from '@/components/layout/EditPageNav.vue';
   import type { CustomerData, OmzetPerJaar, CustomerOfferte } from '@/types/customer';
 
   import CustomerPersonalTab from './tabs/customer/CustomerPersonalTab.vue';
@@ -371,122 +375,82 @@
 
   const activeSection = ref('gegevens');
 
-  const navGroups = [
+  const navGroups = computed<NavGroup[]>(() => [
     {
       label: 'Klantgegevens',
       items: [
-        { id: 'gegevens', label: 'Persoonlijke gegevens', icon: 'pi-user' },
-        { id: 'adressen', label: 'Adressen', icon: 'pi-map-marker' },
-        { id: 'instellingen', label: 'Instellingen', icon: 'pi-cog' },
-        { id: 'account', label: 'Account', icon: 'pi-shield' },
-        { id: 'logboek', label: 'Logboek', icon: 'pi-history' },
+        { id: 'gegevens',     label: 'Persoonlijke gegevens', icon: 'pi-user'       },
+        { id: 'adressen',     label: 'Adressen',              icon: 'pi-map-marker', badge: customer.value.addresses.length },
+        { id: 'instellingen', label: 'Instellingen',          icon: 'pi-cog'        },
+        { id: 'account',      label: 'Account',               icon: 'pi-shield'     },
+        { id: 'logboek',      label: 'Logboek',               icon: 'pi-history'    },
       ],
     },
     {
       label: 'Verkoop',
       items: [
-        { id: 'offertes', label: 'Offertes', icon: 'pi-file' },
-        { id: 'omzet', label: 'Omzet', icon: 'pi-chart-bar' },
-        { id: 'krediet', label: 'Krediet', icon: 'pi-credit-card' },
+        { id: 'offertes', label: 'Offertes', icon: 'pi-file'        },
+        { id: 'omzet',    label: 'Omzet',    icon: 'pi-chart-bar'   },
+        { id: 'krediet',  label: 'Krediet',  icon: 'pi-credit-card' },
       ],
     },
     {
       label: 'Winkel',
       items: [
-        { id: 'winkelwagen', label: 'Winkelwagen', icon: 'pi-shopping-cart' },
-        { id: 'verlanglijst', label: 'Verlanglijsten', icon: 'pi-heart' },
-        { id: 'kortingen', label: 'Kortingen', icon: 'pi-tag' },
+        { id: 'winkelwagen', label: 'Winkelwagen',  icon: 'pi-shopping-cart', badge: customer.value.cart.length || undefined        },
+        { id: 'verlanglijst', label: 'Verlanglijsten', icon: 'pi-heart',      badge: customer.value.wishlists.length || undefined   },
+        { id: 'kortingen',   label: 'Kortingen',    icon: 'pi-tag'                                                                  },
       ],
     },
-  ];
+  ]);
 </script>
 
 <template>
-  <div class="ce-page">
+  <EditPageLayout>
     <!-- ── Page header ─────────────────────────────────────────────────────── -->
-    <div class="ce-header">
-      <Button
-        icon="pi pi-arrow-left"
-        severity="secondary"
-        text
-        rounded
-        @click="router.push({ name: 'CustomersOverview' })"
-      />
-      <div class="ce-avatar">{{ initials }}</div>
-      <div class="ce-header-info">
-        <div class="ce-header-top">
-          <span class="ce-title">{{ fullName }}</span>
-          <span class="ce-pill ce-pill--credit">B2B</span>
-          <span class="ce-pill ce-pill--active"
-            >Account {{ customer.accountStatus.toLowerCase() }}</span
-          >
+    <EditPageHeader
+      :title="fullName"
+      :subtitle="customer.email"
+      :back="{ name: 'CustomersOverview' }"
+      avatar-class="ce-avatar"
+    >
+      <template #avatar>{{ initials }}</template>
+      <template #pills>
+        <span class="status-pill status-pill--open">B2B</span>
+        <span class="status-pill status-pill--active">Account {{ customer.accountStatus.toLowerCase() }}</span>
+      </template>
+      <template #stats>
+        <div class="edit-hdr-stats">
+          <div class="edit-hdr-stat">
+            <span class="edit-hdr-stat-val">€ {{ omzetPerJaar.reduce((s, o) => s + o.omzet, 0).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.') }}</span>
+            <span class="edit-hdr-stat-lbl">Omzet</span>
+          </div>
+          <div class="edit-hdr-stat-sep" />
+          <div class="edit-hdr-stat">
+            <span class="edit-hdr-stat-val">{{ offertes.length }}</span>
+            <span class="edit-hdr-stat-lbl">Offertes</span>
+          </div>
+          <div class="edit-hdr-stat-sep" />
+          <div class="edit-hdr-stat">
+            <span class="edit-hdr-stat-val">{{ customer.addresses.length }}</span>
+            <span class="edit-hdr-stat-lbl">Adressen</span>
+          </div>
+          <div class="edit-hdr-stat-sep" />
+          <div class="edit-hdr-stat">
+            <span class="edit-hdr-stat-val">{{ customer.wishlists.length }}</span>
+            <span class="edit-hdr-stat-lbl">Verlanglijsten</span>
+          </div>
         </div>
-        <span class="ce-subtitle">{{ customer.email }}</span>
-      </div>
-      <div class="ce-hdr-stats">
-        <div class="ce-hdr-stat">
-          <span class="ce-hdr-stat-val"
-            >€
-            {{
-              omzetPerJaar
-                .reduce((s, o) => s + o.omzet, 0)
-                .toFixed(0)
-                .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-            }}</span
-          >
-          <span class="ce-hdr-stat-lbl">Omzet</span>
-        </div>
-        <div class="ce-hdr-stat-sep" />
-        <div class="ce-hdr-stat">
-          <span class="ce-hdr-stat-val">{{ offertes.length }}</span>
-          <span class="ce-hdr-stat-lbl">Offertes</span>
-        </div>
-        <div class="ce-hdr-stat-sep" />
-        <div class="ce-hdr-stat">
-          <span class="ce-hdr-stat-val">{{ customer.addresses.length }}</span>
-          <span class="ce-hdr-stat-lbl">Adressen</span>
-        </div>
-        <div class="ce-hdr-stat-sep" />
-        <div class="ce-hdr-stat">
-          <span class="ce-hdr-stat-val">{{ customer.wishlists.length }}</span>
-          <span class="ce-hdr-stat-lbl">Verlanglijsten</span>
-        </div>
-      </div>
-      <Button icon="pi pi-ellipsis-v" severity="secondary" text rounded style="margin-left: auto" />
-    </div>
+      </template>
+      <template #actions>
+        <Button icon="pi pi-ellipsis-v" severity="secondary" text rounded />
+      </template>
+    </EditPageHeader>
 
     <!-- ── Body ────────────────────────────────────────────────────────────── -->
-    <div class="ce-body">
-      <!-- ── Sidebar nav ─────────────────────────────────────────────────── -->
-      <nav class="ce-nav">
-        <template v-for="group in navGroups" :key="group.label">
-          <div class="ce-nav-group">{{ group.label }}</div>
-          <button
-            v-for="item in group.items"
-            :key="item.id"
-            class="ce-nav-item"
-            :class="{ 'ce-nav-item--active': activeSection === item.id }"
-            @click="activeSection = item.id"
-          >
-            <i class="pi nav-icon" :class="item.icon" />
-            <span>{{ item.label }}</span>
-            <span v-if="item.id === 'adressen'" class="nav-badge">{{
-              customer.addresses.length
-            }}</span>
-            <span v-if="item.id === 'winkelwagen' && customer.cart.length" class="nav-badge">{{
-              customer.cart.length
-            }}</span>
-            <span
-              v-if="item.id === 'verlanglijst' && customer.wishlists.length"
-              class="nav-badge"
-              >{{ customer.wishlists.length }}</span
-            >
-          </button>
-        </template>
-      </nav>
-
-      <!-- ── Content ────────────────────────────────────────────────────── -->
-      <div class="ce-content">
+    <div class="edit-body">
+      <EditPageNav v-model="activeSection" :groups="navGroups" />
+      <div class="edit-content">
         <CustomerPersonalTab v-if="activeSection === 'gegevens'" />
         <CustomerAddressesTab v-else-if="activeSection === 'adressen'" />
         <CustomerSettingsTab v-else-if="activeSection === 'instellingen'" />
@@ -500,202 +464,16 @@
         <CustomerKredietTab v-else-if="activeSection === 'krediet'" />
       </div>
     </div>
-  </div>
+  </EditPageLayout>
 </template>
 
 <style scoped>
-  /* ── Page ────────────────────────────────────────────────────────────── */
-  .ce-page {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: clip;
-  }
-
-  /* ── Header ──────────────────────────────────────────────────────────── */
-  .ce-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1.25rem;
-    border-bottom: 1px solid var(--p-gray-100);
-    background: white;
-    flex-shrink: 0;
-  }
-  .ce-avatar {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
+  /* ── Avatar color (layout handled by shared .edit-hdr-avatar) ────────── */
+  :deep(.ce-avatar) {
     background: linear-gradient(135deg, var(--p-primary-400) 0%, var(--p-primary-600) 100%);
     color: white;
     font-size: 0.875rem;
     font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
     letter-spacing: 0.03em;
-  }
-  .ce-header-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-  .ce-header-top {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-  }
-  .ce-title {
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--p-surface-800);
-    line-height: 1.2;
-  }
-  .ce-subtitle {
-    font-size: 0.8125rem;
-    color: var(--p-surface-400);
-  }
-
-  /* ── Header pills ────────────────────────────────────────────────────── */
-  .ce-pill {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    border: 1px solid;
-    line-height: 1.5;
-    width: fit-content;
-  }
-  .ce-pill--type {
-    background: var(--p-primary-50);
-    color: var(--p-primary-700);
-    border-color: var(--p-primary-100);
-  }
-  .ce-pill--active {
-    background: #dcfce7;
-    color: #166534;
-    border-color: #bbf7d0;
-  }
-  .ce-pill--credit {
-    background: #eff6ff;
-    color: #1e40af;
-    border-color: #bfdbfe;
-  }
-
-  /* ── Header stats ────────────────────────────────────────────────────── */
-  .ce-hdr-stats {
-    display: flex;
-    align-items: center;
-    border-left: 1px solid var(--p-gray-100);
-    border-right: 1px solid var(--p-gray-100);
-    margin: 0 0.5rem;
-    padding: 0 0.25rem;
-  }
-  .ce-hdr-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 1rem;
-  }
-  .ce-hdr-stat-val {
-    font-size: 0.9375rem;
-    font-weight: 700;
-    color: var(--p-surface-800);
-    line-height: 1.3;
-  }
-  .ce-hdr-stat-lbl {
-    font-size: 0.6875rem;
-    color: var(--p-surface-400);
-    white-space: nowrap;
-  }
-  .ce-hdr-stat-sep {
-    width: 1px;
-    height: 2rem;
-    background: var(--p-gray-100);
-    flex-shrink: 0;
-  }
-
-  /* ── Body & sidebar nav ──────────────────────────────────────────────── */
-  .ce-body {
-    display: flex;
-    flex: 1;
-    overflow: clip;
-  }
-  .ce-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: clip;
-  }
-  .ce-nav {
-    width: 13rem;
-    flex-shrink: 0;
-    border-right: 1px solid var(--p-gray-100);
-    overflow-y: auto;
-    padding: 0.5rem 0 1rem;
-    background: white;
-  }
-  .ce-nav-group {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--p-surface-400);
-    padding: 1rem 1.25rem 0.25rem;
-  }
-  .ce-nav-item {
-    display: flex;
-    align-items: center;
-    gap: 0.575rem;
-    width: 100%;
-    padding: 0.4375rem 1rem 0.4375rem 1.125rem;
-    text-align: left;
-    background: none;
-    border: none;
-    border-left: 2px solid transparent;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: var(--p-surface-600);
-    transition:
-      background 0.1s,
-      color 0.1s;
-  }
-  .ce-nav-item:not(.ce-nav-item--active):hover {
-    background: var(--p-gray-50);
-    color: var(--p-surface-800);
-  }
-  .ce-nav-item--active {
-    color: var(--p-primary-600);
-    font-weight: 500;
-    background: var(--p-primary-50);
-    border-left-color: var(--p-primary-500);
-  }
-  .nav-icon {
-    font-size: 0.8125rem;
-    width: 1rem;
-    text-align: center;
-    flex-shrink: 0;
-    opacity: 0.7;
-  }
-  .ce-nav-item--active .nav-icon {
-    opacity: 1;
-  }
-  .nav-badge {
-    margin-left: auto;
-    background: var(--p-gray-100);
-    color: var(--p-surface-500);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    min-width: 1.25rem;
-    padding: 0.1rem 0.375rem;
-    border-radius: 999px;
-    text-align: center;
-    line-height: 1.4;
-  }
-  .ce-nav-item--active .nav-badge {
-    background: var(--p-primary-100);
-    color: var(--p-primary-700);
   }
 </style>

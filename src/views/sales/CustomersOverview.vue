@@ -3,6 +3,10 @@
   import { useRouter } from 'vue-router';
   import type { FilterConfig } from '@/types/filters';
   import FilterBar from '@/components/FilterBar.vue';
+  import OverviewLayout from '@/components/layout/OverviewLayout.vue';
+  import OverviewHeader from '@/components/layout/OverviewHeader.vue';
+  import OverviewToolbar from '@/components/layout/OverviewToolbar.vue';
+  import OverviewTable from '@/components/layout/OverviewTable.vue';
 
   const router = useRouter();
 
@@ -151,13 +155,9 @@
 </script>
 
 <template>
-  <div class="flex flex-col gap-5 grow">
-    <!-- Header -->
-    <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-semibold text-surface-800">Klanten</h1>
-    </div>
+  <OverviewLayout>
+    <OverviewHeader title="Klanten" />
 
-    <!-- Filter bar -->
     <FilterBar
       :all-filter-defs="allFilterDefs"
       :default-active-keys="defaultActiveKeys"
@@ -165,27 +165,9 @@
       @filter="handleFilter"
     />
 
-    <!-- Result count + pagination -->
-    <div class="flex items-center justify-between">
-      <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
-        {{ filteredCustomers.length.toLocaleString('nl-NL') }} klanten
-      </span>
-      <Paginator
-        v-if="filteredCustomers.length > 15"
-        :rows="15"
-        :total-records="filteredCustomers.length"
-        :rows-per-page-options="[15, 30, 50]"
-        class="p-0! border-0! bg-transparent!"
-        template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
-      />
-    </div>
+    <OverviewToolbar :count="filteredCustomers.length" label="klanten" />
 
-    <!-- Table -->
-    <DataTable
-      :value="filteredCustomers"
-      class="overview-table"
-      :pt="{ thead: { class: 'border-b border-gray-200' } }"
-    >
+    <OverviewTable :value="filteredCustomers">
       <Column field="lastName" header="Achternaam">
         <template #body="{ data }">
           <span class="font-medium text-surface-700">{{ data.lastName }}</span>
@@ -218,6 +200,6 @@
           />
         </template>
       </Column>
-    </DataTable>
-  </div>
+    </OverviewTable>
+  </OverviewLayout>
 </template>

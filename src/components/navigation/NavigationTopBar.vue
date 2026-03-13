@@ -94,13 +94,6 @@
         <!-- Utility buttons -->
         <Button
           type="button"
-          icon="pi pi-cog"
-          rounded
-          variant="text"
-          class="text-white/70! hover:text-white! hover:bg-white/15!"
-        />
-        <Button
-          type="button"
           icon="pi pi-expand"
           rounded
           variant="text"
