@@ -33,6 +33,37 @@
   transition: background 0.1s ease;
 }
 
+/* ── Status badges ───────────────────────────────────────────── */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.625rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .status-badge--actief, .status-badge--yes {
+    background: var(--p-green-100);
+    color: var(--p-green-700);
+  }
+  
+  .status-badge--no {
+    background: var(--p-red-100);
+    color: var(--p-red-700);
+  }
+
+  .status-badge--verlopen {
+    background: var(--p-gray-100);
+    color: var(--p-gray-500);
+  }
+
+  .status-badge--gepland {
+    background: var(--p-blue-100);
+    color: var(--p-blue-700);
+  }
+
 /* ── Site tags ───────────────────────────────────────────────────────── */
 
 .site-tag {
