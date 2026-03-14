@@ -29,7 +29,7 @@
       <DataTable :value="quotation.tasks" class="ce-table">
         <Column header="Omschrijving">
           <template #body="{ data }">
-            <a href="#" class="task-link">{{ data.description }}</a>
+            <span class="text-sm text-gray-600">{{ data.description }}</span>
           </template>
         </Column>
         <Column header="Deadline" style="width: 9rem">

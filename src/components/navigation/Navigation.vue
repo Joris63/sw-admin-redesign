@@ -1,10 +1,14 @@
 <script setup lang="ts">
   import logoRaw from '@/assets/logo.svg?raw';
   import type { NavigationSection as NavigationSectionType } from '@/types/navigation';
-  import { ref } from 'vue';
+  import { ref, provide } from 'vue';
   import NavigationSection from './NavigationSection.vue';
 
   const visible = ref(true);
+
+  const openNavItem = ref<string | null>(null);
+  provide('openNavItem', openNavItem);
+  provide('setOpenNavItem', (label: string | null) => { openNavItem.value = label; });
   const navigationSections = ref<NavigationSectionType[]>([
     {
       navItems: [

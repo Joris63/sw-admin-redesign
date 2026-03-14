@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { NavItem } from '@/types/navigation';
-  import { ref, computed, watch } from 'vue';
+  import { ref, computed, watch, inject, type Ref } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
 
   interface Props {
@@ -13,7 +13,10 @@
   const route = useRoute();
   const props = defineProps<Props>();
 
-  const isOpen = ref(false);
+  const openNavItem = inject<Ref<string | null>>('openNavItem', ref(null));
+  const setOpenNavItem = inject<(label: string | null) => void>('setOpenNavItem', () => {});
+
+  const isOpen = computed(() => !props.isChild && openNavItem.value === props.item.label);
   const hasChildren = computed(() => 'children' in props.item);
   const isOldAdminRoute = computed<boolean>(() => 'isOldAdmin' in props.item);
 
@@ -40,7 +43,7 @@
   watch(
     hasActiveChild,
     (val) => {
-      if (val) isOpen.value = true;
+      if (val && !props.isChild) setOpenNavItem(props.item.label);
     },
     { immediate: true }
   );
@@ -62,7 +65,7 @@
           : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700',
       ]"
       :title="collapsed ? props.item.label : undefined"
-      @click="isOpen = !isOpen"
+      @click="setOpenNavItem(isOpen ? null : props.item.label)"
     >
       <i
         :class="`pi ${props.item.icon} text-sm shrink-0 ${hasActiveChild ? 'text-primary-500' : 'text-gray-400'}`"

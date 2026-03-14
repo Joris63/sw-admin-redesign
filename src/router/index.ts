@@ -11,6 +11,7 @@ import QuotationsOverview from '@/views/sales/QuotationsOverview.vue';
 import QuotationEdit from '@/views/sales/QuotationEdit.vue';
 import LocationsOverview from '@/views/logistics/LocationsOverview.vue';
 import StoreEdit from '@/views/logistics/StoreEdit.vue';
+import WarehouseEdit from '@/views/logistics/WarehouseEdit.vue';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -97,6 +98,18 @@ const router = createRouter({
           'Logistiek',
           { label: 'Locaties', route: '/logistics/locations' },
           'Winkel bewerken',
+        ],
+      },
+    },
+    {
+      path: '/logistics/locations/warehouses/:id',
+      name: 'WarehouseEdit',
+      component: WarehouseEdit,
+      meta: {
+        breadcrumbs: [
+          'Logistiek',
+          { label: 'Locaties', route: '/logistics/locations' },
+          'Magazijn bewerken',
         ],
       },
     },
