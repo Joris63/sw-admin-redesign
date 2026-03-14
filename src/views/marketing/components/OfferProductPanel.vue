@@ -14,7 +14,7 @@
     pendingChanges: Record<number, PendingGroupChanges>;
     pendingSiteChanges: PendingSiteChange[];
     isVerlopen: boolean;
-    groupNaam: string;
+    groupName: string;
   }>();
 
   const emit = defineEmits<{
@@ -44,7 +44,7 @@
     return props.products.filter(
       (p) =>
         p.code.toLowerCase().includes(q) ||
-        p.merk.toLowerCase().includes(q) ||
+        p.brand.toLowerCase().includes(q) ||
         p.site.toLowerCase().includes(q)
     );
   });
@@ -100,7 +100,7 @@
     const list = selectedGroupPending.value?.products ?? [];
     if (!dialogSearch.value.trim()) return list;
     const q = dialogSearch.value.trim().toLowerCase();
-    return list.filter((p) => p.code.toLowerCase().includes(q) || p.merk.toLowerCase().includes(q));
+    return list.filter((p) => p.code.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
   });
 
   // ── Watchers ─────────────────────────────────────────────────────
@@ -188,7 +188,7 @@
               :class="{ 'nav-crumb--leaf': i === selectedPath.length - 1 }"
               @click="i < selectedPath.length - 1 ? emit('select-group', pathNode.id) : undefined"
             >
-              {{ pathNode.naam }}
+              {{ pathNode.name }}
             </button>
             <i v-if="i < selectedPath.length - 1" class="pi pi-chevron-right nav-sep" />
           </template>
@@ -311,7 +311,7 @@
                 >
                   <span class="wijz-sign">{{ change.action === 'add' ? '+' : '−' }}</span>
                   <span class="wijz-code">{{ change.code }}</span>
-                  <span class="wijz-merk">{{ change.merk }}</span>
+                  <span class="wijz-merk">{{ change.brand }}</span>
                 </div>
                 <button
                   v-if="!showAllProducts && hiddenPendingCount > 0"
@@ -366,7 +366,7 @@
             >
               <span class="pdlg-sign">{{ change.action === 'add' ? '+' : '−' }}</span>
               <span class="pdlg-code">{{ change.code }}</span>
-              <span class="pdlg-merk">{{ change.merk }}</span>
+              <span class="pdlg-merk">{{ change.brand }}</span>
             </div>
             <div v-if="dialogProducts.length === 0" class="pdlg-empty">
               Geen resultaten gevonden
@@ -429,7 +429,7 @@
         <div class="products-empty__icon"><i class="pi pi-box" /></div>
         <p class="products-empty__title">Geen producten</p>
         <p class="products-empty__sub">
-          Voeg producten toe aan <strong>{{ groupNaam }}</strong>
+          Voeg producten toe aan <strong>{{ groupName }}</strong>
         </p>
         <Button
           v-if="!isVerlopen"
@@ -482,9 +482,9 @@
                 <span class="site-tag">{{ data.site }}</span>
               </template>
             </Column>
-            <Column field="merk" header="Merk / Serie">
+            <Column field="brand" header="Merk / Serie">
               <template #body="{ data }">
-                <span class="text-surface-500 text-sm">{{ data.merk }}</span>
+                <span class="text-surface-500 text-sm">{{ data.brand }}</span>
               </template>
             </Column>
           </DataTable>

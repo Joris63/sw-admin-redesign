@@ -1,124 +1,124 @@
-export type QuotationStatus = 'Open' | 'Omgezet' | 'Verlopen' | 'Geannuleerd';
+export type QuotationStatus = 'Open' | 'Converted' | 'Expired' | 'Cancelled';
 
 export interface QuotationLine {
   id: number;
-  productcode: string;
-  naam: string;
-  levertijd: string;
-  voorraad: 'op-voorraad' | 'beperkt' | 'niet-op-voorraad';
-  aantal: number;
-  prijsOud?: number;
-  prijs: number;
-  afbeelding?: string;
+  productCode: string;
+  name: string;
+  deliveryTime: string;
+  stock: 'in-stock' | 'limited' | 'out-of-stock';
+  quantity: number;
+  oldPrice?: number;
+  price: number;
+  image?: string;
 }
 
 export interface QuotationGroup {
   id: string;
-  naam: string;
+  name: string;
   lines: QuotationLine[];
 }
 
 export interface QuotationTask {
   id: number;
-  omschrijving: string;
+  description: string;
   deadline: string;
-  status: 'Niet begonnen' | 'In behandeling' | 'Afgerond';
-  afdeling: string;
-  gebruiker: string;
-  eigenaar: string;
+  status: 'Not started' | 'In progress' | 'Completed';
+  department: string;
+  user: string;
+  owner: string;
 }
 
 export interface QuotationLogEntry {
   id: number;
-  datum: string;
+  date: string;
   productId?: string;
-  productcode?: string;
-  omschrijving: string;
-  aantal?: number;
-  prijs?: number;
-  actie: string;
-  gebruiker: string;
+  productCode?: string;
+  description: string;
+  quantity?: number;
+  price?: number;
+  action: string;
+  user: string;
 }
 
 export interface QuotationEmail {
   id: number;
-  datum: string;
-  onderwerp: string;
-  naar: string;
+  date: string;
+  subject: string;
+  to: string;
   type: string;
 }
 
-export interface QuotationOpmerking {
+export interface QuotationNote {
   id: number;
-  datum: string;
-  gebruiker: string;
-  tekst: string;
-  voor?: string;
+  date: string;
+  user: string;
+  text: string;
+  for?: string;
 }
 
 export interface QuotationDocument {
   id: number;
-  naam: string;
-  datum: string;
+  name: string;
+  date: string;
   type: string;
 }
 
 export interface QuotationData {
-  offertenummer: string;
+  quotationNumber: string;
   status: QuotationStatus;
   site: string;
 
-  // Klant (billing address)
-  voornaam: string;
-  achternaam: string;
-  land: string;
-  straat: string;
-  huisnummer: string;
-  toevoeging?: string;
-  postcode: string;
-  woonplaats: string;
-  telefoonLand: string;
-  telefoon: string;
-  alternatief?: string;
+  // Customer (billing address)
+  firstName: string;
+  lastName: string;
+  country: string;
+  street: string;
+  houseNumber: string;
+  addition?: string;
+  postalCode: string;
+  city: string;
+  phoneCountry: string;
+  phone: string;
+  alternative?: string;
 
-  // Klantgegevens
-  klantEmail: string;
-  klantHeeftAccount: boolean;
-  klantType: string;
+  // Customer details
+  customerEmail: string;
+  customerHasAccount: boolean;
+  customerType: string;
 
-  // Offerte gegevens
-  besteldatum: string;
-  geholpenDoor: string;
-  kanaal: string;
-  vestiging: string;
-  wanneerVerbouwenJaar?: string;
-  wanneerVerbouwenMaand?: string;
-  referentie?: string;
+  // Quotation details
+  orderDate: string;
+  assistedBy: string;
+  channel: string;
+  branch: string;
+  renovationYear?: string;
+  renovationMonth?: string;
+  reference?: string;
 
-  // Externe contacten
-  aanbevolen?: {
-    bedrijf?: string;
-    woonplaats?: string;
-    typeBedrijf?: string;
+  // External contacts
+  recommended?: {
+    company?: string;
+    city?: string;
+    companyType?: string;
   };
-  aannemer?: {
-    bedrijf?: string;
-    woonplaats?: string;
-    typeBedrijf?: string;
+  contractor?: {
+    company?: string;
+    city?: string;
+    companyType?: string;
   };
 
-  // Aanbod
+  // Offer
   groups: QuotationGroup[];
 
-  // Communicatie
+  // Communication
   emails: QuotationEmail[];
-  opmerkingen: QuotationOpmerking[];
-  documenten: QuotationDocument[];
+  notes: QuotationNote[];
+  documents: QuotationDocument[];
 
-  // Taken
-  taken: QuotationTask[];
+  // Tasks
+  tasks: QuotationTask[];
 
   // Logs
   productLog: QuotationLogEntry[];
-  algemeenLog: QuotationLogEntry[];
+  generalLog: QuotationLogEntry[];
 }

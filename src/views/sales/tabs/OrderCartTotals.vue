@@ -6,7 +6,7 @@
     cartSubtotal,
     cartDiscount,
     orderDiscountValue,
-    verzendkostenValue,
+    shippingCostValue,
     orderTotal,
     formatPrice,
   } = useOrderCart();
@@ -38,8 +38,8 @@
         </div>
         <div class="flex justify-between text-sm">
           <span class="text-gray-500">Verzendkosten</span>
-          <span :class="verzendkostenValue === 0 ? 'text-primary font-medium' : ''">
-            {{ verzendkostenValue === 0 ? 'Gratis' : formatPrice(verzendkostenValue) }}
+          <span :class="shippingCostValue === 0 ? 'text-primary font-medium' : ''">
+            {{ shippingCostValue === 0 ? 'Gratis' : formatPrice(shippingCostValue) }}
           </span>
         </div>
         <Divider class="my-1!" />

@@ -6,7 +6,7 @@
   const customer = inject<Ref<CustomerData>>('customer')!;
 
   const cartSubtotal = computed(() =>
-    customer.value.cart.reduce((sum, i) => sum + i.prijs * i.aantal, 0)
+    customer.value.cart.reduce((sum, i) => sum + i.price * i.quantity, 0)
   );
 </script>
 
@@ -17,26 +17,26 @@
         <span class="view-card-title">Winkelwagen</span>
       </div>
       <DataTable :value="customer.cart" class="ce-table">
-        <Column field="naam" header="Naam">
+        <Column field="name" header="Naam">
           <template #body="{ data }">
-            <a href="#" class="text-primary-600 hover:underline text-sm">{{ data.naam }}</a>
+            <a href="#" class="text-primary-600 hover:underline text-sm">{{ data.name }}</a>
           </template>
         </Column>
-        <Column field="productcode" header="Productcode" style="width: 10rem" />
+        <Column field="productCode" header="Productcode" style="width: 10rem" />
         <Column
-          field="aantal"
+          field="quantity"
           header="Aantal"
           :pt="{ columnheadercontent: { class: 'justify-end!' } }"
           body-class="col-right"
         />
         <Column
-          field="prijs"
+          field="price"
           header="Prijs"
           :pt="{ columnheadercontent: { class: 'justify-end!' } }"
           body-class="col-right"
         >
           <template #body="{ data }"
-            >€ {{ data.prijs.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
+            >€ {{ data.price.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
           >
         </Column>
         <Column style="width: 3rem">
@@ -48,8 +48,8 @@
         <template #footer>
           <div v-if="customer.cart.length" class="table-subtotal">
             <span
-              >Subtotaal, {{ customer.cart.reduce((s, i) => s + i.aantal, 0) }} product{{
-                customer.cart.reduce((s, i) => s + i.aantal, 0) !== 1 ? 'en' : ''
+              >Subtotaal, {{ customer.cart.reduce((s, i) => s + i.quantity, 0) }} product{{
+                customer.cart.reduce((s, i) => s + i.quantity, 0) !== 1 ? 'en' : ''
               }}</span
             >
             <span>€ {{ cartSubtotal.toFixed(2).replace('.', ',') }}</span>

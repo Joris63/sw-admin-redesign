@@ -3,7 +3,7 @@
   import { useRoute } from 'vue-router';
 
   const route = useRoute();
-  const mode = computed(() => route.query.mode as 'offerte' | 'bestelling');
+  const mode = computed(() => route.query.mode as 'quotation' | 'order');
   const orderNumber = computed(() => Number(route.query.order));
 
   // ── Confetti ─────────────────────────────────────────────────
@@ -30,17 +30,17 @@
 
   // ── Print drawer ─────────────────────────────────────────────
   const printOpen = ref(false);
-  const printBriefpapier = ref(false);
-  const printProductcodes = ref(false);
-  const printKorting = ref(false);
-  const printExclBTW = ref(false);
+  const printLetterhead = ref(false);
+  const printProductCodes = ref(false);
+  const printDiscount = ref(false);
+  const printExclVat = ref(false);
 
   // ── Mail drawer ──────────────────────────────────────────────
   const mailOpen = ref(false);
-  const mailProductcodes = ref(false);
-  const mailKorting = ref(false);
-  const mailExclBTW = ref(false);
-  const mailInhoud = ref(
+  const mailProductCodes = ref(false);
+  const mailDiscount = ref(false);
+  const mailExclVat = ref(false);
+  const mailContent = ref(
     'Hartelijk dank voor uw bestelling. Bijgaand vindt u de orderbevestiging.\n\nMet vriendelijke groet,\nHet team'
   );
 </script>
@@ -82,10 +82,10 @@
       <!-- Heading -->
       <div class="text-center">
         <h1 class="text-2xl font-bold text-gray-900 tracking-tight">
-          {{ mode === 'bestelling' ? 'Bestelling geplaatst!' : 'Offerte opgeslagen!' }}
+          {{ mode === 'order' ? 'Bestelling geplaatst!' : 'Offerte opgeslagen!' }}
         </h1>
         <p class="mt-2 text-sm text-gray-500 leading-relaxed max-w-xs mx-auto">
-          <template v-if="mode === 'bestelling'">
+          <template v-if="mode === 'order'">
             Top gedaan — de bestelling is verwerkt en de klant wordt op de hoogte gesteld.
           </template>
           <template v-else> De offerte staat klaar om naar de klant verstuurd te worden. </template>
@@ -140,25 +140,25 @@
         <p class="text-sm text-gray-500">Print PDF met:</p>
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-3">
-            <Checkbox v-model="printBriefpapier" binary input-id="print-briefpapier" />
+            <Checkbox v-model="printLetterhead" binary input-id="print-briefpapier" />
             <label for="print-briefpapier" class="text-sm cursor-pointer select-none"
               >Briefpapier</label
             >
           </div>
           <div class="flex items-center gap-3">
-            <Checkbox v-model="printProductcodes" binary input-id="print-productcodes" />
+            <Checkbox v-model="printProductCodes" binary input-id="print-productcodes" />
             <label for="print-productcodes" class="text-sm cursor-pointer select-none"
               >Toon productcodes</label
             >
           </div>
           <div class="flex items-center gap-3">
-            <Checkbox v-model="printKorting" binary input-id="print-korting" />
+            <Checkbox v-model="printDiscount" binary input-id="print-korting" />
             <label for="print-korting" class="text-sm cursor-pointer select-none"
               >Toon korting per product</label
             >
           </div>
           <div class="flex items-center gap-3">
-            <Checkbox v-model="printExclBTW" binary input-id="print-btw" />
+            <Checkbox v-model="printExclVat" binary input-id="print-btw" />
             <label
               for="print-btw"
               class="text-sm cursor-pointer select-none flex items-center gap-1.5"
@@ -194,19 +194,19 @@
         <p class="text-sm text-gray-500">Print PDF met:</p>
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-3">
-            <Checkbox v-model="mailProductcodes" binary input-id="mail-productcodes" />
+            <Checkbox v-model="mailProductCodes" binary input-id="mail-productcodes" />
             <label for="mail-productcodes" class="text-sm cursor-pointer select-none"
               >Toon productcodes</label
             >
           </div>
           <div class="flex items-center gap-3">
-            <Checkbox v-model="mailKorting" binary input-id="mail-korting" />
+            <Checkbox v-model="mailDiscount" binary input-id="mail-korting" />
             <label for="mail-korting" class="text-sm cursor-pointer select-none"
               >Toon korting per product</label
             >
           </div>
           <div class="flex items-center gap-3">
-            <Checkbox v-model="mailExclBTW" binary input-id="mail-btw" />
+            <Checkbox v-model="mailExclVat" binary input-id="mail-btw" />
             <label
               for="mail-btw"
               class="text-sm cursor-pointer select-none flex items-center gap-1.5"
@@ -219,7 +219,7 @@
         <Divider class="my-0!" />
         <div class="drw-field">
           <label class="drw-label"> Mail inhoud </label>
-          <Textarea v-model="mailInhoud" rows="7" class="w-full text-sm" auto-resize />
+          <Textarea v-model="mailContent" rows="7" class="w-full text-sm" auto-resize />
         </div>
       </div>
       <template #footer>

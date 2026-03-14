@@ -5,10 +5,10 @@
 
   const { scrollTo } = useScrollNav();
 
-  const sectionGegevens = ref<HTMLElement | null>(null);
-  const sectionAdres = ref<HTMLElement | null>(null);
-  const sectionKanaal = ref<HTMLElement | null>(null);
-  const sectionAanbevolen = ref<HTMLElement | null>(null);
+  const sectionDetails = ref<HTMLElement | null>(null);
+  const sectionAddress = ref<HTMLElement | null>(null);
+  const sectionChannel = ref<HTMLElement | null>(null);
+  const sectionRecommended = ref<HTMLElement | null>(null);
   import OrdersAdd_AppointmentSearch from '../sidebars/OrdersAdd_AppointmentSearch.vue';
 
   type Mode = 'search' | 'new' | null;
@@ -59,13 +59,13 @@
     { label: 'Duitsland', value: 'DE' },
   ];
   const selectedCountry = ref('NL');
-  const postcode = ref('');
-  const huisnummer = ref('');
-  const toevoeging = ref('');
-  const straat = ref('');
-  const stad = ref('');
+  const postalCode = ref('');
+  const houseNumber = ref('');
+  const addition = ref('');
+  const street = ref('');
+  const city = ref('');
 
-  const kanaalOptions = [
+  const channelOptions = [
     { label: 'Chat', value: 'chat' },
     { label: 'E-mail', value: 'email' },
     { label: 'Onbekend', value: 'onbekend' },
@@ -74,47 +74,47 @@
     { label: 'Telefoon', value: 'telefoon' },
     { label: 'Videogesprek', value: 'videogesprek' },
   ];
-  const selectedKanaal = ref('showroom');
-  const afdelingOptions = [
+  const selectedChannel = ref('showroom');
+  const departmentOptions = [
     { label: 'Verkoop', value: 'verkoop' },
     { label: 'Comm. Binnendienst', value: 'binnendienst' },
     { label: 'Verkoop zakelijk', value: 'verkoop-zakelijk' },
     { label: 'Klantenservice', value: 'klantenservice' },
     { label: 'Overig', value: 'overig' },
   ];
-  const selectedAfdeling = ref('overig');
-  const vestigingOptions = [
+  const selectedDepartment = ref('overig');
+  const branchOptions = [
     { label: 'Rosmalen', value: 1 },
     { label: 'Tilburg', value: 2 },
     { label: 'Rotterdam', value: 3 },
     { label: 'Amsterdam', value: 4 },
   ];
-  const selectedVestiging = ref(1);
-  const referentie = ref('');
-  const verkoperOptions = [
+  const selectedBranch = ref(1);
+  const reference = ref('');
+  const sellerOptions = [
     { label: 'Joris Kamminga', value: 1 },
     { label: 'Jan de Vries', value: 2 },
   ];
-  const selectedVerkoper = ref(1);
+  const selectedSeller = ref(1);
 
-  type AanbevolenMode = 'search' | 'manual' | null;
-  const aanbevolenMode = ref<AanbevolenMode>('search');
-  const aanbevolenSearchVisible = ref(false);
-  const aanbevolenFound = ref(true);
-  const aanbevolenSearchQuery = ref('');
-  const mockAanbevolenCustomer = { name: 'Showroomworks BV', email: 'info@showroomworks.nl' };
-  function deselectAanbevolen() {
-    aanbevolenFound.value = false;
+  type RecommendedMode = 'search' | 'manual' | null;
+  const recommendedMode = ref<RecommendedMode>('search');
+  const recommendedSearchVisible = ref(false);
+  const recommendedFound = ref(true);
+  const recommendedSearchQuery = ref('');
+  const mockRecommendedCustomer = { name: 'Showroomworks BV', email: 'info@showroomworks.nl' };
+  function deselectRecommended() {
+    recommendedFound.value = false;
   }
-  const aanbevolenDoor = ref('');
-  const woonplaats = ref('');
-  const typeBedrijfOptions = [
+  const recommendedBy = ref('');
+  const recommendedCity = ref('');
+  const companyTypeOptions = [
     { label: 'Aannemer', value: 1 },
     { label: 'Architect', value: 2 },
     { label: 'Installateur', value: 3 },
     { label: 'Projectontwikkelaar', value: 4 },
   ];
-  const selectedTypeBedrijf = ref(null);
+  const selectedCompanyType = ref(null);
 </script>
 
 <template>
@@ -122,16 +122,16 @@
     <div class="flex grow gap-10 pt-2">
       <!-- ── Section nav ─────────────────────────────────────── -->
       <aside class="sticky top-6 self-start flex flex-col gap-1 w-36 shrink-0 pt-1">
-        <button class="section-nav-item" @click="scrollTo(sectionGegevens)">Je gegevens</button>
-        <button class="section-nav-item" @click="scrollTo(sectionAdres)">Je adres</button>
-        <button class="section-nav-item" @click="scrollTo(sectionKanaal)">Kanaal</button>
-        <button class="section-nav-item" @click="scrollTo(sectionAanbevolen)">Aanbevolen</button>
+        <button class="section-nav-item" @click="scrollTo(sectionDetails)">Je gegevens</button>
+        <button class="section-nav-item" @click="scrollTo(sectionAddress)">Je adres</button>
+        <button class="section-nav-item" @click="scrollTo(sectionChannel)">Kanaal</button>
+        <button class="section-nav-item" @click="scrollTo(sectionRecommended)">Aanbevolen</button>
       </aside>
 
       <!-- ── Main content ────────────────────────────────────── -->
       <div class="flex flex-col flex-1 min-w-0 pb-4">
         <!-- Je gegevens ──────────────────────────────────────── -->
-        <section ref="sectionGegevens" class="flex flex-col gap-4 py-1 pb-6">
+        <section ref="sectionDetails" class="flex flex-col gap-4 py-1 pb-6">
           <h2 class="section-heading">Je gegevens</h2>
 
           <div class="grid grid-cols-2 gap-3">
@@ -299,7 +299,7 @@
         <Divider class="my-0!" />
 
         <!-- Je adres ──────────────────────────────────────────── -->
-        <section ref="sectionAdres" class="flex flex-col gap-4 py-6">
+        <section ref="sectionAddress" class="flex flex-col gap-4 py-6">
           <h2 class="section-heading">Je adres</h2>
 
           <Transition name="fade-slide" mode="out-in">
@@ -376,14 +376,14 @@
                         <span class="form-label pt-1.5">Adres</span>
                         <div class="flex flex-col gap-2 flex-1">
                           <div class="grid grid-cols-3 gap-2">
-                            <InputText v-model="postcode" placeholder="1234 AB" /><InputText
-                              v-model="huisnummer"
+                            <InputText v-model="postalCode" placeholder="1234 AB" /><InputText
+                              v-model="houseNumber"
                               placeholder="12"
-                            /><InputText v-model="toevoeging" placeholder="A" />
+                            /><InputText v-model="addition" placeholder="A" />
                           </div>
                           <div class="grid grid-cols-2 gap-2">
-                            <InputText v-model="straat" placeholder="Kerkstraat" /><InputText
-                              v-model="stad"
+                            <InputText v-model="street" placeholder="Kerkstraat" /><InputText
+                              v-model="city"
                               placeholder="Amsterdam"
                             />
                           </div>
@@ -413,14 +413,14 @@
                 <span class="form-label pt-1.5">Adres</span>
                 <div class="flex flex-col gap-2 flex-1">
                   <div class="grid grid-cols-3 gap-2">
-                    <InputText v-model="postcode" placeholder="1234 AB" /><InputText
-                      v-model="huisnummer"
+                    <InputText v-model="postalCode" placeholder="1234 AB" /><InputText
+                      v-model="houseNumber"
                       placeholder="12"
-                    /><InputText v-model="toevoeging" placeholder="A" />
+                    /><InputText v-model="addition" placeholder="A" />
                   </div>
                   <div class="grid grid-cols-2 gap-2">
-                    <InputText v-model="straat" placeholder="Kerkstraat" /><InputText
-                      v-model="stad"
+                    <InputText v-model="street" placeholder="Kerkstraat" /><InputText
+                      v-model="city"
                       placeholder="Amsterdam"
                     />
                   </div>
@@ -437,13 +437,13 @@
         <Divider class="my-0!" />
 
         <!-- Kanaal ───────────────────────────────────────────── -->
-        <section ref="sectionKanaal" class="flex flex-col gap-4 py-6">
+        <section ref="sectionChannel" class="flex flex-col gap-4 py-6">
           <h2 class="section-heading">Kanaal</h2>
           <div class="form-row items-center">
             <span class="form-label">Kanaal</span
             ><SelectButton
-              v-model="selectedKanaal"
-              :options="kanaalOptions"
+              v-model="selectedChannel"
+              :options="channelOptions"
               option-label="label"
               option-value="value"
               :allow-empty="false"
@@ -452,8 +452,8 @@
           <div class="form-row items-center">
             <span class="form-label">Afdeling</span
             ><SelectButton
-              v-model="selectedAfdeling"
-              :options="afdelingOptions"
+              v-model="selectedDepartment"
+              :options="departmentOptions"
               option-label="label"
               option-value="value"
               :allow-empty="false"
@@ -462,8 +462,8 @@
           <div class="form-row items-center">
             <span class="form-label">Vestiging</span
             ><Select
-              v-model="selectedVestiging"
-              :options="vestigingOptions"
+              v-model="selectedBranch"
+              :options="branchOptions"
               option-label="label"
               option-value="value"
               class="flex-1"
@@ -472,7 +472,7 @@
           <div class="form-row items-center">
             <span class="form-label">Referentie</span
             ><InputText
-              v-model="referentie"
+              v-model="reference"
               class="flex-1"
               placeholder="Bijv. Bestelbon 2024-001"
             />
@@ -480,8 +480,8 @@
           <div class="form-row items-center">
             <span class="form-label">Verkoper</span
             ><Select
-              v-model="selectedVerkoper"
-              :options="verkoperOptions"
+              v-model="selectedSeller"
+              :options="sellerOptions"
               option-label="label"
               option-value="value"
               class="flex-1"
@@ -492,14 +492,14 @@
         <Divider class="my-0!" />
 
         <!-- Aanbevolen door ───────────────────────────────────── -->
-        <section ref="sectionAanbevolen" class="flex flex-col gap-4 py-6">
+        <section ref="sectionRecommended" class="flex flex-col gap-4 py-6">
           <h2 class="section-heading">Ben je aanbevolen door iemand?</h2>
 
           <div class="grid grid-cols-2 gap-3">
             <button
               class="mode-card mode-card--neutral"
-              :class="{ 'mode-card--active-neutral': aanbevolenMode === 'search' }"
-              @click="aanbevolenMode = aanbevolenMode === 'search' ? null : 'search'"
+              :class="{ 'mode-card--active-neutral': recommendedMode === 'search' }"
+              @click="recommendedMode = recommendedMode === 'search' ? null : 'search'"
             >
               <div class="mode-card__icon mode-card__icon--neutral"><i class="pi pi-search" /></div>
               <div class="flex flex-col text-left">
@@ -507,14 +507,14 @@
                 ><span class="text-xs text-gray-400 mt-0.5">Zoek op e-mail</span>
               </div>
               <i
-                v-if="aanbevolenMode === 'search'"
+                v-if="recommendedMode === 'search'"
                 class="pi pi-check-circle ml-auto text-gray-400 shrink-0"
               />
             </button>
             <button
               class="mode-card mode-card--neutral"
-              :class="{ 'mode-card--active-neutral': aanbevolenMode === 'manual' }"
-              @click="aanbevolenMode = aanbevolenMode === 'manual' ? null : 'manual'"
+              :class="{ 'mode-card--active-neutral': recommendedMode === 'manual' }"
+              @click="recommendedMode = recommendedMode === 'manual' ? null : 'manual'"
             >
               <div class="mode-card__icon mode-card__icon--neutral"><i class="pi pi-pencil" /></div>
               <div class="flex flex-col text-left">
@@ -522,7 +522,7 @@
                 ><span class="text-xs text-gray-400 mt-0.5">Vul de gegevens handmatig in</span>
               </div>
               <i
-                v-if="aanbevolenMode === 'manual'"
+                v-if="recommendedMode === 'manual'"
                 class="pi pi-check-circle ml-auto text-gray-400 shrink-0"
               />
             </button>
@@ -530,14 +530,14 @@
 
           <Transition name="fade-slide" mode="out-in">
             <div
-              v-if="aanbevolenMode === 'search'"
+              v-if="recommendedMode === 'search'"
               key="aanbevolen-search"
               class="flex flex-col gap-3"
             >
               <div class="flex gap-2">
                 <IconField class="flex-1"
                   ><InputText
-                    v-model="aanbevolenSearchQuery"
+                    v-model="recommendedSearchQuery"
                     class="w-full"
                     placeholder="Zoek op naam of e-mailadres" /><InputIcon class="pi pi-search"
                 /></IconField>
@@ -545,15 +545,15 @@
                   label="Klant zoeken"
                   icon="pi pi-user"
                   class="btn-outlined"
-                  @click="aanbevolenSearchVisible = true"
+                  @click="recommendedSearchVisible = true"
                 />
               </div>
               <Transition name="fade">
-                <div v-if="aanbevolenFound" class="customer-indicator">
+                <div v-if="recommendedFound" class="customer-indicator">
                   <div class="customer-indicator__avatar"><i class="pi pi-user" /></div>
                   <div class="flex flex-col leading-snug">
-                    <span class="text-sm font-semibold">{{ mockAanbevolenCustomer.name }}</span
-                    ><span class="text-xs text-gray-400">{{ mockAanbevolenCustomer.email }}</span>
+                    <span class="text-sm font-semibold">{{ mockRecommendedCustomer.name }}</span
+                    ><span class="text-xs text-gray-400">{{ mockRecommendedCustomer.email }}</span>
                   </div>
                   <Button
                     icon="pi pi-times"
@@ -562,34 +562,34 @@
                     size="small"
                     rounded
                     class="ml-auto shrink-0"
-                    @click="deselectAanbevolen"
+                    @click="deselectRecommended"
                   />
                 </div>
               </Transition>
             </div>
 
             <div
-              v-else-if="aanbevolenMode === 'manual'"
+              v-else-if="recommendedMode === 'manual'"
               key="aanbevolen-manual"
               class="flex flex-col gap-4"
             >
               <div class="form-row items-center">
                 <span class="form-label">Aanbevolen door</span
                 ><InputText
-                  v-model="aanbevolenDoor"
+                  v-model="recommendedBy"
                   class="flex-1"
                   placeholder="Bouwbedrijf de Vries"
                 />
               </div>
               <div class="form-row items-center">
                 <span class="form-label">Woonplaats</span
-                ><InputText v-model="woonplaats" class="flex-1" placeholder="Amsterdam" />
+                ><InputText v-model="recommendedCity" class="flex-1" placeholder="Amsterdam" />
               </div>
               <div class="form-row items-center">
                 <span class="form-label">Type bedrijf</span
                 ><Select
-                  v-model="selectedTypeBedrijf"
-                  :options="typeBedrijfOptions"
+                  v-model="selectedCompanyType"
+                  :options="companyTypeOptions"
                   option-label="label"
                   option-value="value"
                   placeholder="Selecteer bedrijfstype"
@@ -613,7 +613,7 @@
     </div>
 
     <OrdersAdd_CustomerSearch v-model="customerSearchVisible" />
-    <OrdersAdd_CustomerSearch v-model="aanbevolenSearchVisible" />
+    <OrdersAdd_CustomerSearch v-model="recommendedSearchVisible" />
     <OrdersAdd_AppointmentSearch v-model="appointmentSearchVisible" />
   </StepPanel>
 </template>

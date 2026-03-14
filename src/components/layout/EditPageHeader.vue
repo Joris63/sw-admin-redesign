@@ -7,7 +7,6 @@
     title: string;
     subtitle?: string;
     back?: RouteLocationRaw;
-    avatarClass?: string;
   }>();
 
   const router = useRouter();
@@ -23,7 +22,7 @@
       rounded
       @click="router.push(back)"
     />
-    <div class="edit-hdr-avatar" :class="avatarClass">
+    <div class="edit-hdr-avatar">
       <slot name="avatar" />
     </div>
     <div class="edit-hdr-info">

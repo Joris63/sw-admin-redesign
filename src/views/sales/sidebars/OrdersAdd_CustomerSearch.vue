@@ -4,18 +4,18 @@
   const visible = defineModel<boolean>();
 
   const email = ref('');
-  const bedrijfsnaam = ref('');
-  const achternaam = ref('');
-  const postcode = ref('');
-  const huisnummer = ref('');
+  const companyName = ref('');
+  const lastName = ref('');
+  const postalCode = ref('');
+  const houseNumber = ref('');
 
   const canSearch = computed(
     () =>
       email.value.trim() ||
-      bedrijfsnaam.value.trim() ||
-      achternaam.value.trim() ||
-      postcode.value.trim() ||
-      huisnummer.value.trim()
+      companyName.value.trim() ||
+      lastName.value.trim() ||
+      postalCode.value.trim() ||
+      houseNumber.value.trim()
   );
 </script>
 
@@ -34,20 +34,20 @@
       </div>
       <div class="drw-field">
         <label class="drw-label">Bedrijfsnaam</label>
-        <InputText v-model="bedrijfsnaam" placeholder="Showroomworks BV" />
+        <InputText v-model="companyName" placeholder="Showroomworks BV" />
       </div>
       <div class="drw-field">
         <label class="drw-label">Achternaam</label>
-        <InputText v-model="achternaam" placeholder="de Vries" />
+        <InputText v-model="lastName" placeholder="de Vries" />
       </div>
       <div class="grid grid-cols-2 gap-2">
         <div class="drw-field">
           <label class="drw-label">Postcode</label>
-          <InputText v-model="postcode" placeholder="1234 AB" />
+          <InputText v-model="postalCode" placeholder="1234 AB" />
         </div>
         <div class="drw-field">
           <label class="drw-label">Huisnummer</label>
-          <InputText v-model="huisnummer" placeholder="12" />
+          <InputText v-model="houseNumber" placeholder="12" />
         </div>
       </div>
       <Button label="Zoeken" :disabled="!canSearch" class="mt-5" />

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  const land = defineModel<string>('land', { default: '+31' });
-  const nummer = defineModel<string>('nummer', { required: true });
+  const country = defineModel<string>('country', { default: '+31' });
+  const number = defineModel<string>('number', { required: true });
 
   const options = [
     { label: '+31', value: '+31', code: 'nl' },
@@ -15,7 +15,7 @@
 <template>
   <div class="flex gap-2">
     <Select
-      v-model="land"
+      v-model="country"
       :options="options"
       option-label="label"
       option-value="value"
@@ -54,6 +54,6 @@
         </div>
       </template>
     </Select>
-    <InputText v-model="nummer" class="flex-1" placeholder="Telefoonnummer" />
+    <InputText v-model="number" class="flex-1" placeholder="Telefoonnummer" />
   </div>
 </template>

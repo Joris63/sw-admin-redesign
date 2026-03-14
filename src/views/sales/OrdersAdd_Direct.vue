@@ -11,7 +11,7 @@
     cartSubtotal,
     cartDiscount,
     orderDiscountValue,
-    verzendkostenValue,
+    shippingCostValue,
     orderTotal,
     formatPrice,
     cartItemCount,
@@ -59,22 +59,22 @@
   }
 
   // ── Customer details ──────────────────────────────────────────
-  const klanttype = ref('Particulier');
-  const klanttypeOptions = ['Particulier', 'Zakelijk'];
-  const voornaam = ref('');
-  const achternaam = ref('');
+  const customerType = ref('Particulier');
+  const customerTypeOptions = ['Particulier', 'Zakelijk'];
+  const firstName = ref('');
+  const lastName = ref('');
   const email = ref('');
-  const telefoon = ref('');
-  const telefoonAlt = ref('');
-  const land = ref('Nederland');
-  const postcode = ref('');
-  const huisnummer = ref('');
-  const toevoeging = ref('');
-  const straat = ref('');
-  const stad = ref('');
-  const nieuwsbrief = ref(false);
+  const phone = ref('');
+  const phoneAlt = ref('');
+  const country = ref('Nederland');
+  const postalCode = ref('');
+  const houseNumber = ref('');
+  const addition = ref('');
+  const street = ref('');
+  const city = ref('');
+  const newsletter = ref(false);
 
-  // ── Levering ──────────────────────────────────────────────────
+  // ── Delivery ──────────────────────────────────────────────────
   const selectedShowroom = ref<number>(1);
   const showroomOptions = [
     { label: 'Rosmalen', value: 1 },
@@ -82,12 +82,12 @@
     { label: 'Rotterdam', value: 3 },
     { label: 'Amsterdam', value: 4 },
   ];
-  const referentie = ref('');
+  const reference = ref('');
 
-  // ── Betaalmethode ─────────────────────────────────────────────
-  const betaalmethode = ref('Pin');
-  const betaalmethodeOptions = ['Ideal', 'Contant', 'Creditcard', 'Pin', 'Anders'];
-  const andersOptie = ref<string | null>(null);
+  // ── Payment method ─────────────────────────────────────────────
+  const paymentMethod = ref('Pin');
+  const paymentMethodOptions = ['Ideal', 'Contant', 'Creditcard', 'Pin', 'Anders'];
+  const otherOption = ref<string | null>(null);
 </script>
 
 <template>
@@ -125,9 +125,9 @@
           <div class="flex justify-between text-xs text-gray-500">
             <span>Verzendkosten</span>
             <span
-              :class="verzendkostenValue === 0 ? 'text-primary-600 font-medium' : 'text-gray-700'"
+              :class="shippingCostValue === 0 ? 'text-primary-600 font-medium' : 'text-gray-700'"
             >
-              {{ verzendkostenValue === 0 ? 'Gratis' : formatPrice(verzendkostenValue) }}
+              {{ shippingCostValue === 0 ? 'Gratis' : formatPrice(shippingCostValue) }}
             </span>
           </div>
           <div class="border-t border-gray-200 pt-2 flex justify-between items-baseline">
@@ -290,13 +290,13 @@
             <div v-else-if="mode === 'new'" key="new" class="flex flex-col gap-4">
               <div class="form-row items-center">
                 <span class="form-label">Klanttype</span
-                ><SelectButton v-model="klanttype" :options="klanttypeOptions" />
+                ><SelectButton v-model="customerType" :options="customerTypeOptions" />
               </div>
               <div class="form-row items-center">
                 <span class="form-label">Naam</span>
                 <div class="flex gap-2 flex-1">
-                  <InputText v-model="voornaam" placeholder="Voornaam" class="flex-1" /><InputText
-                    v-model="achternaam"
+                  <InputText v-model="firstName" placeholder="Voornaam" class="flex-1" /><InputText
+                    v-model="lastName"
                     placeholder="Achternaam"
                     class="flex-1"
                   />
@@ -328,7 +328,7 @@
                         </div>
                       </template>
                     </Select>
-                    <InputText v-model="telefoon" placeholder="6 12345678" class="flex-1" />
+                    <InputText v-model="phone" placeholder="6 12345678" class="flex-1" />
                   </div>
                   <div class="flex gap-1 flex-1">
                     <Select
@@ -343,14 +343,14 @@
                         </div></template
                       ></Select
                     >
-                    <InputText v-model="telefoonAlt" placeholder="Alternatief" class="flex-1" />
+                    <InputText v-model="phoneAlt" placeholder="Alternatief" class="flex-1" />
                   </div>
                 </div>
               </div>
               <div class="form-row items-center">
                 <span class="form-label">Land</span
                 ><Select
-                  v-model="land"
+                  v-model="country"
                   :options="['Nederland', 'België', 'Duitsland', 'Frankrijk']"
                   class="flex-1"
                 />
@@ -359,14 +359,14 @@
                 <span class="form-label pt-1.5">Adres</span>
                 <div class="flex flex-col gap-2 flex-1">
                   <div class="grid grid-cols-3 gap-2">
-                    <InputText v-model="postcode" placeholder="1234 AB" /><InputText
-                      v-model="huisnummer"
+                    <InputText v-model="postalCode" placeholder="1234 AB" /><InputText
+                      v-model="houseNumber"
                       placeholder="12"
-                    /><InputText v-model="toevoeging" placeholder="A" />
+                    /><InputText v-model="addition" placeholder="A" />
                   </div>
                   <div class="grid grid-cols-2 gap-2">
-                    <InputText v-model="straat" placeholder="Straatnaam" /><InputText
-                      v-model="stad"
+                    <InputText v-model="street" placeholder="Straatnaam" /><InputText
+                      v-model="city"
                       placeholder="Stad"
                     />
                   </div>
@@ -375,7 +375,7 @@
               <div class="form-row items-center">
                 <span class="form-label">Nieuwsbrief</span>
                 <div class="flex items-center gap-2">
-                  <ToggleSwitch v-model="nieuwsbrief" /><span class="text-sm text-gray-500"
+                  <ToggleSwitch v-model="newsletter" /><span class="text-sm text-gray-500"
                     >Inschrijven op nieuwsbrief</span
                   >
                 </div>
@@ -402,7 +402,7 @@
             </div>
             <div class="form-row items-center">
               <span class="form-label">Referentie</span
-              ><InputText v-model="referentie" placeholder="Vul een referentie in" class="flex-1" />
+              ><InputText v-model="reference" placeholder="Vul een referentie in" class="flex-1" />
             </div>
           </section>
 
@@ -410,13 +410,13 @@
             <h2 class="section-heading">Betaalmethode</h2>
             <div class="form-row items-center">
               <span class="form-label">Betaalmethode</span
-              ><SelectButton v-model="betaalmethode" :options="betaalmethodeOptions" />
+              ><SelectButton v-model="paymentMethod" :options="paymentMethodOptions" />
             </div>
             <Transition name="fade-slide">
-              <div v-if="betaalmethode === 'Anders'" class="form-row items-center">
+              <div v-if="paymentMethod === 'Anders'" class="form-row items-center">
                 <span class="form-label" />
                 <Select
-                  v-model="andersOptie"
+                  v-model="otherOption"
                   :options="['Bankoverschrijving', 'Factuur achteraf', 'Rembours']"
                   placeholder="Selecteer een optie"
                   class="flex-1"

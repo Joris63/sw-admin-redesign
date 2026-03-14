@@ -6,7 +6,7 @@
     isEdit: boolean;
     editGroupId: number | null;
     parentGroupId: number | null;
-    initialNaam: string;
+    initialName: string;
     siteLabels: string[];
     parentGroupOptions: TreeNode[];
     editingRootGroup: boolean;
@@ -16,7 +16,7 @@
     isEdit: boolean;
     editGroupId: number | null;
     parentGroupId: number | null;
-    naam: string;
+    name: string;
   };
 
   const emit = defineEmits<{ save: [data: SavePayload] }>();
@@ -71,7 +71,7 @@
 
   // ── Form data ─────────────────────────────────────────────────────────
   const form = ref({
-    naam: '',
+    name: '',
     parentGroupId: null as number | null,
     labelColorOverride: false,
     labelColorHex: '#000000',
@@ -89,7 +89,7 @@
     if (val) {
       activeFeatures.value = [];
       form.value = {
-        naam: props.initialNaam,
+        name: props.initialName,
         parentGroupId: props.parentGroupId,
         labelColorOverride: false,
         labelColorHex: '#000000',
@@ -106,12 +106,12 @@
   });
 
   function save() {
-    if (!form.value.naam.trim()) return;
+    if (!form.value.name.trim()) return;
     emit('save', {
       isEdit: props.isEdit,
       editGroupId: props.editGroupId,
       parentGroupId: form.value.parentGroupId,
-      naam: form.value.naam.trim(),
+      name: form.value.name.trim(),
     });
     visible.value = false;
   }
@@ -147,7 +147,7 @@
   }
 
   const headerSubtitle = computed<string | null>(() => {
-    if (props.isEdit) return props.initialNaam || null;
+    if (props.isEdit) return props.initialName || null;
     if (form.value.parentGroupId !== null)
       return findNodeLabel(props.parentGroupOptions, form.value.parentGroupId);
     return null;
@@ -192,7 +192,7 @@
 
         <div class="drw-field">
           <label class="drw-label">Naam <span class="drw-req">*</span></label>
-          <InputText v-model="form.naam" class="w-full" placeholder="Voer een naam in" autofocus />
+          <InputText v-model="form.name" class="w-full" placeholder="Voer een naam in" autofocus />
         </div>
       </div>
 
@@ -379,7 +379,7 @@
       <Button label="Annuleren" severity="secondary" outlined @click="visible = false" />
       <Button
         :label="isEdit ? 'Opslaan' : 'Toevoegen'"
-        :disabled="!form.naam.trim()"
+        :disabled="!form.name.trim()"
         @click="save"
       />
     </div>

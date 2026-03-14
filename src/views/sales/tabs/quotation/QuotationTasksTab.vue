@@ -5,9 +5,9 @@
   const quotation = inject<Ref<QuotationData>>('quotation')!;
 
   const statusSeverity: Record<string, string> = {
-    'Niet begonnen': 'warn',
-    'In behandeling': 'info',
-    Afgerond: 'success',
+    'Not started': 'warn',
+    'In progress': 'info',
+    Completed: 'success',
   };
 </script>
 
@@ -16,7 +16,7 @@
     <div class="view-card">
       <div class="view-card-hdr">
         <span class="view-card-title">Taken</span>
-        <span class="kort-count-badge">{{ quotation.taken.length }}</span>
+        <span class="kort-count-badge">{{ quotation.tasks.length }}</span>
         <Button
           size="small"
           label="Toevoegen"
@@ -26,10 +26,10 @@
           style="margin-left: auto"
         />
       </div>
-      <DataTable :value="quotation.taken" class="ce-table">
+      <DataTable :value="quotation.tasks" class="ce-table">
         <Column header="Omschrijving">
           <template #body="{ data }">
-            <a href="#" class="task-link">{{ data.omschrijving }}</a>
+            <a href="#" class="task-link">{{ data.description }}</a>
           </template>
         </Column>
         <Column header="Deadline" style="width: 9rem">
@@ -46,17 +46,17 @@
         </Column>
         <Column header="Afdeling" style="width: 8rem">
           <template #body="{ data }">
-            <span class="text-sm text-gray-600">{{ data.afdeling }}</span>
+            <span class="text-sm text-gray-600">{{ data.department }}</span>
           </template>
         </Column>
         <Column header="Gebruiker" style="width: 10rem">
           <template #body="{ data }">
-            <span class="text-sm text-gray-600">{{ data.gebruiker }}</span>
+            <span class="text-sm text-gray-600">{{ data.user }}</span>
           </template>
         </Column>
         <Column header="Eigenaar" style="width: 10rem">
           <template #body="{ data }">
-            <span class="text-sm text-gray-600">{{ data.gebruiker }}</span>
+            <span class="text-sm text-gray-600">{{ data.owner }}</span>
           </template>
         </Column>
         <Column style="width: 2.5rem">

@@ -10,8 +10,8 @@
     orderDiscountExpanded,
     orderDiscountPercent,
     orderDiscountAmount,
-    orderPrijscorrectie,
-    verzendkostenValue,
+    orderPriceCorrection,
+    shippingCostValue,
     cartItemCount,
     cartSubtotal,
     cartDiscount,
@@ -41,7 +41,7 @@
   const imageErrors = ref<Record<string, boolean>>({});
 
   // PrimeVue v4 expandedRows object format: { [dataKey]: boolean }
-  // Keyed by group.id → inner object keyed by productcode
+  // Keyed by group.id → inner object keyed by productCode
   const expandedRows = ref<Record<string, Record<string, boolean>>>({
     '0': {},
     '1': {},
@@ -49,17 +49,17 @@
   });
 
   function isRowExpanded(groupId: string, item: CartItem): boolean {
-    return expandedRows.value[groupId]?.[item.productcode] === true;
+    return expandedRows.value[groupId]?.[item.productCode] === true;
   }
 
   function toggleRowExpansion(groupId: string, item: CartItem) {
     const current = expandedRows.value[groupId] ?? {};
-    if (current[item.productcode]) {
+    if (current[item.productCode]) {
       const updated = { ...current };
-      delete updated[item.productcode];
+      delete updated[item.productCode];
       expandedRows.value[groupId] = updated;
     } else {
-      expandedRows.value[groupId] = { ...current, [item.productcode]: true };
+      expandedRows.value[groupId] = { ...current, [item.productCode]: true };
     }
   }
 
@@ -288,7 +288,7 @@
             <DataTable
               :value="group.items"
               selection-mode="multiple"
-              data-key="productcode"
+              data-key="productCode"
               class="w-full"
               :row-class="() => (group.name.includes('Garantie') ? 'row-guarantee' : '')"
               v-model:expanded-rows="expandedRows[group.id]"
@@ -305,17 +305,17 @@
                       class="w-10 h-10 rounded-lg shrink-0 overflow-hidden border border-gray-200 bg-gray-100 flex items-center justify-center"
                     >
                       <img
-                        v-if="data.imageUrl && !imageErrors[data.productcode]"
+                        v-if="data.imageUrl && !imageErrors[data.productCode]"
                         :src="data.imageUrl"
-                        :alt="data.naam"
+                        :alt="data.name"
                         class="w-full h-full object-cover"
-                        @error="imageErrors[data.productcode] = true"
+                        @error="imageErrors[data.productCode] = true"
                       />
                       <i v-else class="pi pi-image text-gray-300 text-sm" />
                     </div>
                     <div class="flex flex-col leading-snug">
-                      <span class="font-medium">{{ data.naam }}</span>
-                      <span class="text-xs text-gray-400">{{ data.productcode }}</span>
+                      <span class="font-medium">{{ data.name }}</span>
+                      <span class="text-xs text-gray-400">{{ data.productCode }}</span>
                     </div>
                   </div>
                 </template>
@@ -327,12 +327,12 @@
                   <div class="flex items-center gap-1.5">
                     <i
                       :class="
-                        data.voorraad > 0
+                        data.stock > 0
                           ? 'pi pi-check-circle text-green-500'
                           : 'pi pi-times-circle text-red-500'
                       "
                     />
-                    <span class="text-sm text-gray-500">{{ data.levertijd }}</span>
+                    <span class="text-sm text-gray-500">{{ data.deliveryTime }}</span>
                   </div>
                 </template>
               </Column>
@@ -341,7 +341,7 @@
               <Column header="Aantal" style="width: 8rem">
                 <template #body="{ data }">
                   <InputNumber
-                    v-model="data.aantal"
+                    v-model="data.quantity"
                     :min="1"
                     show-buttons
                     button-layout="stacked"
@@ -357,7 +357,7 @@
                     <span
                       v-if="data.discountPercent > 0 || data.discountAmount > 0"
                       class="text-xs text-gray-400 line-through"
-                      >{{ formatPrice(data.prijs) }}</span
+                      >{{ formatPrice(data.price) }}</span
                     >
                     <span
                       class="font-medium"
@@ -369,7 +369,7 @@
                         formatPrice(
                           Math.max(
                             0,
-                            data.prijs * (1 - data.discountPercent / 100) - data.discountAmount
+                            data.price * (1 - data.discountPercent / 100) - data.discountAmount
                           )
                         )
                       }}
@@ -481,7 +481,7 @@
                     v-if="!props.readonly"
                     class="flex items-center gap-1.5 pl-2 border-l border-gray-200"
                   >
-                    <ToggleSwitch v-model="data.prijscorrectie" />
+                    <ToggleSwitch v-model="data.priceCorrection" />
                     <span class="text-xs text-gray-500">Prijscorrectie</span>
                   </div>
                 </div>
@@ -553,21 +553,21 @@
               v-if="!props.readonly"
               class="flex items-center gap-1.5 pl-3 border-l border-gray-200"
             >
-              <ToggleSwitch v-model="orderPrijscorrectie" />
+              <ToggleSwitch v-model="orderPriceCorrection" />
               <span class="text-xs text-gray-500">Prijscorrectie</span>
             </div>
             <div class="flex items-center gap-2 pl-3 border-l border-gray-200">
               <span class="text-xs text-gray-500">Verzendkosten</span>
               <InputNumber
                 v-if="!props.readonly"
-                v-model="verzendkostenValue"
+                v-model="shippingCostValue"
                 :min="0"
                 :min-fraction-digits="2"
                 :max-fraction-digits="2"
                 :input-style="{ width: '5rem', textAlign: 'right' }"
                 class="discount-input"
               />
-              <span v-if="props.readonly"> {{ formatPrice(verzendkostenValue) }}</span>
+              <span v-if="props.readonly"> {{ formatPrice(shippingCostValue) }}</span>
               <span class="text-xs text-gray-400">€</span>
             </div>
             <Button
@@ -618,8 +618,8 @@
             </div>
             <div class="flex justify-between text-sm">
               <span class="text-gray-500">Verzendkosten</span>
-              <span :class="verzendkostenValue === 0 ? 'text-primary font-medium' : ''">
-                {{ verzendkostenValue === 0 ? 'Gratis' : formatPrice(verzendkostenValue) }}
+              <span :class="shippingCostValue === 0 ? 'text-primary font-medium' : ''">
+                {{ shippingCostValue === 0 ? 'Gratis' : formatPrice(shippingCostValue) }}
               </span>
             </div>
             <Divider class="my-1" />

@@ -4,12 +4,12 @@
 
   const quotation = inject<Ref<QuotationData>>('quotation')!;
 
-  const activeTab = ref<'emails' | 'opmerkingen' | 'documenten'>('emails');
+  const activeTab = ref<'emails' | 'notes' | 'documents'>('emails');
 
   const tabs = [
     { id: 'emails', label: 'E-mails en afdrukken' },
-    { id: 'opmerkingen', label: 'Opmerkingen' },
-    { id: 'documenten', label: 'Documenten' },
+    { id: 'notes', label: 'Opmerkingen' },
+    { id: 'documents', label: 'Documenten' },
   ] as const;
 </script>
 
@@ -48,7 +48,7 @@
             </div>
           </div>
           <DataTable :value="quotation.emails" class="ce-table">
-            <Column header="Datum" field="datum" style="width: 12rem" />
+            <Column header="Datum" field="date" style="width: 12rem" />
             <Column header="Type" style="width: 9rem">
               <template #body="{ data }">
                 <Tag :value="data.type" severity="secondary" />
@@ -67,11 +67,11 @@
       </template>
 
       <!-- ── Opmerkingen ──────────────────────────────────────── -->
-      <template v-else-if="activeTab === 'opmerkingen'">
+      <template v-else-if="activeTab === 'notes'">
         <div class="view-card">
           <div class="view-card-hdr">
             <span class="view-card-title">Opmerkingen</span>
-            <span class="kort-count-badge">{{ quotation.opmerkingen.length }}</span>
+            <span class="kort-count-badge">{{ quotation.notes.length }}</span>
             <Button
               size="small"
               label="Toevoegen"
@@ -81,15 +81,15 @@
               style="margin-left: auto"
             />
           </div>
-          <DataTable :value="quotation.opmerkingen" class="ce-table">
-            <Column header="Datum" field="datum" style="width: 11rem" />
-            <Column header="Opmerking" field="tekst" />
+          <DataTable :value="quotation.notes" class="ce-table">
+            <Column header="Datum" field="date" style="width: 11rem" />
+            <Column header="Opmerking" field="text" />
             <Column header="Voor" style="width: 9rem">
               <template #body="{ data }">
-                <span class="text-sm text-gray-600">{{ data.voor || '—' }}</span>
+                <span class="text-sm text-gray-600">{{ data.for || '—' }}</span>
               </template>
             </Column>
-            <Column header="Gebruiker" field="gebruiker" style="width: 10rem" />
+            <Column header="Gebruiker" field="user" style="width: 10rem" />
             <template #empty>
               <span class="table-empty">Nog geen opmerkingen.</span>
             </template>
@@ -98,11 +98,11 @@
       </template>
 
       <!-- ── Documenten ───────────────────────────────────────── -->
-      <template v-else-if="activeTab === 'documenten'">
+      <template v-else-if="activeTab === 'documents'">
         <div class="view-card">
           <div class="view-card-hdr">
             <span class="view-card-title">Documenten</span>
-            <span class="kort-count-badge">{{ quotation.documenten.length }}</span>
+            <span class="kort-count-badge">{{ quotation.documents.length }}</span>
             <Button
               size="small"
               label="Toevoegen"
@@ -112,9 +112,9 @@
               style="margin-left: auto"
             />
           </div>
-          <DataTable :value="quotation.documenten" class="ce-table">
-            <Column header="Naam" field="naam" />
-            <Column header="Datum" field="datum" style="width: 10rem" />
+          <DataTable :value="quotation.documents" class="ce-table">
+            <Column header="Naam" field="name" />
+            <Column header="Datum" field="date" style="width: 10rem" />
             <Column header="Type" field="type" style="width: 8rem" />
             <Column style="width: 3.5rem">
               <template #body>

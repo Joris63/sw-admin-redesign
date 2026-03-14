@@ -1,154 +1,154 @@
 export interface CustomerAddress {
   id: number;
-  naam: string;
-  straat: string;
-  huisnummer: string;
-  postcode: string;
-  woonplaats: string;
-  land: string;
-  telefoon: string;
-  isStandaardBezorg: boolean;
-  isStandaardFactuur: boolean;
+  name: string;
+  street: string;
+  houseNumber: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  phone: string;
+  isDefaultDelivery: boolean;
+  isDefaultInvoice: boolean;
 }
 
 export interface CustomerCartItem {
   id: number;
-  naam: string;
-  productcode: string;
-  aantal: number;
-  prijs: number;
+  name: string;
+  productCode: string;
+  quantity: number;
+  price: number;
 }
 
 export interface WishlistItem {
   id: number;
-  naam: string;
-  productcode: string;
-  aantal: number;
-  prijs: number;
+  name: string;
+  productCode: string;
+  quantity: number;
+  price: number;
 }
 
 export interface Wishlist {
   id: number;
-  naam: string;
+  name: string;
   items: WishlistItem[];
 }
 
-export interface MerkKorting {
+export interface BrandDiscount {
   id: number;
-  merk: string;
-  korting: number;
-  standaardKorting: number;
+  brand: string;
+  discount: number;
+  defaultDiscount: number;
 }
 
-export interface ProductKorting {
+export interface ProductDiscount {
   id: number;
-  productcode: string;
+  productCode: string;
   product: string;
-  prijs: number;
-  kortingPrijs: number;
+  price: number;
+  discountPrice: number;
 }
 
-export interface GeleverdItem {
+export interface DeliveredItem {
   id: number;
-  levering: string;
-  factuurnummer: string;
-  factuurdatum: string;
-  vervaldatum: string;
-  waarde: number;
-  vervaldatumOverschreden: boolean;
+  delivery: string;
+  invoiceNumber: string;
+  invoiceDate: string;
+  dueDate: string;
+  value: number;
+  isOverdue: boolean;
 }
 
-export interface GereserveerdItem {
+export interface ReservedItem {
   id: number;
-  levering: string;
+  delivery: string;
   status: string;
   dropshipping: boolean;
-  ingeplandeDatum: string;
-  waarde: number;
+  scheduledDate: string;
+  value: number;
 }
 
-export interface KredietIngeplandItem {
+export interface CreditScheduledItem {
   id: number;
-  levering: string;
+  delivery: string;
   status: string;
-  voltooid: boolean;
-  ingeplandeDatum: string;
-  waarde: number;
+  completed: boolean;
+  scheduledDate: string;
+  value: number;
 }
 
-export interface KredietAankomendeItem {
+export interface CreditIncomingItem {
   id: number;
-  levering: string;
-  ingeplandeDatum: string;
-  waarde: number;
+  delivery: string;
+  scheduledDate: string;
+  value: number;
 }
 
-export interface OmzetPerJaar {
-  jaar: number;
-  omzet: number;
+export interface RevenuePerYear {
+  year: number;
+  revenue: number;
 }
 
-export interface LogboekEntry {
+export interface LogEntry {
   id: number;
-  gebruiker: string;
-  datum: string;
-  eigenschap: string;
-  oudeWaarde: string;
-  nieuweWaarde: string;
+  user: string;
+  date: string;
+  property: string;
+  oldValue: string;
+  newValue: string;
 }
 
-export interface CustomerOfferte {
+export interface CustomerQuotation {
   id: number;
-  offertenummer: string;
-  datum: string;
-  door: string;
-  prijs: number;
+  quotationNumber: string;
+  date: string;
+  by: string;
+  price: number;
   status: string;
-  opmerkingen: number;
+  notes: number;
 }
 
 export interface CustomerData {
   id: number;
-  bedrijfsnaam: string;
-  btwLand: string;
-  btwNummer: string;
-  kvkNummer: string;
-  typeBedrijf: string | null;
-  aanhef: string | null;
+  companyName: string;
+  vatCountry: string;
+  vatNumber: string;
+  chamberOfCommerceNumber: string;
+  companyType: string | null;
+  salutation: string | null;
   siteview: string;
-  voornaam: string;
-  achternaam: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  telefoonLand: string;
-  telefoon: string;
-  geboortedatum: Date | null;
-  betaalmethode: string | null;
-  voorkeurShowroom: string | null;
-  toonPrijzen: string;
-  nieuwsbrief: boolean;
-  afspraakURLsActief: boolean;
-  afspraakURLs: { swnl: string; swbeNl: string; swbeFr: string };
-  financieelEmail: string;
-  reviewsActief: boolean;
-  reviewInactiefReden: string | null;
-  kanBetalenOpRekening: boolean;
-  debiteurNummer: string;
-  kredietlimiet: number;
-  vervaldagenFactuur: number;
-  tijdelijkKredietToestaan: boolean;
-  tijdelijkKredietLimiet: number;
-  tijdelijkKredietVervalDatum: Date | null;
-  opmerkingen: string;
-  basisKorting: number;
-  merkKortingen: MerkKorting[];
-  productKortingen: ProductKorting[];
+  phoneCountry: string;
+  phone: string;
+  birthDate: Date | null;
+  paymentMethod: string | null;
+  preferredShowroom: string | null;
+  showPrices: string;
+  newsletter: boolean;
+  appointmentUrlsActive: boolean;
+  appointmentUrls: { swnl: string; swbeNl: string; swbeFr: string };
+  financialEmail: string;
+  reviewsActive: boolean;
+  reviewInactiveReason: string | null;
+  canPayOnAccount: boolean;
+  debtorNumber: string;
+  creditLimit: number;
+  invoiceDueDays: number;
+  allowTemporaryCredit: boolean;
+  temporaryCreditLimit: number;
+  temporaryCreditExpiryDate: Date | null;
+  notes: string;
+  baseDiscount: number;
+  brandDiscounts: BrandDiscount[];
+  productDiscounts: ProductDiscount[];
   accountStatus: string;
-  accountLaatsteLogin: string;
+  accountLastLogin: string;
   addresses: CustomerAddress[];
   cart: CustomerCartItem[];
   wishlists: Wishlist[];
-  geleverdNietBetaald: GeleverdItem[];
-  gereserveerdKredietItems: GereserveerdItem[];
-  kredietIngepland: KredietIngeplandItem[];
-  kredietAankomend: KredietAankomendeItem[];
+  deliveredUnpaid: DeliveredItem[];
+  reservedCreditItems: ReservedItem[];
+  creditScheduled: CreditScheduledItem[];
+  creditIncoming: CreditIncomingItem[];
 }

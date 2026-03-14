@@ -14,136 +14,136 @@
   const offers = ref<Offer[]>([
     {
       id: 1,
-      naam: '2026 Q1: Hansgrohe Raindance actie',
+      name: '2026 Q1: Hansgrohe Raindance actie',
       startdatum: '03-02-2026',
       einddatum: '15-04-2026',
-      status: 'Actief',
+      status: 'Active',
       sites: ['swbe (fr-BE)', 'swbe (nl-BE)', 'swnl (nl_NL)'],
       lastTask: null,
     },
     {
       id: 2,
-      naam: '2026 Q1: Grohe Colors BE',
+      name: '2026 Q1: Grohe Colors BE',
       startdatum: '11-02-2026',
       einddatum: '31-03-2026',
-      status: 'Actief',
+      status: 'Active',
       sites: ['swbe (fr-BE)', 'swbe (nl-BE)'],
       lastTask: 'Prijzen bijwerken',
     },
     {
       id: 3,
-      naam: '2026 Q1: SRiho cashback NL',
+      name: '2026 Q1: SRiho cashback NL',
       startdatum: '25-01-2026',
       einddatum: '30-06-2026',
-      status: 'Actief',
+      status: 'Active',
       sites: ['swnl (nl_NL)'],
       lastTask: null,
     },
     {
       id: 4,
-      naam: '2026 Q1: Meubelactie Benelux',
+      name: '2026 Q1: Meubelactie Benelux',
       startdatum: '04-02-2026',
       einddatum: '02-03-2026',
-      status: 'Actief',
+      status: 'Active',
       sites: ['swbe (fr-BE)', 'swbe (nl-BE)', 'swnl (nl_NL)'],
       lastTask: 'Producten toevoegen',
     },
     {
       id: 5,
-      naam: '2026 Q2: Lente badkamer deal',
+      name: '2026 Q2: Lente badkamer deal',
       startdatum: '01-04-2026',
       einddatum: '30-04-2026',
-      status: 'Binnenkort gepland',
+      status: 'Planned',
       sites: ['swbe (nl-BE)', 'swnl (nl_NL)'],
       lastTask: null,
     },
     {
       id: 6,
-      naam: '2026 Q2: Badkamer week FR',
+      name: '2026 Q2: Badkamer week FR',
       startdatum: '06-04-2026',
       einddatum: '13-04-2026',
-      status: 'Binnenkort gepland',
+      status: 'Planned',
       sites: ['swfr (fr_FR)'],
       lastTask: null,
     },
     {
       id: 7,
-      naam: '2026 Q2: Villeroy & Boch promo',
+      name: '2026 Q2: Villeroy & Boch promo',
       startdatum: '15-03-2026',
       einddatum: '15-05-2026',
-      status: 'Binnenkort gepland',
+      status: 'Planned',
       sites: ['swbe (fr-BE)', 'swbe (nl-BE)', 'swnl (nl_NL)', 'swfr (fr_FR)'],
       lastTask: null,
     },
     {
       id: 8,
-      naam: '2026 Q1: SOLDES FR',
+      name: '2026 Q1: SOLDES FR',
       startdatum: '10-01-2026',
       einddatum: '04-02-2026',
-      status: 'Verlopen',
+      status: 'Expired',
       sites: ['swfr (fr_FR)'],
       lastTask: null,
     },
     {
       id: 9,
-      naam: '2026 Q1: Solden BE',
+      name: '2026 Q1: Solden BE',
       startdatum: '09-01-2026',
       einddatum: '31-01-2026',
-      status: 'Verlopen',
+      status: 'Expired',
       sites: ['swbe (fr-BE)', 'swbe (nl-BE)'],
       lastTask: null,
     },
     {
       id: 10,
-      naam: '2026 Q1: Douche deal NL',
+      name: '2026 Q1: Douche deal NL',
       startdatum: '09-01-2026',
       einddatum: '31-01-2026',
-      status: 'Verlopen',
+      status: 'Expired',
       sites: ['swnl (nl_NL)'],
       lastTask: null,
     },
     {
       id: 11,
-      naam: '2025 Q4: Black Friday ALL',
+      name: '2025 Q4: Black Friday ALL',
       startdatum: '25-11-2025',
       einddatum: '02-12-2025',
-      status: 'Verlopen',
+      status: 'Expired',
       sites: ['swbe (fr-BE)', 'swbe (nl-BE)', 'swnl (nl_NL)', 'swfr (fr_FR)'],
       lastTask: 'Prijzen herstellen',
     },
     {
       id: 12,
-      naam: '2025 Q4: Winteractie Benelux',
+      name: '2025 Q4: Winteractie Benelux',
       startdatum: '01-12-2025',
       einddatum: '31-12-2025',
-      status: 'Verlopen',
+      status: 'Expired',
       sites: ['swbe (fr-BE)', 'swbe (nl-BE)', 'swnl (nl_NL)'],
       lastTask: null,
     },
     {
       id: 13,
-      naam: '2025 Q4: Cyber Monday NL',
+      name: '2025 Q4: Cyber Monday NL',
       startdatum: '02-12-2025',
       einddatum: '02-12-2025',
-      status: 'Verlopen',
+      status: 'Expired',
       sites: ['swnl (nl_NL)'],
       lastTask: null,
     },
     {
       id: 14,
-      naam: '2025 Q3: Zomerdeal ALL',
+      name: '2025 Q3: Zomerdeal ALL',
       startdatum: '01-07-2025',
       einddatum: '31-08-2025',
-      status: 'Verlopen',
+      status: 'Expired',
       sites: ['swbe (nl-BE)', 'swnl (nl_NL)', 'swfr (fr_FR)'],
       lastTask: null,
     },
     {
       id: 15,
-      naam: '2025 Q2: Geberit Duofix promo',
+      name: '2025 Q2: Geberit Duofix promo',
       startdatum: '01-05-2025',
       einddatum: '30-06-2025',
-      status: 'Verlopen',
+      status: 'Expired',
       sites: ['swbe (nl-BE)', 'swnl (nl_NL)'],
       lastTask: null,
     },
@@ -151,9 +151,9 @@
 
   // ── Status badge helpers ─────────────────────────────────────────
   const statusConfig: Record<OfferStatus, { label: string; classes: string }> = {
-    Actief: { label: 'Actief', classes: 'status-badge--actief' },
-    Verlopen: { label: 'Verlopen', classes: 'status-badge--verlopen' },
-    'Binnenkort gepland': { label: 'Binnenkort gepland', classes: 'status-badge--gepland' },
+    Active: { label: 'Actief', classes: 'status-badge--active' },
+    Expired: { label: 'Verlopen', classes: 'status-badge--expired' },
+    Planned: { label: 'Binnenkort gepland', classes: 'status-badge--planned' },
   };
 
   // ── Filter definitions ───────────────────────────────────────────
@@ -164,9 +164,9 @@
       label: 'Status',
       type: 'select',
       options: [
-        { label: 'Actief', value: 'Actief' },
-        { label: 'Verlopen', value: 'Verlopen' },
-        { label: 'Binnenkort gepland', value: 'Binnenkort gepland' },
+        { label: 'Actief', value: 'Active' },
+        { label: 'Verlopen', value: 'Expired' },
+        { label: 'Binnenkort gepland', value: 'Planned' },
       ],
     },
     { key: 'site', label: 'Site', type: 'text', placeholder: 'bijv. swnl' },
@@ -195,12 +195,12 @@
   const filteredOffers = computed(() => {
     const f = appliedFilters.value;
     return offers.value.filter((offer) => {
-      const naam = offer.naam.toLowerCase();
+      const name = offer.name.toLowerCase();
       if (f.q && typeof f.q === 'string') {
-        if (!naam.includes(f.q.toLowerCase())) return false;
+        if (!name.includes(f.q.toLowerCase())) return false;
       }
       if (f.naam && typeof f.naam === 'string') {
-        if (!naam.includes(f.naam.toLowerCase())) return false;
+        if (!name.includes(f.naam.toLowerCase())) return false;
       }
       if (f.status && typeof f.status === 'string') {
         if (offer.status !== (f.status as string)) return false;
@@ -209,10 +209,10 @@
         if (!offer.sites.some((s) => s.toLowerCase().includes((f.site as string).toLowerCase()))) return false;
       }
       if (f.jaar && typeof f.jaar === 'string') {
-        if (!offer.naam.includes(f.jaar)) return false;
+        if (!offer.name.includes(f.jaar)) return false;
       }
       if (f.kwartaal && typeof f.kwartaal === 'string') {
-        if (!offer.naam.includes(f.kwartaal)) return false;
+        if (!offer.name.includes(f.kwartaal)) return false;
       }
       return true;
     });
@@ -246,7 +246,7 @@
     <OverviewTable :value="filteredOffers">
       <Column field="naam" header="Naam">
         <template #body="{ data }">
-          <span class="font-medium text-surface-700">{{ data.naam }}</span>
+          <span class="font-medium text-surface-700">{{ data.name }}</span>
         </template>
       </Column>
       <Column field="startdatum" header="Startdatum" style="width: 8rem">

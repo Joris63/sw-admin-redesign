@@ -5,22 +5,22 @@
 
   const customer = inject<Ref<CustomerData>>('customer')!;
 
-  const isEditingBedrijf = ref(false);
-  const isEditingPersoonlijk = ref(false);
-  const isEditingVoorkeuren = ref(false);
+  const isEditingCompany = ref(false);
+  const isEditingPersonal = ref(false);
+  const isEditingPreferences = ref(false);
 
-  const aanhefOptions = ['Fam.', 'Dhr.', 'Mevr.'];
-  const btwLandOptions = ['NL', 'BE', 'DE', 'FR'];
-  const typeBedrijfOptions = ['Particulier', 'ZZP', 'MKB', 'Grootzakelijk'];
-  const telefoonLandOptions = [
+  const salutationOptions = ['Fam.', 'Dhr.', 'Mevr.'];
+  const vatCountryOptions = ['NL', 'BE', 'DE', 'FR'];
+  const companyTypeOptions = ['Particulier', 'ZZP', 'MKB', 'Grootzakelijk'];
+  const phoneCountryOptions = [
     { label: '+31', value: 'NL' },
     { label: '+32', value: 'BE' },
     { label: '+33', value: 'FR' },
     { label: '+49', value: 'DE' },
   ];
-  const betaalmethodeOptions = ['iDEAL', 'Bankoverschrijving', 'Creditcard', 'Klarna'];
+  const paymentMethodOptions = ['iDEAL', 'Bankoverschrijving', 'Creditcard', 'Klarna'];
   const showroomOptions = ['Amsterdam', 'Rotterdam', 'Utrecht', 'Den Haag'];
-  const toonPrijzenOptions = ['Incl. BTW', 'Excl. BTW'];
+  const showPricesOptions = ['Incl. BTW', 'Excl. BTW'];
 
   function copyToClipboard(text: string) {
     navigator.clipboard.writeText(text);
@@ -33,14 +33,14 @@
     <div class="view-card">
       <div class="view-card-hdr">
         <span class="view-card-title">Bedrijfsgegevens</span>
-        <template v-if="!isEditingBedrijf">
+        <template v-if="!isEditingCompany">
           <Button
             label="Bewerken"
             icon="pi pi-pencil"
             size="small"
             severity="secondary"
             text
-            @click="isEditingBedrijf = true"
+            @click="isEditingCompany = true"
           />
         </template>
         <template v-else>
@@ -50,36 +50,36 @@
               size="small"
               severity="secondary"
               outlined
-              @click="isEditingBedrijf = false"
+              @click="isEditingCompany = false"
             />
-            <Button label="Opslaan" size="small" @click="isEditingBedrijf = false" />
+            <Button label="Opslaan" size="small" @click="isEditingCompany = false" />
           </div>
         </template>
       </div>
       <Transition name="card-fade" mode="out-in">
-        <div v-if="!isEditingBedrijf" key="view" class="view-card-body">
+        <div v-if="!isEditingCompany" key="view" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Type bedrijf</span>
-            <span :class="customer.typeBedrijf ? 'fr-value' : 'fr-empty'">{{
-              customer.typeBedrijf || '—'
+            <span :class="customer.companyType ? 'fr-value' : 'fr-empty'">{{
+              customer.companyType || '—'
             }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Bedrijfsnaam</span>
-            <span :class="customer.bedrijfsnaam ? 'fr-value' : 'fr-empty'">{{
-              customer.bedrijfsnaam || '—'
+            <span :class="customer.companyName ? 'fr-value' : 'fr-empty'">{{
+              customer.companyName || '—'
             }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">BTW-nummer</span>
-            <span :class="customer.btwNummer ? 'fr-value' : 'fr-empty'">{{
-              customer.btwNummer ? `${customer.btwLand} ${customer.btwNummer}` : '—'
+            <span :class="customer.vatNumber ? 'fr-value' : 'fr-empty'">{{
+              customer.vatNumber ? `${customer.vatCountry} ${customer.vatNumber}` : '—'
             }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">KVK-nummer</span>
-            <span :class="customer.kvkNummer ? 'fr-value' : 'fr-empty'">{{
-              customer.kvkNummer || '—'
+            <span :class="customer.chamberOfCommerceNumber ? 'fr-value' : 'fr-empty'">{{
+              customer.chamberOfCommerceNumber || '—'
             }}</span>
           </div>
         </div>
@@ -87,8 +87,8 @@
           <div class="fr-row">
             <label class="fr-label">Type bedrijf</label>
             <Select
-              v-model="customer.typeBedrijf"
-              :options="typeBedrijfOptions"
+              v-model="customer.companyType"
+              :options="companyTypeOptions"
               class="w-full"
               placeholder="Type bedrijf"
               show-clear
@@ -96,12 +96,12 @@
           </div>
           <div class="fr-row">
             <label class="fr-label">Bedrijfsnaam</label>
-            <InputText v-model="customer.bedrijfsnaam" class="w-full" placeholder="Bedrijfsnaam" />
+            <InputText v-model="customer.companyName" class="w-full" placeholder="Bedrijfsnaam" />
           </div>
           <div class="fr-row">
             <label class="fr-label">BTW-nummer</label>
             <div class="flex gap-2">
-              <Select v-model="customer.btwLand" :options="btwLandOptions" style="width: 7.5rem">
+              <Select v-model="customer.vatCountry" :options="vatCountryOptions" style="width: 7.5rem">
                 <template #value="{ value }">
                   <div class="flex items-center gap-2">
                     <span
@@ -135,12 +135,12 @@
                   </div>
                 </template>
               </Select>
-              <InputText v-model="customer.btwNummer" class="flex-1" placeholder="BTW-nummer" />
+              <InputText v-model="customer.vatNumber" class="flex-1" placeholder="BTW-nummer" />
             </div>
           </div>
           <div class="fr-row">
             <label class="fr-label">KVK-nummer</label>
-            <InputText v-model="customer.kvkNummer" class="w-full" placeholder="KVK-nummer" />
+            <InputText v-model="customer.chamberOfCommerceNumber" class="w-full" placeholder="KVK-nummer" />
           </div>
         </div>
       </Transition>
@@ -150,14 +150,14 @@
     <div class="view-card">
       <div class="view-card-hdr">
         <span class="view-card-title">Persoonlijke gegevens</span>
-        <template v-if="!isEditingPersoonlijk">
+        <template v-if="!isEditingPersonal">
           <Button
             label="Bewerken"
             icon="pi pi-pencil"
             size="small"
             severity="secondary"
             text
-            @click="isEditingPersoonlijk = true"
+            @click="isEditingPersonal = true"
           />
         </template>
         <template v-else>
@@ -167,27 +167,27 @@
               size="small"
               severity="secondary"
               outlined
-              @click="isEditingPersoonlijk = false"
+              @click="isEditingPersonal = false"
             />
-            <Button label="Opslaan" size="small" @click="isEditingPersoonlijk = false" />
+            <Button label="Opslaan" size="small" @click="isEditingPersonal = false" />
           </div>
         </template>
       </div>
       <Transition name="card-fade" mode="out-in">
-        <div v-if="!isEditingPersoonlijk" key="view" class="view-card-body">
+        <div v-if="!isEditingPersonal" key="view" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Aanhef</span>
-            <span :class="customer.aanhef ? 'fr-value' : 'fr-empty'">{{
-              customer.aanhef || '—'
+            <span :class="customer.salutation ? 'fr-value' : 'fr-empty'">{{
+              customer.salutation || '—'
             }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Voornaam</span>
-            <span class="fr-value">{{ customer.voornaam }}</span>
+            <span class="fr-value">{{ customer.firstName }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Achternaam</span>
-            <span class="fr-value">{{ customer.achternaam }}</span>
+            <span class="fr-value">{{ customer.lastName }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">E-mail</span>
@@ -195,16 +195,16 @@
           </div>
           <div class="fr-row">
             <span class="fr-label">Telefoonnummer</span>
-            <span :class="customer.telefoon ? 'fr-value' : 'fr-empty'">{{
-              customer.telefoon
-                ? `${telefoonLandOptions.find((o) => o.value === customer.telefoonLand)?.label} ${customer.telefoon}`
+            <span :class="customer.phone ? 'fr-value' : 'fr-empty'">{{
+              customer.phone
+                ? `${phoneCountryOptions.find((o) => o.value === customer.phoneCountry)?.label} ${customer.phone}`
                 : '—'
             }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Geboortedatum</span>
-            <span :class="customer.geboortedatum ? 'fr-value' : 'fr-empty'">{{
-              customer.geboortedatum?.toLocaleDateString('nl-NL') || '—'
+            <span :class="customer.birthDate ? 'fr-value' : 'fr-empty'">{{
+              customer.birthDate?.toLocaleDateString('nl-NL') || '—'
             }}</span>
           </div>
           <div class="fr-row">
@@ -215,15 +215,15 @@
         <div v-else key="edit" class="view-card-body">
           <div class="fr-row">
             <label class="fr-label">Aanhef</label>
-            <SelectButton v-model="customer.aanhef" :options="aanhefOptions" size="small" />
+            <SelectButton v-model="customer.salutation" :options="salutationOptions" size="small" />
           </div>
           <div class="fr-row">
             <label class="fr-label">Voornaam <span class="fr-req">*</span></label>
-            <InputText v-model="customer.voornaam" class="w-full" placeholder="Voornaam" />
+            <InputText v-model="customer.firstName" class="w-full" placeholder="Voornaam" />
           </div>
           <div class="fr-row">
             <label class="fr-label">Achternaam <span class="fr-req">*</span></label>
-            <InputText v-model="customer.achternaam" class="w-full" placeholder="Achternaam" />
+            <InputText v-model="customer.lastName" class="w-full" placeholder="Achternaam" />
           </div>
           <div class="fr-row">
             <span class="fr-label">E-mail</span>
@@ -233,8 +233,8 @@
             <label class="fr-label">Telefoonnummer</label>
             <div class="flex gap-2">
               <Select
-                :options="telefoonLandOptions"
-                v-model="customer.telefoonLand"
+                :options="phoneCountryOptions"
+                v-model="customer.phoneCountry"
                 option-label="label"
                 option-value="value"
                 style="width: 8.5rem"
@@ -252,17 +252,17 @@
                         background-position: center;
                       "
                     />
-                    <span>{{ telefoonLandOptions.find((o) => o.value === value)?.label }}</span>
+                    <span>{{ phoneCountryOptions.find((o) => o.value === value)?.label }}</span>
                   </div>
                 </template>
               </Select>
-              <InputText v-model="customer.telefoon" class="flex-1" placeholder="Telefoonnummer" />
+              <InputText v-model="customer.phone" class="flex-1" placeholder="Telefoonnummer" />
             </div>
           </div>
           <div class="fr-row">
             <label class="fr-label">Geboortedatum</label>
             <DatePicker
-              v-model="customer.geboortedatum"
+              v-model="customer.birthDate"
               date-format="dd-mm-yy"
               show-icon
               icon-display="input"
@@ -282,14 +282,14 @@
     <div class="view-card">
       <div class="view-card-hdr">
         <span class="view-card-title">Voorkeuren</span>
-        <template v-if="!isEditingVoorkeuren">
+        <template v-if="!isEditingPreferences">
           <Button
             label="Bewerken"
             icon="pi pi-pencil"
             size="small"
             severity="secondary"
             text
-            @click="isEditingVoorkeuren = true"
+            @click="isEditingPreferences = true"
           />
         </template>
         <template v-else>
@@ -299,34 +299,34 @@
               size="small"
               severity="secondary"
               outlined
-              @click="isEditingVoorkeuren = false"
+              @click="isEditingPreferences = false"
             />
-            <Button label="Opslaan" size="small" @click="isEditingVoorkeuren = false" />
+            <Button label="Opslaan" size="small" @click="isEditingPreferences = false" />
           </div>
         </template>
       </div>
       <Transition name="card-fade" mode="out-in">
-        <div v-if="!isEditingVoorkeuren" key="view" class="view-card-body">
+        <div v-if="!isEditingPreferences" key="view" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Betaalmethode</span>
-            <span :class="customer.betaalmethode ? 'fr-value' : 'fr-empty'">{{
-              customer.betaalmethode || '—'
+            <span :class="customer.paymentMethod ? 'fr-value' : 'fr-empty'">{{
+              customer.paymentMethod || '—'
             }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Voorkeur showroom</span>
-            <span :class="customer.voorkeurShowroom ? 'fr-value' : 'fr-empty'">{{
-              customer.voorkeurShowroom || '—'
+            <span :class="customer.preferredShowroom ? 'fr-value' : 'fr-empty'">{{
+              customer.preferredShowroom || '—'
             }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Toon prijzen</span>
-            <span class="fr-value">{{ customer.toonPrijzen }}</span>
+            <span class="fr-value">{{ customer.showPrices }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Nieuwsbrief</span>
-            <span :class="customer.nieuwsbrief ? 'fr-value' : 'fr-empty'">{{
-              customer.nieuwsbrief ? 'Aangemeld' : '—'
+            <span :class="customer.newsletter ? 'fr-value' : 'fr-empty'">{{
+              customer.newsletter ? 'Aangemeld' : '—'
             }}</span>
           </div>
         </div>
@@ -334,8 +334,8 @@
           <div class="fr-row">
             <label class="fr-label">Betaalmethode</label>
             <Select
-              v-model="customer.betaalmethode"
-              :options="betaalmethodeOptions"
+              v-model="customer.paymentMethod"
+              :options="paymentMethodOptions"
               class="w-full"
               placeholder="Betaalmethode"
               show-clear
@@ -344,7 +344,7 @@
           <div class="fr-row">
             <label class="fr-label">Voorkeur showroom</label>
             <Select
-              v-model="customer.voorkeurShowroom"
+              v-model="customer.preferredShowroom"
               :options="showroomOptions"
               class="w-full"
               placeholder="Voorkeur showroom"
@@ -354,15 +354,15 @@
           <div class="fr-row">
             <label class="fr-label">Toon prijzen</label>
             <SelectButton
-              v-model="customer.toonPrijzen"
-              :options="toonPrijzenOptions"
+              v-model="customer.showPrices"
+              :options="showPricesOptions"
               size="small"
             />
           </div>
           <div class="fr-row">
             <label class="fr-label">Nieuwsbrief</label>
             <div class="flex items-center gap-2">
-              <Checkbox v-model="customer.nieuwsbrief" binary input-id="nieuwsbrief" />
+              <Checkbox v-model="customer.newsletter" binary input-id="nieuwsbrief" />
               <label for="nieuwsbrief" class="text-sm text-surface-600 cursor-pointer"
                 >Aangemeld voor nieuwsbrief</label
               >
@@ -377,49 +377,49 @@
       <div class="view-card-hdr">
         <span class="view-card-title">Afspraken URLs</span>
         <div class="flex items-center gap-2">
-          <ToggleSwitch v-model="customer.afspraakURLsActief" />
+          <ToggleSwitch v-model="customer.appointmentUrlsActive" />
           <span class="view-card-toggle-lbl">
-            {{ customer.afspraakURLsActief ? 'Actief' : 'Inactief' }}
+            {{ customer.appointmentUrlsActive ? 'Actief' : 'Inactief' }}
           </span>
         </div>
       </div>
-      <div v-if="customer.afspraakURLsActief" class="view-card-body">
+      <div v-if="customer.appointmentUrlsActive" class="view-card-body">
         <div class="fr-row">
           <span class="fr-label">SWNL</span>
           <div class="url-row">
-            <span class="fr-value url-text">{{ customer.afspraakURLs.swnl }}</span>
+            <span class="fr-value url-text">{{ customer.appointmentUrls.swnl }}</span>
             <Button
               icon="pi pi-copy"
               size="small"
               severity="secondary"
               text
-              @click="copyToClipboard(customer.afspraakURLs.swnl)"
+              @click="copyToClipboard(customer.appointmentUrls.swnl)"
             />
           </div>
         </div>
         <div class="fr-row">
           <span class="fr-label">SWBE (Nederlandstalig)</span>
           <div class="url-row">
-            <span class="fr-value url-text">{{ customer.afspraakURLs.swbeNl }}</span>
+            <span class="fr-value url-text">{{ customer.appointmentUrls.swbeNl }}</span>
             <Button
               icon="pi pi-copy"
               size="small"
               severity="secondary"
               text
-              @click="copyToClipboard(customer.afspraakURLs.swbeNl)"
+              @click="copyToClipboard(customer.appointmentUrls.swbeNl)"
             />
           </div>
         </div>
         <div class="fr-row">
           <span class="fr-label">SWBE (Franstalig)</span>
           <div class="url-row">
-            <span class="fr-value url-text">{{ customer.afspraakURLs.swbeFr }}</span>
+            <span class="fr-value url-text">{{ customer.appointmentUrls.swbeFr }}</span>
             <Button
               icon="pi pi-copy"
               size="small"
               severity="secondary"
               text
-              @click="copyToClipboard(customer.afspraakURLs.swbeFr)"
+              @click="copyToClipboard(customer.appointmentUrls.swbeFr)"
             />
           </div>
         </div>

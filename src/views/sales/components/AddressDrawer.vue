@@ -12,23 +12,23 @@
 
   const isEdit = computed(() => !!props.address?.id);
 
-  const aanhefOptions = ['Fam.', 'Dhr.', 'Mevr.'];
-  const landOptions = ['Nederland', 'België', 'Duitsland', 'Frankrijk', 'Luxemburg'];
+  const salutationOptions = ['Fam.', 'Dhr.', 'Mevr.'];
+  const countryOptions = ['Nederland', 'België', 'Duitsland', 'Frankrijk', 'Luxemburg'];
 
   const empty: AddressForm = {
     id: null,
-    aanhef: null,
-    voornaam: '',
-    achternaam: '',
-    telefoonLand: '+31',
-    telefoon: '',
-    terAttentieVan: '',
-    land: 'Nederland',
-    postcode: '',
-    huisnummer: '',
-    toevoeging: '',
-    straat: '',
-    woonplaats: '',
+    salutation: null,
+    firstName: '',
+    lastName: '',
+    phoneCountry: '+31',
+    phone: '',
+    attentionOf: '',
+    country: 'Nederland',
+    postalCode: '',
+    houseNumber: '',
+    addition: '',
+    street: '',
+    city: '',
   };
 
   const form = ref<AddressForm>({ ...empty });
@@ -57,23 +57,23 @@
 
       <div class="drw-field">
         <label class="drw-label">Aanhef</label>
-        <SelectButton v-model="form.aanhef" :options="aanhefOptions" size="small" />
+        <SelectButton v-model="form.salutation" :options="salutationOptions" size="small" />
       </div>
 
       <div class="drw-grid">
         <div class="drw-field">
           <label class="drw-label">Voornaam <span class="drw-req">*</span></label>
-          <InputText v-model="form.voornaam" class="w-full" placeholder="Voornaam" />
+          <InputText v-model="form.firstName" class="w-full" placeholder="Voornaam" />
         </div>
         <div class="drw-field">
           <label class="drw-label">Achternaam <span class="drw-req">*</span></label>
-          <InputText v-model="form.achternaam" class="w-full" placeholder="Achternaam" />
+          <InputText v-model="form.lastName" class="w-full" placeholder="Achternaam" />
         </div>
       </div>
 
       <div class="drw-field">
         <label class="drw-label">Telefoonnummer</label>
-        <PhoneField v-model:land="form.telefoonLand" v-model:nummer="form.telefoon" />
+        <PhoneField v-model:country="form.phoneCountry" v-model:number="form.phone" />
       </div>
 
       <!-- Adresgegevens -->
@@ -82,22 +82,22 @@
       <div class="drw-grid">
         <div class="drw-field">
           <label class="drw-label">Land <span class="drw-req">*</span></label>
-          <Select v-model="form.land" :options="landOptions" class="w-full" />
+          <Select v-model="form.country" :options="countryOptions" class="w-full" />
         </div>
         <div class="drw-field">
           <label class="drw-label">Ter attentie van</label>
-          <InputText v-model="form.terAttentieVan" class="w-full" placeholder="Ter attentie van" />
+          <InputText v-model="form.attentionOf" class="w-full" placeholder="Ter attentie van" />
         </div>
       </div>
 
       <div class="drw-field">
         <label class="drw-label">Adres <span class="drw-req">*</span></label>
         <AddressFields
-          v-model:postcode="form.postcode"
-          v-model:huisnummer="form.huisnummer"
-          v-model:toevoeging="form.toevoeging"
-          v-model:straat="form.straat"
-          v-model:woonplaats="form.woonplaats"
+          v-model:postalCode="form.postalCode"
+          v-model:houseNumber="form.houseNumber"
+          v-model:addition="form.addition"
+          v-model:street="form.street"
+          v-model:city="form.city"
         />
       </div>
     </div>

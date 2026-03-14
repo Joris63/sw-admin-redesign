@@ -5,33 +5,33 @@
 
   const customer = inject<Ref<CustomerData>>('customer')!;
 
-  const geleverdNietBetaaldOpen = ref(true);
-  const gereserveerdKredietOpen = ref(true);
-  const kredietIngeplandOpen = ref(true);
-  const kredietAankomendeOpen = ref(true);
+  const deliveredUnpaidOpen = ref(true);
+  const reservedCreditOpen = ref(true);
+  const creditScheduledOpen = ref(true);
+  const creditIncomingOpen = ref(true);
 
-  const geleverdNietBetaaldTotaal = computed(() =>
-    customer.value.geleverdNietBetaald.reduce((s, i) => s + i.waarde, 0)
+  const deliveredUnpaidTotal = computed(() =>
+    customer.value.deliveredUnpaid.reduce((s, i) => s + i.value, 0)
   );
-  const vervaldatumOverschreden = computed(() =>
-    customer.value.geleverdNietBetaald
-      .filter((i) => i.vervaldatumOverschreden)
-      .reduce((s, i) => s + i.waarde, 0)
+  const isOverdue = computed(() =>
+    customer.value.deliveredUnpaid
+      .filter((i) => i.isOverdue)
+      .reduce((s, i) => s + i.value, 0)
   );
-  const gereserveerdKredietTotaal = computed(() =>
-    customer.value.gereserveerdKredietItems.reduce((s, i) => s + i.waarde, 0)
+  const reservedCreditTotal = computed(() =>
+    customer.value.reservedCreditItems.reduce((s, i) => s + i.value, 0)
   );
-  const kredietIngeplandTotaal = computed(() =>
-    customer.value.kredietIngepland.reduce((s, i) => s + i.waarde, 0)
+  const creditScheduledTotal = computed(() =>
+    customer.value.creditScheduled.reduce((s, i) => s + i.value, 0)
   );
-  const kredietAankomendeTotal = computed(() =>
-    customer.value.kredietAankomend.reduce((s, i) => s + i.waarde, 0)
+  const creditIncomingTotal = computed(() =>
+    customer.value.creditIncoming.reduce((s, i) => s + i.value, 0)
   );
-  const kredietResterend = computed(
+  const creditRemaining = computed(
     () =>
-      customer.value.kredietlimiet -
-      geleverdNietBetaaldTotaal.value -
-      gereserveerdKredietTotaal.value
+      customer.value.creditLimit -
+      deliveredUnpaidTotal.value -
+      reservedCreditTotal.value
   );
 </script>
 
@@ -47,19 +47,19 @@
           <div class="kred-summary-hdr">Kredietlimiet overzicht</div>
           <div class="kred-sum-row">
             <span>Kredietlimiet</span>
-            <span>€ {{ customer.kredietlimiet.toFixed(2) }}</span>
+            <span>€ {{ customer.creditLimit.toFixed(2) }}</span>
           </div>
           <div class="kred-sum-row">
             <span>Geleverd maar niet betaald</span>
-            <span>€ {{ geleverdNietBetaaldTotaal.toFixed(2) }}</span>
+            <span>€ {{ deliveredUnpaidTotal.toFixed(2) }}</span>
           </div>
           <div class="kred-sum-row">
             <span>Gereserveerd krediet</span>
-            <span>€ {{ gereserveerdKredietTotaal.toFixed(2) }}</span>
+            <span>€ {{ reservedCreditTotal.toFixed(2) }}</span>
           </div>
           <div class="kred-sum-row kred-sum-row--total">
             <span>Krediet resterend</span>
-            <span>€ {{ kredietResterend.toFixed(2) }}</span>
+            <span>€ {{ creditRemaining.toFixed(2) }}</span>
           </div>
         </div>
         <div class="kred-summary-sep" />
@@ -67,11 +67,11 @@
           <div class="kred-summary-hdr">Aankomende leveringen</div>
           <div class="kred-sum-row">
             <span>Ingeplande leveringen</span>
-            <span>€ {{ kredietIngeplandTotaal.toFixed(2) }}</span>
+            <span>€ {{ creditScheduledTotal.toFixed(2) }}</span>
           </div>
           <div class="kred-sum-row">
             <span>Aankomende leveringen</span>
-            <span>€ {{ kredietAankomendeTotal.toFixed(2) }}</span>
+            <span>€ {{ creditIncomingTotal.toFixed(2) }}</span>
           </div>
         </div>
         <div class="kred-summary-sep" />
@@ -79,15 +79,15 @@
           <div class="kred-summary-hdr">Bestellingen overzicht</div>
           <div class="kred-sum-row">
             <span>Gefactureerd</span>
-            <span>€ {{ geleverdNietBetaaldTotaal.toFixed(2) }}</span>
+            <span>€ {{ deliveredUnpaidTotal.toFixed(2) }}</span>
           </div>
           <div class="kred-sum-row kred-sum-row--warn">
             <span>Vervaldatum overschreden</span>
-            <span>€ {{ vervaldatumOverschreden.toFixed(2) }}</span>
+            <span>€ {{ isOverdue.toFixed(2) }}</span>
           </div>
           <div class="kred-sum-row kred-sum-row--total">
             <span>Krediet resterend</span>
-            <span>€ {{ kredietResterend.toFixed(2) }}</span>
+            <span>€ {{ creditRemaining.toFixed(2) }}</span>
           </div>
         </div>
       </div>
@@ -98,36 +98,36 @@
       <div class="view-card-hdr">
         <div class="flex items-center gap-2">
           <span class="view-card-title">Geleverd maar niet betaald</span>
-          <span class="kort-count-badge">{{ customer.geleverdNietBetaald.length }}</span>
+          <span class="kort-count-badge">{{ customer.deliveredUnpaid.length }}</span>
         </div>
         <Button
-          :icon="geleverdNietBetaaldOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+          :icon="deliveredUnpaidOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
           size="small"
           severity="secondary"
           text
-          @click="geleverdNietBetaaldOpen = !geleverdNietBetaaldOpen"
+          @click="deliveredUnpaidOpen = !deliveredUnpaidOpen"
         />
       </div>
       <Transition name="card-fade">
-        <div v-if="geleverdNietBetaaldOpen">
-          <DataTable :value="customer.geleverdNietBetaald" class="ce-table">
+        <div v-if="deliveredUnpaidOpen">
+          <DataTable :value="customer.deliveredUnpaid" class="ce-table">
             <template #empty><span class="table-empty">Geen resultaten gevonden</span></template>
-            <Column field="levering" header="Levering" />
-            <Column field="factuurnummer" header="Factuurnummer" />
-            <Column field="factuurdatum" header="Factuurdatum" />
-            <Column field="vervaldatum" header="Vervaldatum" />
-            <Column field="waarde" header="Waarde" body-class="col-right">
-              <template #body="{ data }">€ {{ data.waarde.toFixed(2) }}</template>
+            <Column field="delivery" header="Levering" />
+            <Column field="invoiceNumber" header="Factuurnummer" />
+            <Column field="invoiceDate" header="Factuurdatum" />
+            <Column field="dueDate" header="Vervaldatum" />
+            <Column field="value" header="Waarde" body-class="col-right">
+              <template #body="{ data }">€ {{ data.value.toFixed(2) }}</template>
             </Column>
             <template #footer>
               <div class="kred-table-footer">
                 <div class="kred-footer-row">
                   <span>Totaal</span>
-                  <span>€ {{ geleverdNietBetaaldTotaal.toFixed(2) }}</span>
+                  <span>€ {{ deliveredUnpaidTotal.toFixed(2) }}</span>
                 </div>
                 <div class="kred-footer-row kred-footer-row--warn">
                   <span>Vervaldatum overschreden</span>
-                  <span>€ {{ vervaldatumOverschreden.toFixed(2) }}</span>
+                  <span>€ {{ isOverdue.toFixed(2) }}</span>
                 </div>
               </div>
             </template>
@@ -141,21 +141,21 @@
       <div class="view-card-hdr">
         <div class="flex items-center gap-2">
           <span class="view-card-title">Gereserveerd krediet</span>
-          <span class="kort-count-badge">{{ customer.gereserveerdKredietItems.length }}</span>
+          <span class="kort-count-badge">{{ customer.reservedCreditItems.length }}</span>
         </div>
         <Button
-          :icon="gereserveerdKredietOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+          :icon="reservedCreditOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
           size="small"
           severity="secondary"
           text
-          @click="gereserveerdKredietOpen = !gereserveerdKredietOpen"
+          @click="reservedCreditOpen = !reservedCreditOpen"
         />
       </div>
       <Transition name="card-fade">
-        <div v-if="gereserveerdKredietOpen">
-          <DataTable :value="customer.gereserveerdKredietItems" class="ce-table">
+        <div v-if="reservedCreditOpen">
+          <DataTable :value="customer.reservedCreditItems" class="ce-table">
             <template #empty><span class="table-empty">Geen resultaten gevonden</span></template>
-            <Column field="levering" header="Levering" />
+            <Column field="delivery" header="Levering" />
             <Column field="status" header="Status" />
             <Column field="dropshipping" header="Dropshipping">
               <template #body="{ data }">
@@ -168,15 +168,15 @@
                 />
               </template>
             </Column>
-            <Column field="ingeplandeDatum" header="Ingeplande datum" />
-            <Column field="waarde" header="Waarde" body-class="col-right">
-              <template #body="{ data }">€ {{ data.waarde.toFixed(2) }}</template>
+            <Column field="scheduledDate" header="Ingeplande datum" />
+            <Column field="value" header="Waarde" body-class="col-right">
+              <template #body="{ data }">€ {{ data.value.toFixed(2) }}</template>
             </Column>
             <template #footer>
               <div class="kred-table-footer">
                 <div class="kred-footer-row">
                   <span>Totaal</span>
-                  <span>€ {{ gereserveerdKredietTotaal.toFixed(2) }}</span>
+                  <span>€ {{ reservedCreditTotal.toFixed(2) }}</span>
                 </div>
               </div>
             </template>
@@ -190,40 +190,40 @@
       <div class="view-card-hdr">
         <div class="flex items-center gap-2">
           <span class="view-card-title">Ingeplande leveringen</span>
-          <span class="kort-count-badge">{{ customer.kredietIngepland.length }}</span>
+          <span class="kort-count-badge">{{ customer.creditScheduled.length }}</span>
         </div>
         <Button
-          :icon="kredietIngeplandOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+          :icon="creditScheduledOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
           size="small"
           severity="secondary"
           text
-          @click="kredietIngeplandOpen = !kredietIngeplandOpen"
+          @click="creditScheduledOpen = !creditScheduledOpen"
         />
       </div>
       <Transition name="card-fade">
-        <div v-if="kredietIngeplandOpen">
-          <DataTable :value="customer.kredietIngepland" class="ce-table">
+        <div v-if="creditScheduledOpen">
+          <DataTable :value="customer.creditScheduled" class="ce-table">
             <template #empty><span class="table-empty">Geen resultaten gevonden</span></template>
-            <Column field="levering" header="Levering" />
+            <Column field="delivery" header="Levering" />
             <Column field="status" header="Status" />
-            <Column field="voltooid" header="Voltooid">
+            <Column field="completed" header="Voltooid">
               <template #body="{ data }">
                 <i
                   :class="
-                    data.voltooid ? 'pi pi-check text-green-500' : 'pi pi-minus text-surface-300'
+                    data.completed ? 'pi pi-check text-green-500' : 'pi pi-minus text-surface-300'
                   "
                 />
               </template>
             </Column>
-            <Column field="ingeplandeDatum" header="Ingeplande datum" />
-            <Column field="waarde" header="Waarde" body-class="col-right">
-              <template #body="{ data }">€ {{ data.waarde.toFixed(2) }}</template>
+            <Column field="scheduledDate" header="Ingeplande datum" />
+            <Column field="value" header="Waarde" body-class="col-right">
+              <template #body="{ data }">€ {{ data.value.toFixed(2) }}</template>
             </Column>
             <template #footer>
               <div class="kred-table-footer">
                 <div class="kred-footer-row">
                   <span>Totaal</span>
-                  <span>€ {{ kredietIngeplandTotaal.toFixed(2) }}</span>
+                  <span>€ {{ creditScheduledTotal.toFixed(2) }}</span>
                 </div>
               </div>
             </template>
@@ -237,30 +237,30 @@
       <div class="view-card-hdr">
         <div class="flex items-center gap-2">
           <span class="view-card-title">Aankomende leveringen</span>
-          <span class="kort-count-badge">{{ customer.kredietAankomend.length }}</span>
+          <span class="kort-count-badge">{{ customer.creditIncoming.length }}</span>
         </div>
         <Button
-          :icon="kredietAankomendeOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+          :icon="creditIncomingOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
           size="small"
           severity="secondary"
           text
-          @click="kredietAankomendeOpen = !kredietAankomendeOpen"
+          @click="creditIncomingOpen = !creditIncomingOpen"
         />
       </div>
       <Transition name="card-fade">
-        <div v-if="kredietAankomendeOpen">
-          <DataTable :value="customer.kredietAankomend" class="ce-table">
+        <div v-if="creditIncomingOpen">
+          <DataTable :value="customer.creditIncoming" class="ce-table">
             <template #empty><span class="table-empty">Geen resultaten gevonden</span></template>
-            <Column field="levering" header="Levering" />
-            <Column field="ingeplandeDatum" header="Ingeplande datum" />
-            <Column field="waarde" header="Waarde" body-class="col-right">
-              <template #body="{ data }">€ {{ data.waarde.toFixed(2) }}</template>
+            <Column field="delivery" header="Levering" />
+            <Column field="scheduledDate" header="Ingeplande datum" />
+            <Column field="value" header="Waarde" body-class="col-right">
+              <template #body="{ data }">€ {{ data.value.toFixed(2) }}</template>
             </Column>
             <template #footer>
               <div class="kred-table-footer">
                 <div class="kred-footer-row">
                   <span>Totaal</span>
-                  <span>€ {{ kredietAankomendeTotal.toFixed(2) }}</span>
+                  <span>€ {{ creditIncomingTotal.toFixed(2) }}</span>
                 </div>
               </div>
             </template>

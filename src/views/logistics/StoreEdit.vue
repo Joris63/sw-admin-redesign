@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue';
-  import { useRouter } from 'vue-router';
   import AddressFields from '@/components/form/AddressFields.vue';
   import PhoneField from '@/components/form/PhoneField.vue';
   import EditPageLayout from '@/components/layout/EditPageLayout.vue';
@@ -8,62 +7,60 @@
   import EditPageTabs from '@/components/layout/EditPageTabs.vue';
   import type { TabDef } from '@/components/layout/EditPageTabs.vue';
 
-  const router = useRouter();
-
   // ── Mock data ──────────────────────────────────────────────────────────────
-  interface Openingstijd {
-    dag: string;
-    van: string;
-    tot: string;
-    gesloten: boolean;
+  interface OpeningHours {
+    day: string;
+    from: string;
+    to: string;
+    closed: boolean;
   }
 
-  interface Uitzondering {
+  interface Exception {
     id: number;
-    datum: Date | null;
-    van: string;
-    tot: string;
-    gesloten: boolean;
-    reden: Record<string, string>;
+    date: Date | null;
+    from: string;
+    to: string;
+    closed: boolean;
+    reason: Record<string, string>;
   }
 
-  const winkel = ref({
-    naam: 'Utrecht',
-    afkorting: 'UTR',
+  const store = ref({
+    name: 'Utrecht',
+    abbreviation: 'UTR',
     slug: 'showroom_utr',
-    actief: true,
-    hoofdwinkel: false,
+    active: true,
+    mainStore: false,
     outlet: false,
-    binnenkortOpen: false,
-    pickupLocatie: 'Utrecht',
+    openingSoon: false,
+    pickupLocation: 'Utrecht',
     sites: ['sanitairwinkel_nl'],
-    // Adres
-    land: 'NL',
-    straat: 'Koningin Julianaplein',
-    huisnummer: '10',
-    toevoeging: '',
-    postcode: '3527 KB',
-    stad: 'Utrecht',
-    opmerkingAdres: '',
+    // Address
+    country: 'NL',
+    street: 'Koningin Julianaplein',
+    houseNumber: '10',
+    addition: '',
+    postalCode: '3527 KB',
+    city: 'Utrecht',
+    addressNote: '',
     // Contact
-    telefoonLand: 'NL',
-    telefoonNummer: '30 123 4567',
+    phoneCountry: 'NL',
+    phoneNumber: '30 123 4567',
     email: 'utrecht@sanitairwinkel.nl',
-    // Overig
-    breedtegraad: '52.091',
-    lengtegraad: '5.122',
-    promotiepagina: 'Showroom Utrecht',
+    // Other
+    latitude: '52.091',
+    longitude: '5.122',
+    promotionPage: 'Showroom Utrecht',
     googleCode: '17',
-    seoTitel: 'Sanitairwinkel Utrecht – Dé badkamershowroom in Utrecht',
-    seoOmschrijving:
+    seoTitle: 'Sanitairwinkel Utrecht – Dé badkamershowroom in Utrecht',
+    seoDescription:
       'Bezoek onze ruime showroom in Utrecht en laat je inspireren door honderden badkameropstellingen. Onze specialisten helpen je graag verder.',
-    introTekst:
+    introText:
       'Welkom bij Sanitairwinkel Utrecht. Onze showroom aan het Koningin Julianaplein biedt een inspirerende omgeving met de nieuwste badkamercollecties van toonaangevende merken.',
-    heroAfbeelding: 'https://placehold.co/1200x500/e5e7eb/9ca3af?text=Hero+afbeelding',
-    overzichtAfbeelding: 'https://placehold.co/800x500/e5e7eb/9ca3af?text=Overzicht+afbeelding',
+    heroImage: 'https://placehold.co/1200x500/e5e7eb/9ca3af?text=Hero+afbeelding',
+    overviewImage: 'https://placehold.co/800x500/e5e7eb/9ca3af?text=Overzicht+afbeelding',
     google360Tour: '',
     youtubeVideo: 'https://youtu.be/6LyszVQsTbk',
-    sfeerimpressies: [
+    atmosphereImages: [
       'https://placehold.co/800x500/e5e7eb/9ca3af?text=Sfeerimpressie+1',
       'https://placehold.co/800x500/e5e7eb/9ca3af?text=Sfeerimpressie+2',
       '',
@@ -71,51 +68,51 @@
     ],
   });
 
-  const openingstijden = ref<Openingstijd[]>([
-    { dag: 'Maandag',   van: '09:00', tot: '17:30', gesloten: false },
-    { dag: 'Dinsdag',   van: '09:00', tot: '17:30', gesloten: false },
-    { dag: 'Woensdag',  van: '09:00', tot: '17:30', gesloten: false },
-    { dag: 'Donderdag', van: '09:00', tot: '20:00', gesloten: false },
-    { dag: 'Vrijdag',   van: '09:00', tot: '17:30', gesloten: false },
-    { dag: 'Zaterdag',  van: '10:00', tot: '17:00', gesloten: false },
-    { dag: 'Zondag',    van: '',      tot: '',       gesloten: true  },
+  const openingHours = ref<OpeningHours[]>([
+    { day: 'Maandag',   from: '09:00', to: '17:30', closed: false },
+    { day: 'Dinsdag',   from: '09:00', to: '17:30', closed: false },
+    { day: 'Woensdag',  from: '09:00', to: '17:30', closed: false },
+    { day: 'Donderdag', from: '09:00', to: '20:00', closed: false },
+    { day: 'Vrijdag',   from: '09:00', to: '17:30', closed: false },
+    { day: 'Zaterdag',  from: '10:00', to: '17:00', closed: false },
+    { day: 'Zondag',    from: '',      to: '',       closed: true  },
   ]);
 
-  const uitzonderingen = ref<Uitzondering[]>([
-    { id: 1,  datum: new Date(2026, 3,  5), van: '',      tot: '',       gesloten: true,  reden: { sanitairwinkel_nl: '1e Paasdag' } },
-    { id: 2,  datum: new Date(2026, 3,  6), van: '12:00', tot: '17:00', gesloten: false, reden: { sanitairwinkel_nl: 'Koopzondag (Pasen)' } },
-    { id: 3,  datum: new Date(2026, 3, 27), van: '',      tot: '',       gesloten: true,  reden: { sanitairwinkel_nl: 'Koningsdag' } },
-    { id: 4,  datum: new Date(2026, 4,  5), van: '10:00', tot: '17:00', gesloten: false, reden: { sanitairwinkel_nl: 'Bevrijdingsdag' } },
-    { id: 5,  datum: new Date(2026, 4, 14), van: '',      tot: '',       gesloten: true,  reden: { sanitairwinkel_nl: 'Hemelvaartsdag' } },
-    { id: 6,  datum: new Date(2026, 10,27), van: '09:00', tot: '21:00', gesloten: false, reden: { sanitairwinkel_nl: 'Black Friday' } },
-    { id: 7,  datum: new Date(2026, 11, 5), van: '10:00', tot: '17:00', gesloten: false, reden: { sanitairwinkel_nl: 'Pakjesavond' } },
-    { id: 8,  datum: new Date(2026, 11,24), van: '09:00', tot: '15:00', gesloten: false, reden: { sanitairwinkel_nl: 'Kerstavond' } },
-    { id: 9,  datum: new Date(2026, 11,25), van: '',      tot: '',       gesloten: true,  reden: { sanitairwinkel_nl: '1e Kerstdag' } },
-    { id: 10, datum: new Date(2026, 11,26), van: '',      tot: '',       gesloten: true,  reden: { sanitairwinkel_nl: '2e Kerstdag' } },
-    { id: 11, datum: new Date(2026, 11,31), van: '09:00', tot: '15:00', gesloten: false, reden: { sanitairwinkel_nl: 'Oudjaarsdag' } },
+  const exceptions = ref<Exception[]>([
+    { id: 1,  date: new Date(2026, 3,  5), from: '',      to: '',       closed: true,  reason: { sanitairwinkel_nl: '1e Paasdag' } },
+    { id: 2,  date: new Date(2026, 3,  6), from: '12:00', to: '17:00', closed: false, reason: { sanitairwinkel_nl: 'Koopzondag (Pasen)' } },
+    { id: 3,  date: new Date(2026, 3, 27), from: '',      to: '',       closed: true,  reason: { sanitairwinkel_nl: 'Koningsdag' } },
+    { id: 4,  date: new Date(2026, 4,  5), from: '10:00', to: '17:00', closed: false, reason: { sanitairwinkel_nl: 'Bevrijdingsdag' } },
+    { id: 5,  date: new Date(2026, 4, 14), from: '',      to: '',       closed: true,  reason: { sanitairwinkel_nl: 'Hemelvaartsdag' } },
+    { id: 6,  date: new Date(2026, 10,27), from: '09:00', to: '21:00', closed: false, reason: { sanitairwinkel_nl: 'Black Friday' } },
+    { id: 7,  date: new Date(2026, 11, 5), from: '10:00', to: '17:00', closed: false, reason: { sanitairwinkel_nl: 'Pakjesavond' } },
+    { id: 8,  date: new Date(2026, 11,24), from: '09:00', to: '15:00', closed: false, reason: { sanitairwinkel_nl: 'Kerstavond' } },
+    { id: 9,  date: new Date(2026, 11,25), from: '',      to: '',       closed: true,  reason: { sanitairwinkel_nl: '1e Kerstdag' } },
+    { id: 10, date: new Date(2026, 11,26), from: '',      to: '',       closed: true,  reason: { sanitairwinkel_nl: '2e Kerstdag' } },
+    { id: 11, date: new Date(2026, 11,31), from: '09:00', to: '15:00', closed: false, reason: { sanitairwinkel_nl: 'Oudjaarsdag' } },
   ]);
 
-  let nextUitzonderingId = 12;
+  let nextExceptionId = 12;
 
-  function addUitzondering() {
-    const reden: Record<string, string> = {};
-    for (const sv of siteviews.value) reden[sv.key] = '';
-    uitzonderingen.value.push({
-      id: nextUitzonderingId++,
-      datum: null,
-      van: '09:00',
-      tot: '17:30',
-      gesloten: false,
-      reden,
+  function addException() {
+    const reason: Record<string, string> = {};
+    for (const sv of siteviews.value) reason[sv.key] = '';
+    exceptions.value.push({
+      id: nextExceptionId++,
+      date: null,
+      from: '09:00',
+      to: '17:30',
+      closed: false,
+      reason,
     });
   }
 
-  function removeUitzondering(id: number) {
-    uitzonderingen.value = uitzonderingen.value.filter(u => u.id !== id);
+  function removeException(id: number) {
+    exceptions.value = exceptions.value.filter(u => u.id !== id);
   }
 
-  function formatDatum(datum: Date | null) {
-    return datum?.toLocaleDateString('nl-NL') ?? '—';
+  function formatDate(date: Date | null) {
+    return date?.toLocaleDateString('nl-NL') ?? '—';
   }
 
   const activeTab = ref('algemeen');
@@ -126,15 +123,15 @@
     { id: 'content',       label: 'Content website',     icon: 'pi-globe'    },
   ];
 
-  const isEditingBasis   = ref(false);
-  const isEditingAdres   = ref(false);
-  const isEditingContact = ref(false);
-  const isEditingOverig  = ref(false);
-  const isEditingTijden  = ref(false);
-  const isEditingUitzonderingen = ref(false);
-  const isEditingContent = ref(false);
+  const isEditingGeneral    = ref(false);
+  const isEditingAddress    = ref(false);
+  const isEditingContact    = ref(false);
+  const isEditingMisc       = ref(false);
+  const isEditingHours      = ref(false);
+  const isEditingExceptions = ref(false);
+  const isEditingContent    = ref(false);
 
-  const landOptions = [
+  const countryOptions = [
     { label: 'Nederland', value: 'NL' },
     { label: 'België',    value: 'BE' },
     { label: 'Frankrijk', value: 'FR' },
@@ -150,12 +147,12 @@
 
   const pickupOptions = ['Alkmaar', 'Almere', 'Amsterdam Amstel', 'Amsterdam West', 'Arnhem', 'Breda', 'Eindhoven', 'Groningen', 'Den Haag', 'Leeuwarden', 'Leiden', 'Nijmegen', 'Rotterdam', 'Tilburg', 'Utrecht', 'Zwolle'];
 
-  const promotiepaginaOptions = ['Showroom Utrecht', 'Showroom Amsterdam', 'Showroom Rotterdam', 'Showroom Den Haag'];
+  const promotionPageOptions = ['Showroom Utrecht', 'Showroom Amsterdam', 'Showroom Rotterdam', 'Showroom Den Haag'];
 
   // Expands selected sites into individual siteviews (sawiday_be → NL + FR split)
   const siteviews = computed(() => {
     const result: { key: string; label: string }[] = [];
-    for (const site of winkel.value.sites) {
+    for (const site of store.value.sites) {
       if (site === 'sawiday_be') {
         result.push({ key: 'sawiday_be_nl', label: 'sawiday.be (NL)' });
         result.push({ key: 'sawiday_be_fr', label: 'sawiday.be (FR)' });
@@ -169,7 +166,7 @@
 
   // ── Image upload ───────────────────────────────────────────────────────────
   const heroInput = ref<HTMLInputElement | null>(null);
-  const overzichtInput = ref<HTMLInputElement | null>(null);
+  const overviewInput = ref<HTMLInputElement | null>(null);
   const sfeerInputs: (HTMLInputElement | null)[] = [null, null, null, null];
   const draggingField = ref<string | null>(null);
 
@@ -183,16 +180,15 @@
 
     <!-- ── Header ──────────────────────────────────────────────────────────── -->
     <EditPageHeader
-      :title="winkel.naam"
-      :subtitle="`${winkel.straat} ${winkel.huisnummer}, ${winkel.stad}`"
+      :title="store.name"
+      :subtitle="`${store.street} ${store.houseNumber}, ${store.city}`"
       :back="{ name: 'LocationsOverview' }"
-      avatar-class="se-avatar"
     >
       <template #avatar><i class="pi pi-building" /></template>
       <template #pills>
-        <span class="status-pill status-pill--type">{{ winkel.afkorting }}</span>
-        <span class="status-pill" :class="winkel.actief ? 'status-pill--active' : 'status-pill--inactive'">
-          {{ winkel.actief ? 'Actief' : 'Inactief' }}
+        <span class="status-pill status-pill--type">{{ store.abbreviation }}</span>
+        <span class="status-pill" :class="store.active ? 'status-pill--active' : 'status-pill--inactive'">
+          {{ store.active ? 'Actief' : 'Inactief' }}
         </span>
       </template>
       <template #actions>
@@ -213,95 +209,95 @@
         <div class="view-card">
           <div class="view-card-hdr">
             <span class="view-card-title">Basisgegevens</span>
-            <template v-if="!isEditingBasis">
-              <Button label="Bewerken" icon="pi pi-pencil" size="small" severity="secondary" text @click="isEditingBasis = true" />
+            <template v-if="!isEditingGeneral">
+              <Button label="Bewerken" icon="pi pi-pencil" size="small" severity="secondary" text @click="isEditingGeneral = true" />
             </template>
             <template v-else>
               <div class="flex gap-2">
-                <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingBasis = false" />
-                <Button label="Opslaan" size="small" @click="isEditingBasis = false" />
+                <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingGeneral = false" />
+                <Button label="Opslaan" size="small" @click="isEditingGeneral = false" />
               </div>
             </template>
           </div>
           <Transition name="card-fade" mode="out-in">
-            <div v-if="!isEditingBasis" key="view" class="view-card-body">
+            <div v-if="!isEditingGeneral" key="view" class="view-card-body">
               <div class="fr-row">
                 <span class="fr-label">Naam</span>
-                <span class="fr-value">{{ winkel.naam }}</span>
+                <span class="fr-value">{{ store.name }}</span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Afkorting</span>
-                <span class="fr-value">{{ winkel.afkorting }}</span>
+                <span class="fr-value">{{ store.abbreviation }}</span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Slug</span>
-                <span class="fr-value">{{ winkel.slug }}</span>
+                <span class="fr-value">{{ store.slug }}</span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Hoofdwinkel</span>
-                <span class="fr-value"><span :class="winkel.hoofdwinkel ? 'status-badge status-badge--yes' : 'status-badge status-badge--no'">{{ winkel.hoofdwinkel ? 'Ja' : 'Nee' }}</span></span>
+                <span class="fr-value"><span :class="store.mainStore ? 'status-badge status-badge--yes' : 'status-badge status-badge--no'">{{ store.mainStore ? 'Ja' : 'Nee' }}</span></span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Actief</span>
-                <span class="fr-value"><span :class="winkel.actief ? 'status-badge status-badge--yes' : 'status-badge status-badge--no'">{{ winkel.actief ? 'Ja' : 'Nee' }}</span></span>
+                <span class="fr-value"><span :class="store.active ? 'status-badge status-badge--yes' : 'status-badge status-badge--no'">{{ store.active ? 'Ja' : 'Nee' }}</span></span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Outlet</span>
-                <span class="fr-value"><span :class="winkel.outlet ? 'status-badge status-badge--yes' : 'status-badge status-badge--no'">{{ winkel.outlet ? 'Ja' : 'Nee' }}</span></span>
+                <span class="fr-value"><span :class="store.outlet ? 'status-badge status-badge--yes' : 'status-badge status-badge--no'">{{ store.outlet ? 'Ja' : 'Nee' }}</span></span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Binnenkort open</span>
-                <span class="fr-value"><span :class="winkel.binnenkortOpen ? 'status-badge status-badge--yes' : 'status-badge status-badge--no'">{{ winkel.binnenkortOpen ? 'Ja' : 'Nee' }}</span></span>
+                <span class="fr-value"><span :class="store.openingSoon ? 'status-badge status-badge--yes' : 'status-badge status-badge--no'">{{ store.openingSoon ? 'Ja' : 'Nee' }}</span></span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Pickup locatie</span>
-                <span :class="winkel.pickupLocatie ? 'fr-value' : 'fr-empty'">{{ winkel.pickupLocatie || '—' }}</span>
+                <span :class="store.pickupLocation ? 'fr-value' : 'fr-empty'">{{ store.pickupLocation || '—' }}</span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Sites</span>
                 <div class="flex flex-wrap gap-1">
-                  <span v-for="s in winkel.sites" :key="s" class="site-tag">
+                  <span v-for="s in store.sites" :key="s" class="site-tag">
                     {{ siteOptions.find(o => o.value === s)?.label ?? s }}
                   </span>
-                  <span v-if="!winkel.sites.length" class="fr-empty">—</span>
+                  <span v-if="!store.sites.length" class="fr-empty">—</span>
                 </div>
               </div>
             </div>
             <div v-else key="edit" class="view-card-body">
               <div class="fr-row">
                 <label class="fr-label">Naam <span class="fr-req">*</span></label>
-                <InputText v-model="winkel.naam" class="w-full" placeholder="Naam winkel" />
+                <InputText v-model="store.name" class="w-full" placeholder="Naam winkel" />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Afkorting <span class="fr-req">*</span></label>
                 <div class="flex gap-2">
-                  <InputText v-model="winkel.afkorting" placeholder="UTR" style="max-width: 7rem" />
-                  <InputText v-model="winkel.slug" class="flex-1" placeholder="showroom_utr" />
+                  <InputText v-model="store.abbreviation" placeholder="UTR" style="max-width: 7rem" />
+                  <InputText v-model="store.slug" class="flex-1" placeholder="showroom_utr" />
                 </div>
               </div>
               <div class="fr-row">
                 <label class="fr-label">Hoofdwinkel</label>
-                <ToggleSwitch v-model="winkel.hoofdwinkel" />
+                <ToggleSwitch v-model="store.mainStore" />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Actief</label>
-                <ToggleSwitch v-model="winkel.actief" />
+                <ToggleSwitch v-model="store.active" />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Outlet</label>
-                <ToggleSwitch v-model="winkel.outlet" />
+                <ToggleSwitch v-model="store.outlet" />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Binnenkort open</label>
-                <ToggleSwitch v-model="winkel.binnenkortOpen" />
+                <ToggleSwitch v-model="store.openingSoon" />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Pickup locatie</label>
-                <Select v-model="winkel.pickupLocatie" :options="pickupOptions" class="w-full" show-clear placeholder="Selecteer locatie" />
+                <Select v-model="store.pickupLocation" :options="pickupOptions" class="w-full" show-clear placeholder="Selecteer locatie" />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Sites <span class="fr-req">*</span></label>
-                <MultiSelect v-model="winkel.sites" :options="siteOptions" option-label="label" option-value="value" class="w-full" placeholder="Selecteer sites" />
+                <MultiSelect v-model="store.sites" :options="siteOptions" option-label="label" option-value="value" class="w-full" placeholder="Selecteer sites" />
               </div>
             </div>
           </Transition>
@@ -311,52 +307,52 @@
         <div class="view-card">
           <div class="view-card-hdr">
             <span class="view-card-title">Adres</span>
-            <template v-if="!isEditingAdres">
-              <Button label="Bewerken" icon="pi pi-pencil" size="small" severity="secondary" text @click="isEditingAdres = true" />
+            <template v-if="!isEditingAddress">
+              <Button label="Bewerken" icon="pi pi-pencil" size="small" severity="secondary" text @click="isEditingAddress = true" />
             </template>
             <template v-else>
               <div class="flex gap-2">
-                <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingAdres = false" />
-                <Button label="Opslaan" size="small" @click="isEditingAdres = false" />
+                <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingAddress = false" />
+                <Button label="Opslaan" size="small" @click="isEditingAddress = false" />
               </div>
             </template>
           </div>
           <Transition name="card-fade" mode="out-in">
-            <div v-if="!isEditingAdres" key="view" class="view-card-body">
+            <div v-if="!isEditingAddress" key="view" class="view-card-body">
               <div class="fr-row">
                 <span class="fr-label">Land</span>
-                <span class="fr-value"><span class="site-tag">{{ winkel.land }}</span></span>
+                <span class="fr-value"><span class="site-tag">{{ store.country }}</span></span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Adres</span>
                 <span class="fr-value">
-                  {{ winkel.straat }} {{ winkel.huisnummer }}{{ winkel.toevoeging ? ' ' + winkel.toevoeging : '' }},
-                  {{ winkel.postcode }} {{ winkel.stad }}
+                  {{ store.street }} {{ store.houseNumber }}{{ store.addition ? ' ' + store.addition : '' }},
+                  {{ store.postalCode }} {{ store.city }}
                 </span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Opmerking</span>
-                <span :class="winkel.opmerkingAdres ? 'fr-value' : 'fr-empty'">{{ winkel.opmerkingAdres || '—' }}</span>
+                <span :class="store.addressNote ? 'fr-value' : 'fr-empty'">{{ store.addressNote || '—' }}</span>
               </div>
             </div>
             <div v-else key="edit" class="view-card-body">
               <div class="fr-row">
                 <label class="fr-label">Land <span class="fr-req">*</span></label>
-                <Select v-model="winkel.land" :options="landOptions" option-label="label" option-value="value" class="w-full" />
+                <Select v-model="store.country" :options="countryOptions" option-label="label" option-value="value" class="w-full" />
               </div>
               <div class="fr-row fr-row--top">
                 <label class="fr-label">Adres <span class="fr-req">*</span></label>
                 <AddressFields
-                  v-model:postcode="winkel.postcode"
-                  v-model:huisnummer="winkel.huisnummer"
-                  v-model:toevoeging="winkel.toevoeging"
-                  v-model:straat="winkel.straat"
-                  v-model:woonplaats="winkel.stad"
+                  v-model:postalCode="store.postalCode"
+                  v-model:houseNumber="store.houseNumber"
+                  v-model:addition="store.addition"
+                  v-model:street="store.street"
+                  v-model:city="store.city"
                 />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Opmerking</label>
-                <InputText v-model="winkel.opmerkingAdres" class="w-full" placeholder="Bijv. 2e verdieping" />
+                <InputText v-model="store.addressNote" class="w-full" placeholder="Bijv. 2e verdieping" />
               </div>
             </div>
           </Transition>
@@ -380,23 +376,23 @@
             <div v-if="!isEditingContact" key="view" class="view-card-body">
               <div class="fr-row">
                 <span class="fr-label">Telefoonnummer</span>
-                <span :class="winkel.telefoonNummer ? 'fr-value' : 'fr-empty'">
-                  {{ winkel.telefoonNummer ? `+${winkel.telefoonLand === 'NL' ? '31' : winkel.telefoonLand === 'BE' ? '32' : '33'} ${winkel.telefoonNummer}` : '—' }}
+                <span :class="store.phoneNumber ? 'fr-value' : 'fr-empty'">
+                  {{ store.phoneNumber ? `+${store.phoneCountry === 'NL' ? '31' : store.phoneCountry === 'BE' ? '32' : '33'} ${store.phoneNumber}` : '—' }}
                 </span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">E-mail</span>
-                <span :class="winkel.email ? 'fr-value' : 'fr-empty'">{{ winkel.email || '—' }}</span>
+                <span :class="store.email ? 'fr-value' : 'fr-empty'">{{ store.email || '—' }}</span>
               </div>
             </div>
             <div v-else key="edit" class="view-card-body">
               <div class="fr-row">
                 <label class="fr-label">Telefoonnummer</label>
-                <PhoneField v-model:land="winkel.telefoonLand" v-model:nummer="winkel.telefoonNummer" />
+                <PhoneField v-model:country="store.phoneCountry" v-model:number="store.phoneNumber" />
               </div>
               <div class="fr-row">
                 <label class="fr-label">E-mail</label>
-                <InputText v-model="winkel.email" class="w-full" placeholder="winkel@sanitairwinkel.nl" />
+                <InputText v-model="store.email" class="w-full" placeholder="winkel@sanitairwinkel.nl" />
               </div>
             </div>
           </Transition>
@@ -406,48 +402,48 @@
         <div class="view-card">
           <div class="view-card-hdr">
             <span class="view-card-title">Overig</span>
-            <template v-if="!isEditingOverig">
-              <Button label="Bewerken" icon="pi pi-pencil" size="small" severity="secondary" text @click="isEditingOverig = true" />
+            <template v-if="!isEditingMisc">
+              <Button label="Bewerken" icon="pi pi-pencil" size="small" severity="secondary" text @click="isEditingMisc = true" />
             </template>
             <template v-else>
               <div class="flex gap-2">
-                <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingOverig = false" />
-                <Button label="Opslaan" size="small" @click="isEditingOverig = false" />
+                <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingMisc = false" />
+                <Button label="Opslaan" size="small" @click="isEditingMisc = false" />
               </div>
             </template>
           </div>
           <Transition name="card-fade" mode="out-in">
-            <div v-if="!isEditingOverig" key="view" class="view-card-body">
+            <div v-if="!isEditingMisc" key="view" class="view-card-body">
               <div class="fr-row">
                 <span class="fr-label">Coördinaten</span>
-                <span :class="winkel.breedtegraad ? 'fr-value' : 'fr-empty'">
-                  {{ winkel.breedtegraad && winkel.lengtegraad ? `${winkel.breedtegraad}, ${winkel.lengtegraad}` : '—' }}
+                <span :class="store.latitude ? 'fr-value' : 'fr-empty'">
+                  {{ store.latitude && store.longitude ? `${store.latitude}, ${store.longitude}` : '—' }}
                 </span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Promotiepagina</span>
-                <span :class="winkel.promotiepagina ? 'fr-value' : 'fr-empty'">{{ winkel.promotiepagina || '—' }}</span>
+                <span :class="store.promotionPage ? 'fr-value' : 'fr-empty'">{{ store.promotionPage || '—' }}</span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Google code</span>
-                <span :class="winkel.googleCode ? 'fr-value' : 'fr-empty'">{{ winkel.googleCode || '—' }}</span>
+                <span :class="store.googleCode ? 'fr-value' : 'fr-empty'">{{ store.googleCode || '—' }}</span>
               </div>
             </div>
             <div v-else key="edit" class="view-card-body">
               <div class="fr-row">
                 <label class="fr-label">Coördinaten</label>
                 <div class="flex gap-2">
-                  <InputText v-model="winkel.breedtegraad" placeholder="52.091" style="flex: 1" />
-                  <InputText v-model="winkel.lengtegraad" placeholder="5.122" style="flex: 1" />
+                  <InputText v-model="store.latitude" placeholder="52.091" style="flex: 1" />
+                  <InputText v-model="store.longitude" placeholder="5.122" style="flex: 1" />
                 </div>
               </div>
               <div class="fr-row">
                 <label class="fr-label">Promotiepagina</label>
-                <Select v-model="winkel.promotiepagina" :options="promotiepaginaOptions" class="w-full" show-clear placeholder="Selecteer pagina" />
+                <Select v-model="store.promotionPage" :options="promotionPageOptions" class="w-full" show-clear placeholder="Selecteer pagina" />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Google code</label>
-                <InputText v-model="winkel.googleCode" placeholder="17" style="max-width: 8rem" />
+                <InputText v-model="store.googleCode" placeholder="17" style="max-width: 8rem" />
               </div>
             </div>
           </Transition>
@@ -460,36 +456,36 @@
         <div class="view-card">
           <div class="view-card-hdr">
             <span class="view-card-title">Openingstijden</span>
-            <template v-if="!isEditingTijden">
-              <Button label="Bewerken" icon="pi pi-pencil" size="small" severity="secondary" text @click="isEditingTijden = true" />
+            <template v-if="!isEditingHours">
+              <Button label="Bewerken" icon="pi pi-pencil" size="small" severity="secondary" text @click="isEditingHours = true" />
             </template>
             <template v-else>
               <div class="flex gap-2">
-                <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingTijden = false" />
-                <Button label="Opslaan" size="small" @click="isEditingTijden = false" />
+                <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingHours = false" />
+                <Button label="Opslaan" size="small" @click="isEditingHours = false" />
               </div>
             </template>
           </div>
           <Transition name="card-fade" mode="out-in">
-            <div v-if="!isEditingTijden" key="view" class="view-card-body">
-              <div v-for="dag in openingstijden" :key="dag.dag" class="fr-row">
-                <span class="fr-label">{{ dag.dag }}</span>
-                <span v-if="dag.gesloten" class="fr-empty">Gesloten</span>
-                <span v-else class="fr-value">{{ dag.van }} – {{ dag.tot }}</span>
+            <div v-if="!isEditingHours" key="view" class="view-card-body">
+              <div v-for="row in openingHours" :key="row.day" class="fr-row">
+                <span class="fr-label">{{ row.day }}</span>
+                <span v-if="row.closed" class="fr-empty">Gesloten</span>
+                <span v-else class="fr-value">{{ row.from }} – {{ row.to }}</span>
               </div>
             </div>
             <div v-else key="edit" class="view-card-body">
-              <div v-for="dag in openingstijden" :key="dag.dag" class="fr-row">
-                <span class="fr-label">{{ dag.dag }}</span>
+              <div v-for="row in openingHours" :key="row.day" class="fr-row">
+                <span class="fr-label">{{ row.day }}</span>
                 <div class="flex items-center gap-3">
                   <div class="flex items-center gap-2">
-                    <Checkbox v-model="dag.gesloten" binary :input-id="`gesloten-${dag.dag}`" />
-                    <label :for="`gesloten-${dag.dag}`" class="text-sm text-surface-500 cursor-pointer">Gesloten</label>
+                    <Checkbox v-model="row.closed" binary :input-id="`closed-${row.day}`" />
+                    <label :for="`closed-${row.day}`" class="text-sm text-surface-500 cursor-pointer">Gesloten</label>
                   </div>
-                  <template v-if="!dag.gesloten">
-                    <InputText v-model="dag.van" style="width: 5.5rem" placeholder="09:00" />
+                  <template v-if="!row.closed">
+                    <InputText v-model="row.from" style="width: 5.5rem" placeholder="09:00" />
                     <span class="text-surface-400 text-sm">–</span>
-                    <InputText v-model="dag.tot" style="width: 5.5rem" placeholder="17:30" />
+                    <InputText v-model="row.to" style="width: 5.5rem" placeholder="17:30" />
                   </template>
                 </div>
               </div>
@@ -501,60 +497,60 @@
         <div class="view-card">
           <div class="view-card-hdr">
             <span class="view-card-title">Uitzonderingen</span>
-            <template v-if="!isEditingUitzonderingen">
-              <Button label="Bewerken" icon="pi pi-pencil" size="small" severity="secondary" text @click="isEditingUitzonderingen = true" />
+            <template v-if="!isEditingExceptions">
+              <Button label="Bewerken" icon="pi pi-pencil" size="small" severity="secondary" text @click="isEditingExceptions = true" />
             </template>
             <template v-else>
               <div class="flex gap-2">
-                <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingUitzonderingen = false" />
-                <Button label="Opslaan" size="small" @click="isEditingUitzonderingen = false" />
+                <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingExceptions = false" />
+                <Button label="Opslaan" size="small" @click="isEditingExceptions = false" />
               </div>
             </template>
           </div>
           <Transition name="card-fade" mode="out-in">
-            <div v-if="!isEditingUitzonderingen" key="view" class="view-card-body">
-              <div v-if="!uitzonderingen.length" class="fr-empty" style="padding: 0.25rem 0">Geen uitzonderingen ingesteld</div>
-              <div v-for="u in uitzonderingen" :key="u.id" class="uitzon-card">
-                <div class="uitzon-header">
-                  <span class="uitzon-view-datum">{{ formatDatum(u.datum) }}</span>
-                  <span v-if="u.gesloten" class="status-badge status-badge--no">Gesloten</span>
-                  <span v-else class="fr-value text-sm">{{ u.van }} – {{ u.tot }}</span>
+            <div v-if="!isEditingExceptions" key="view" class="view-card-body">
+              <div v-if="!exceptions.length" class="fr-empty" style="padding: 0.25rem 0">Geen uitzonderingen ingesteld</div>
+              <div v-for="ex in exceptions" :key="ex.id" class="exception-card">
+                <div class="exception-header">
+                  <span class="exception-date">{{ formatDate(ex.date) }}</span>
+                  <span v-if="ex.closed" class="status-badge status-badge--no">Gesloten</span>
+                  <span v-else class="fr-value text-sm">{{ ex.from }} – {{ ex.to }}</span>
                 </div>
-                <div class="uitzon-redens-edit">
-                  <div class="uitzon-redens-hdr">Reden per siteview</div>
-                  <div v-for="sv in siteviews" :key="sv.key" class="uitzon-reden-row">
-                    <span class="uitzon-reden-site-lbl">{{ sv.label }}</span>
-                    <span :class="u.reden[sv.key] ? 'fr-value text-sm' : 'fr-empty text-sm'">{{ u.reden[sv.key] || '—' }}</span>
+                <div class="exception-reasons">
+                  <div class="exception-reasons-header">Reden per siteview</div>
+                  <div v-for="sv in siteviews" :key="sv.key" class="exception-reason-row">
+                    <span class="exception-reason-site">{{ sv.label }}</span>
+                    <span :class="ex.reason[sv.key] ? 'fr-value text-sm' : 'fr-empty text-sm'">{{ ex.reason[sv.key] || '—' }}</span>
                   </div>
                 </div>
               </div>
             </div>
             <div v-else key="edit" class="view-card-body">
-              <div v-if="!uitzonderingen.length" class="fr-empty" style="padding: 0.25rem 0">Geen uitzonderingen</div>
-              <div v-for="u in uitzonderingen" :key="u.id" class="uitzon-card">
-                <div class="uitzon-header">
-                  <DatePicker v-model="u.datum" date-format="dd-mm-yy" placeholder="dd-mm-jj" style="width: 9rem" />
+              <div v-if="!exceptions.length" class="fr-empty" style="padding: 0.25rem 0">Geen uitzonderingen</div>
+              <div v-for="ex in exceptions" :key="ex.id" class="exception-card">
+                <div class="exception-header">
+                  <DatePicker v-model="ex.date" date-format="dd-mm-yy" placeholder="dd-mm-jj" style="width: 9rem" />
                   <div class="flex items-center gap-2">
-                    <Checkbox v-model="u.gesloten" binary :input-id="`uz-gesloten-${u.id}`" />
-                    <label :for="`uz-gesloten-${u.id}`" class="text-sm text-surface-600 cursor-pointer">Gesloten</label>
+                    <Checkbox v-model="ex.closed" binary :input-id="`ex-closed-${ex.id}`" />
+                    <label :for="`ex-closed-${ex.id}`" class="text-sm text-surface-600 cursor-pointer">Gesloten</label>
                   </div>
-                  <template v-if="!u.gesloten">
-                    <InputText v-model="u.van" class="uitzon-time" placeholder="09:00" />
+                  <template v-if="!ex.closed">
+                    <InputText v-model="ex.from" class="exception-time" placeholder="09:00" />
                     <span class="text-surface-400 text-sm">–</span>
-                    <InputText v-model="u.tot" class="uitzon-time" placeholder="17:30" />
+                    <InputText v-model="ex.to" class="exception-time" placeholder="17:30" />
                   </template>
-                  <Button icon="pi pi-trash" severity="danger" text size="small" rounded style="margin-left: auto" @click="removeUitzondering(u.id)" />
+                  <Button icon="pi pi-trash" severity="danger" text size="small" rounded style="margin-left: auto" @click="removeException(ex.id)" />
                 </div>
-                <div class="uitzon-redens-edit">
-                  <div class="uitzon-redens-hdr">Reden per siteview</div>
-                  <div v-for="sv in siteviews" :key="sv.key" class="uitzon-reden-row">
-                    <span class="uitzon-reden-site-lbl">{{ sv.label }}</span>
-                    <InputText v-model="u.reden[sv.key]" class="flex-1" placeholder="Bijv. 1e Paasdag" />
+                <div class="exception-reasons">
+                  <div class="exception-reasons-header">Reden per siteview</div>
+                  <div v-for="sv in siteviews" :key="sv.key" class="exception-reason-row">
+                    <span class="exception-reason-site">{{ sv.label }}</span>
+                    <InputText v-model="ex.reason[sv.key]" class="flex-1" placeholder="Bijv. 1e Paasdag" />
                   </div>
                 </div>
               </div>
               <div style="padding-top: 0.5rem">
-                <Button label="Nieuwe uitzondering toevoegen" icon="pi pi-plus" size="small" severity="secondary" outlined @click="addUitzondering" />
+                <Button label="Nieuwe uitzondering toevoegen" icon="pi pi-plus" size="small" severity="secondary" outlined @click="addException" />
               </div>
             </div>
           </Transition>
@@ -582,24 +578,24 @@
             <div v-if="!isEditingContent" key="view" class="view-card-body">
               <div class="fr-row fr-row--top">
                 <span class="fr-label">Hero afbeelding</span>
-                <img :src="winkel.heroAfbeelding" class="content-img" alt="Hero" />
+                <img :src="store.heroImage" class="content-img" alt="Hero" />
               </div>
               <div class="fr-row fr-row--top">
                 <span class="fr-label">Overzicht afbeelding</span>
-                <img :src="winkel.overzichtAfbeelding" class="content-img" alt="Overzicht" />
+                <img :src="store.overviewImage" class="content-img" alt="Overzicht" />
               </div>
-              <div v-for="(img, i) in winkel.sfeerimpressies" :key="i" class="fr-row fr-row--top">
+              <div v-for="(img, i) in store.atmosphereImages" :key="i" class="fr-row fr-row--top">
                 <span class="fr-label">Sfeerimpressie {{ i + 1 }}</span>
                 <img v-if="img" :src="img" class="content-img" :alt="`Sfeerimpressie ${i + 1}`" />
                 <span v-else class="fr-empty">Geen afbeelding</span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Google 360 Tour</span>
-                <span :class="winkel.google360Tour ? 'fr-value' : 'fr-empty'">{{ winkel.google360Tour || '—' }}</span>
+                <span :class="store.google360Tour ? 'fr-value' : 'fr-empty'">{{ store.google360Tour || '—' }}</span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">YouTube video</span>
-                <span :class="winkel.youtubeVideo ? 'fr-value' : 'fr-empty'">{{ winkel.youtubeVideo || '—' }}</span>
+                <span :class="store.youtubeVideo ? 'fr-value' : 'fr-empty'">{{ store.youtubeVideo || '—' }}</span>
               </div>
             </div>
             <div v-else key="edit" class="view-card-body">
@@ -608,29 +604,29 @@
                 <label class="fr-label">Hero afbeelding</label>
                 <div class="img-upload-field">
                   <div
-                    v-if="!winkel.heroAfbeelding"
+                    v-if="!store.heroImage"
                     class="img-drop-zone"
                     :class="{ 'img-drop-zone--over': draggingField === 'hero' }"
                     @click="heroInput?.click()"
                     @dragover.prevent="draggingField = 'hero'"
                     @dragleave="draggingField = null"
-                    @drop.prevent="(e: DragEvent) => { draggingField = null; applyImageFile(e.dataTransfer?.files?.[0], url => winkel.heroAfbeelding = url) }"
+                    @drop.prevent="(e: DragEvent) => { draggingField = null; applyImageFile(e.dataTransfer?.files?.[0], url => store.heroImage = url) }"
                   >
                     <i class="pi pi-image" style="font-size: 1.75rem" />
                     <span>Sleep een afbeelding hierheen</span>
                     <button class="img-select-btn" @click.stop="heroInput?.click()">of selecteer een bestand</button>
                   </div>
                   <div v-else class="img-file-row">
-                    <img :src="winkel.heroAfbeelding" class="img-file-thumb" alt="Hero" />
+                    <img :src="store.heroImage" class="img-file-thumb" alt="Hero" />
                     <div class="flex flex-col gap-1">
                       <span class="text-sm font-medium text-surface-700">Hero afbeelding</span>
                       <button class="img-select-btn" @click="heroInput?.click()">Vervangen</button>
                     </div>
-                    <button class="img-remove-btn" style="margin-left: auto" @click="winkel.heroAfbeelding = ''">
+                    <button class="img-remove-btn" style="margin-left: auto" @click="store.heroImage = ''">
                       <i class="pi pi-times" />
                     </button>
                   </div>
-                  <input ref="heroInput" type="file" accept="image/*" class="hidden" @change="(e: Event) => applyImageFile((e.target as HTMLInputElement).files?.[0], url => winkel.heroAfbeelding = url)" />
+                  <input ref="heroInput" type="file" accept="image/*" class="hidden" @change="(e: Event) => applyImageFile((e.target as HTMLInputElement).files?.[0], url => store.heroImage = url)" />
                 </div>
               </div>
               <!-- Overzicht afbeelding -->
@@ -638,43 +634,43 @@
                 <label class="fr-label">Overzicht afbeelding</label>
                 <div class="img-upload-field">
                   <div
-                    v-if="!winkel.overzichtAfbeelding"
+                    v-if="!store.overviewImage"
                     class="img-drop-zone"
-                    :class="{ 'img-drop-zone--over': draggingField === 'overzicht' }"
-                    @click="overzichtInput?.click()"
-                    @dragover.prevent="draggingField = 'overzicht'"
+                    :class="{ 'img-drop-zone--over': draggingField === 'overview' }"
+                    @click="overviewInput?.click()"
+                    @dragover.prevent="draggingField = 'overview'"
                     @dragleave="draggingField = null"
-                    @drop.prevent="(e: DragEvent) => { draggingField = null; applyImageFile(e.dataTransfer?.files?.[0], url => winkel.overzichtAfbeelding = url) }"
+                    @drop.prevent="(e: DragEvent) => { draggingField = null; applyImageFile(e.dataTransfer?.files?.[0], url => store.overviewImage = url) }"
                   >
                     <i class="pi pi-image" style="font-size: 1.75rem" />
                     <span>Sleep een afbeelding hierheen</span>
-                    <button class="img-select-btn" @click.stop="overzichtInput?.click()">of selecteer een bestand</button>
+                    <button class="img-select-btn" @click.stop="overviewInput?.click()">of selecteer een bestand</button>
                   </div>
                   <div v-else class="img-file-row">
-                    <img :src="winkel.overzichtAfbeelding" class="img-file-thumb" alt="Overzicht" />
+                    <img :src="store.overviewImage" class="img-file-thumb" alt="Overzicht" />
                     <div class="flex flex-col gap-1">
                       <span class="text-sm font-medium text-surface-700">Overzicht afbeelding</span>
-                      <button class="img-select-btn" @click="overzichtInput?.click()">Vervangen</button>
+                      <button class="img-select-btn" @click="overviewInput?.click()">Vervangen</button>
                     </div>
-                    <button class="img-remove-btn" style="margin-left: auto" @click="winkel.overzichtAfbeelding = ''">
+                    <button class="img-remove-btn" style="margin-left: auto" @click="store.overviewImage = ''">
                       <i class="pi pi-times" />
                     </button>
                   </div>
-                  <input ref="overzichtInput" type="file" accept="image/*" class="hidden" @change="(e: Event) => applyImageFile((e.target as HTMLInputElement).files?.[0], url => winkel.overzichtAfbeelding = url)" />
+                  <input ref="overviewInput" type="file" accept="image/*" class="hidden" @change="(e: Event) => applyImageFile((e.target as HTMLInputElement).files?.[0], url => store.overviewImage = url)" />
                 </div>
               </div>
-              <!-- Sfeerimpressies -->
-              <div v-for="(img, i) in winkel.sfeerimpressies" :key="i" class="fr-row fr-row--top">
+              <!-- Atmosphere images -->
+              <div v-for="(img, i) in store.atmosphereImages" :key="i" class="fr-row fr-row--top">
                 <label class="fr-label">Sfeerimpressie {{ i + 1 }}</label>
                 <div class="img-upload-field">
                   <div
                     v-if="!img"
                     class="img-drop-zone"
-                    :class="{ 'img-drop-zone--over': draggingField === `sfeer-${i}` }"
+                    :class="{ 'img-drop-zone--over': draggingField === `atmosphere-${i}` }"
                     @click="sfeerInputs[i]?.click()"
-                    @dragover.prevent="draggingField = `sfeer-${i}`"
+                    @dragover.prevent="draggingField = `atmosphere-${i}`"
                     @dragleave="draggingField = null"
-                    @drop.prevent="(e: DragEvent) => { draggingField = null; applyImageFile(e.dataTransfer?.files?.[0], url => winkel.sfeerimpressies[i] = url) }"
+                    @drop.prevent="(e: DragEvent) => { draggingField = null; applyImageFile(e.dataTransfer?.files?.[0], url => store.atmosphereImages[i] = url) }"
                   >
                     <i class="pi pi-image" style="font-size: 1.75rem" />
                     <span>Sleep een afbeelding hierheen</span>
@@ -686,22 +682,22 @@
                       <span class="text-sm font-medium text-surface-700">Sfeerimpressie {{ i + 1 }}</span>
                       <button class="img-select-btn" @click="sfeerInputs[i]?.click()">Vervangen</button>
                     </div>
-                    <button class="img-remove-btn" style="margin-left: auto" @click="winkel.sfeerimpressies[i] = ''">
+                    <button class="img-remove-btn" style="margin-left: auto" @click="store.atmosphereImages[i] = ''">
                       <i class="pi pi-times" />
                     </button>
                   </div>
-                  <input :ref="(el) => { if (el) sfeerInputs[i] = el as HTMLInputElement }" type="file" accept="image/*" class="hidden" @change="(e: Event) => applyImageFile((e.target as HTMLInputElement).files?.[0], url => winkel.sfeerimpressies[i] = url)" />
+                  <input :ref="(el) => { if (el) sfeerInputs[i] = el as HTMLInputElement }" type="file" accept="image/*" class="hidden" @change="(e: Event) => applyImageFile((e.target as HTMLInputElement).files?.[0], url => store.atmosphereImages[i] = url)" />
                 </div>
               </div>
               <!-- Google 360 Tour -->
               <div class="fr-row">
                 <label class="fr-label">Google 360 Tour</label>
-                <InputText v-model="winkel.google360Tour" class="w-full" placeholder="Voer een code in" />
+                <InputText v-model="store.google360Tour" class="w-full" placeholder="Voer een code in" />
               </div>
               <!-- YouTube video -->
               <div class="fr-row">
                 <label class="fr-label">YouTube video</label>
-                <InputText v-model="winkel.youtubeVideo" class="w-full" placeholder="https://youtu.be/..." />
+                <InputText v-model="store.youtubeVideo" class="w-full" placeholder="https://youtu.be/..." />
               </div>
             </div>
           </Transition>
@@ -713,24 +709,15 @@
 </template>
 
 <style scoped>
-  /* ── Avatar color (layout handled by shared .edit-hdr-avatar) ───────────── */
-  :deep(.se-avatar) {
-    background: linear-gradient(135deg, var(--p-primary-400) 0%, var(--p-primary-600) 100%);
-    color: white;
-    font-size: 1.1rem;
-  }
-
-  /* ── Uitzonderingen ─────────────────────────────────────────────────────── */
-
-  /* Edit mode */
-  .uitzon-card {
+  /* ── Exceptions ──────────────────────────────────────────────────────────── */
+  .exception-card {
     border: 1px solid var(--p-surface-200);
     border-radius: 0.5rem;
     overflow: hidden;
     margin-bottom: 0.625rem;
   }
-  .uitzon-card:last-of-type { margin-bottom: 0; }
-  .uitzon-header {
+  .exception-card:last-of-type { margin-bottom: 0; }
+  .exception-header {
     display: flex;
     align-items: center;
     gap: 0.625rem;
@@ -738,20 +725,20 @@
     padding: 0.5rem 0.75rem;
     border-bottom: 1px solid var(--p-surface-200);
   }
-  .uitzon-view-datum {
+  .exception-date {
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--p-surface-700);
     min-width: 6rem;
   }
-  .uitzon-time { width: 5.5rem; }
-  .uitzon-redens-edit {
+  .exception-time { width: 5.5rem; }
+  .exception-reasons {
     display: flex;
     flex-direction: column;
     gap: 0;
     padding: 0;
   }
-  .uitzon-redens-hdr {
+  .exception-reasons-header {
     font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -760,15 +747,15 @@
     padding: 0.4rem 0.75rem 0.25rem;
     border-bottom: 1px solid var(--p-surface-100);
   }
-  .uitzon-reden-row {
+  .exception-reason-row {
     display: flex;
     align-items: center;
     gap: 0.625rem;
     padding: 0.5rem 0.75rem;
     border-bottom: 1px solid var(--p-surface-100);
   }
-  .uitzon-reden-row:last-child { border-bottom: none; }
-  .uitzon-reden-site-lbl {
+  .exception-reason-row:last-child { border-bottom: none; }
+  .exception-reason-site {
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--p-surface-500);

@@ -18,7 +18,7 @@
     { label: 'Afronden' },
   ]);
 
-  function handleSubmit(mode: 'offerte' | 'bestelling') {
+  function handleSubmit(mode: 'quotation' | 'order') {
     router.push({ name: 'ordersThankYou', query: { mode, order: 2787187 } });
   }
 </script>

@@ -20,30 +20,30 @@
   const moreMenuRef = ref();
 
   // ── Tab ───────────────────────────────────────────────────────────
-  const activeTab = ref('groepen');
+  const activeTab = ref('groups');
 
   // ── Actie ─────────────────────────────────────────────────────────
-  const actie = ref({
+  const offer = ref({
     id: Number(route.params.id),
-    naam: '2026 Q1: GROHE COLORS BE',
-    omschrijving: '',
+    name: '2026 Q1: GROHE COLORS BE',
+    description: '',
     websites: ['sawiday_be'],
-    startdatum: parseDMY('11-02-2026') as Date | null,
-    einddatum: parseDMY('31-03-2026') as Date | null,
-    status: 'Actief' as OfferStatus,
+    startDate: parseDMY('11-02-2026') as Date | null,
+    endDate: parseDMY('31-03-2026') as Date | null,
+    status: 'Active' as OfferStatus,
   });
 
   // ── Details edit state ────────────────────────────────────────────
   const editingDetails = ref(false);
-  const detailsDraft = ref({ ...actie.value, websites: [...actie.value.websites] });
+  const detailsDraft = ref({ ...offer.value, websites: [...offer.value.websites] });
 
   function startEditDetails() {
-    detailsDraft.value = { ...actie.value, websites: [...actie.value.websites] };
+    detailsDraft.value = { ...offer.value, websites: [...offer.value.websites] };
     editingDetails.value = true;
   }
 
   function saveDetails() {
-    Object.assign(actie.value, detailsDraft.value);
+    Object.assign(offer.value, detailsDraft.value);
   }
 
   function cancelDetails() {
@@ -72,7 +72,7 @@
   };
 
   const siteLabels = computed(() =>
-    actie.value.websites.flatMap((w) => {
+    offer.value.websites.flatMap((w) => {
       const s = siteMap[w];
       return s ? s.langs.map((lang) => `${s.code} (${lang})`) : [];
     })
@@ -96,13 +96,13 @@
   const gdIsEdit = ref(false);
   const gdEditGroupId = ref<number | null>(null);
   const gdParentGroupId = ref<number | null>(null);
-  const gdInitialNaam = ref('');
+  const gdInitialName = ref('');
 
   // ── Computed ──────────────────────────────────────────────────────
-  const isVerlopen = computed(() => actie.value.status === 'Verlopen');
+  const isExpired = computed(() => offer.value.status === 'Expired');
 
   const websiteSubtitle = computed(
-    () => actie.value.websites.map((w) => websiteLabels[w] ?? w).join(' · ') || '—'
+    () => offer.value.websites.map((w) => websiteLabels[w] ?? w).join(' · ') || '—'
   );
 
   const totalGroups = computed(() => {
@@ -120,22 +120,22 @@
   });
 
   const looptijdLabel = computed(
-    () => `${formatDate(actie.value.startdatum)} – ${formatDate(actie.value.einddatum)}`
+    () => `${formatDate(offer.value.startDate)} – ${formatDate(offer.value.endDate)}`
   );
 
   const statusBadgeClass = computed(() => {
     const map: Record<OfferStatus, string> = {
-      Actief: 'status-pill--active',
-      Verlopen: 'status-pill--expired',
-      'Binnenkort gepland': 'status-pill--planned',
+      Active: 'status-pill--active',
+      Expired: 'status-pill--expired',
+      Planned: 'status-pill--planned',
     };
-    return map[actie.value.status];
+    return map[offer.value.status];
   });
 
   const tabs: TabDef[] = [
     { id: 'details', label: 'Details', icon: 'pi-info-circle' },
-    { id: 'groepen', label: 'Groepen', icon: 'pi-sitemap'     },
-    { id: 'taken',   label: 'Taken',   icon: 'pi-list-check', soon: true, disabled: true },
+    { id: 'groups',  label: 'Groepen', icon: 'pi-sitemap'     },
+    { id: 'tasks',   label: 'Taken',   icon: 'pi-list-check', soon: true, disabled: true },
   ];
 
   // ── Tree helpers ──────────────────────────────────────────────────
@@ -173,7 +173,7 @@
   function toTreeNodes(nodes: Group[]): any[] {
     return nodes.map((g) => ({
       key: String(g.id),
-      label: g.naam,
+      label: g.name,
       selectable: true,
       children: g.children.length ? toTreeNodes(g.children) : undefined,
     }));
@@ -193,7 +193,7 @@
   const flatGroups = computed(() => flattenGroups(groups.value));
   const parentGroupOptions = computed(() => toTreeNodes(groups.value));
   const gdEditingRootGroup = computed(() => gdIsEdit.value);
-  const activeNodeNaam = computed(() => selectedNode.value?.naam ?? '');
+  const activeNodeName = computed(() => selectedNode.value?.name ?? '');
   const activeProducts = computed(() => selectedNode.value?.products ?? []);
 
   // ── Group actions ─────────────────────────────────────────────────
@@ -210,7 +210,7 @@
     gdIsEdit.value = false;
     gdEditGroupId.value = null;
     gdParentGroupId.value = parentGroupId;
-    gdInitialNaam.value = '';
+    gdInitialName.value = '';
   }
 
   function openEditGroup(nodeId: number) {
@@ -220,25 +220,25 @@
     gdIsEdit.value = true;
     gdEditGroupId.value = nodeId;
     gdParentGroupId.value = null;
-    gdInitialNaam.value = node.naam;
+    gdInitialName.value = node.name;
   }
 
   function handleGroupSave(data: {
     isEdit: boolean;
     editGroupId: number | null;
     parentGroupId: number | null;
-    naam: string;
+    name: string;
   }) {
     if (data.isEdit) {
       const node = findGroup(data.editGroupId!);
-      if (node) node.naam = data.naam;
+      if (node) node.name = data.name;
     } else if (data.parentGroupId !== null) {
       const parent = findGroup(data.parentGroupId);
       if (!parent) return;
       const newId = nextId();
       parent.children.push({
         id: newId,
-        naam: data.naam,
+        name: data.name,
         expanded: false,
         children: [],
         products: [],
@@ -249,7 +249,7 @@
       const newId = nextId();
       groups.value.push({
         id: newId,
-        naam: data.naam,
+        name: data.name,
         expanded: false,
         children: [],
         products: [],
@@ -302,14 +302,14 @@
   <EditPageLayout>
     <!-- ── Header ────────────────────────────────────────────────── -->
     <EditPageHeader
-      :title="actie.naam"
+      :title="offer.name"
       :subtitle="websiteSubtitle"
       :back="{ name: 'OffersOverview' }"
       avatar-class="oe-avatar"
     >
       <template #avatar><i class="pi pi-tag" /></template>
       <template #pills>
-        <span class="status-pill" :class="statusBadgeClass">{{ actie.status }}</span>
+        <span class="status-pill" :class="statusBadgeClass">{{ offer.status }}</span>
       </template>
       <template #stats>
         <div class="edit-hdr-stats">
@@ -353,7 +353,7 @@
 
     <!-- ── Verlopen banner ────────────────────────────────────────── -->
     <Transition name="fade">
-      <div v-if="isVerlopen" class="verlopen-banner">
+      <div v-if="isExpired" class="verlopen-banner">
         <i class="pi pi-info-circle shrink-0" />
         <span>Deze actie is verlopen en kan niet meer bewerkt worden.</span>
         <button class="verlopen-copy-btn" @click="showDuplicateDialog = true">
@@ -371,7 +371,7 @@
         <EditableCard
           v-model="editingDetails"
           title="Actiedetails"
-          :disabled="isVerlopen"
+          :disabled="isExpired"
           @save="saveDetails"
           @cancel="cancelDetails"
           @update:model-value="
@@ -385,16 +385,16 @@
             <div class="view-card-body">
               <div class="fr-row">
                 <span class="fr-label">Naam</span>
-                <span class="fr-value">{{ actie.naam }}</span>
+                <span class="fr-value">{{ offer.name }}</span>
               </div>
               <div class="fr-row fr-row--top">
                 <span class="fr-label">Website(s)</span>
                 <div class="flex flex-col gap-2">
                   <div class="flex flex-wrap gap-1">
-                    <span v-for="w in actie.websites" :key="w" class="site-tag">{{
+                    <span v-for="w in offer.websites" :key="w" class="site-tag">{{
                       websiteLabels[w] ?? w
                     }}</span>
-                    <span v-if="!actie.websites.length" class="fr-empty">—</span>
+                    <span v-if="!offer.websites.length" class="fr-empty">—</span>
                   </div>
                   <div v-if="PENDING_SITE_CHANGES.length" class="pending-sites">
                     <span class="pending-label">Vannacht:</span>
@@ -415,13 +415,13 @@
               <div class="fr-row">
                 <span class="fr-label">Looptijd</span>
                 <span class="fr-value">
-                  {{ formatDate(actie.startdatum) }} → {{ formatDate(actie.einddatum) }}
+                  {{ formatDate(offer.startDate) }} → {{ formatDate(offer.endDate) }}
                 </span>
               </div>
               <div class="fr-row fr-row--top">
                 <span class="fr-label">Omschrijving</span>
-                <span v-if="actie.omschrijving" class="fr-value" style="white-space: pre-wrap">{{
-                  actie.omschrijving
+                <span v-if="offer.description" class="fr-value" style="white-space: pre-wrap">{{
+                  offer.description
                 }}</span>
                 <span v-else class="fr-empty">—</span>
               </div>
@@ -434,7 +434,7 @@
               <div class="fr-row">
                 <span class="fr-label">Naam <span class="fr-req">*</span></span>
                 <InputText
-                  v-model="detailsDraft.naam"
+                  v-model="detailsDraft.name"
                   class="w-full"
                   placeholder="Bijv. 2026 Q1: Black Friday BE"
                 />
@@ -471,7 +471,7 @@
                 <span class="fr-label">Looptijd <span class="fr-req">*</span></span>
                 <div class="flex items-center gap-2">
                   <DatePicker
-                    v-model="detailsDraft.startdatum"
+                    v-model="detailsDraft.startDate"
                     date-format="dd-mm-yy"
                     show-icon
                     icon-display="input"
@@ -480,7 +480,7 @@
                   />
                   <span class="text-gray-300 text-sm shrink-0">→</span>
                   <DatePicker
-                    v-model="detailsDraft.einddatum"
+                    v-model="detailsDraft.endDate"
                     date-format="dd-mm-yy"
                     show-icon
                     icon-display="input"
@@ -492,7 +492,7 @@
               <div class="fr-row fr-row--top">
                 <span class="fr-label">Omschrijving</span>
                 <Textarea
-                  v-model="detailsDraft.omschrijving"
+                  v-model="detailsDraft.description"
                   class="w-full"
                   :rows="4"
                   placeholder="Optionele omschrijving"
@@ -506,13 +506,13 @@
     </div>
 
     <!-- ── Tab 2: Groepen ─────────────────────────────────────────── -->
-    <div v-else-if="activeTab === 'groepen'" class="oe-groepen-tab">
+    <div v-else-if="activeTab === 'groups'" class="oe-groepen-tab">
       <!-- Groups card -->
       <div class="view-card oe-groups-card">
         <div class="view-card-hdr">
           <span class="view-card-title">Groepen</span>
           <Button
-            v-if="!isVerlopen"
+            v-if="!isExpired"
             label="Toevoegen"
             icon="pi pi-plus"
             size="small"
@@ -525,7 +525,7 @@
           :groups="groups"
           :selected-group-id="selectedNodeId"
           :pending-changes="PENDING_CHANGES"
-          :is-verlopen="isVerlopen"
+          :is-verlopen="isExpired"
           :headless="true"
           @select-group="selectNode"
           @toggle-group="toggleGroup"
@@ -543,8 +543,8 @@
           :selected-path="selectedPath"
           :pending-changes="PENDING_CHANGES"
           :pending-site-changes="PENDING_SITE_CHANGES"
-          :is-verlopen="isVerlopen"
-          :group-naam="activeNodeNaam"
+          :is-verlopen="isExpired"
+          :group-name="activeNodeName"
           @add-products="showAddProducts = true"
           @delete-products="handleDeleteProducts"
           @delete-all-products="handleDeleteAllProducts"
@@ -558,7 +558,7 @@
     </div>
 
     <!-- ── Tab 3: Taken (placeholder) ────────────────────────────── -->
-    <div v-else-if="activeTab === 'taken'" class="tab-scroll">
+    <div v-else-if="activeTab === 'tasks'" class="tab-scroll">
       <div class="view-card">
         <div class="view-card-hdr">
           <span class="view-card-title">Achtergrondtaken</span>
@@ -572,14 +572,14 @@
     </div>
 
     <!-- ── Dialogs & Drawers ──────────────────────────────────────── -->
-    <AddProductsDialog v-model:visible="showAddProducts" :group-naam="activeNodeNaam" />
+    <AddProductsDialog v-model:visible="showAddProducts" :group-naam="activeNodeName" />
 
     <DuplicateDialog
       v-model:visible="showDuplicateDialog"
-      :actie-naam="actie.naam"
-      :actie-websites="actie.websites"
-      :actie-startdatum="actie.startdatum"
-      :actie-einddatum="actie.einddatum"
+      :actie-naam="offer.name"
+      :actie-websites="offer.websites"
+      :actie-startdatum="offer.startDate"
+      :actie-einddatum="offer.endDate"
     />
 
     <GroupDrawer
@@ -587,7 +587,7 @@
       :is-edit="gdIsEdit"
       :edit-group-id="gdEditGroupId"
       :parent-group-id="gdParentGroupId"
-      :initial-naam="gdInitialNaam"
+      :initial-name="gdInitialName"
       :site-labels="siteLabels"
       :parent-group-options="parentGroupOptions"
       :editing-root-group="gdEditingRootGroup"

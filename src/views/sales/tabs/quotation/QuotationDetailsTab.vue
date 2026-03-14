@@ -1,16 +1,16 @@
 <script setup lang="ts">
   import { inject, ref, type Ref } from 'vue';
   import type { QuotationData } from '@/types/quotations';
-  import AannemerSection from '@/views/sales/components/AannemerSection.vue';
-  import AanbevolenDoorSection from '@/views/sales/components/AanbevolenDoorSection.vue';
+  import ContractorSection from '@/views/sales/components/ContractorSection.vue';
+  import RecommendedBySection from '@/views/sales/components/RecommendedBySection.vue';
 
   const quotation = inject<Ref<QuotationData>>('quotation')!;
 
-  const isEditingGegevens = ref(false);
-  const isEditingContacten = ref(false);
+  const isEditingDetails = ref(false);
+  const isEditingContacts = ref(false);
 
-  const kanaalOptions = ['Showroom', 'Telefoon', 'E-mail', 'Chat', 'Website'];
-  const vestigingOptions = ['Amsterdam', 'Rotterdam', 'Utrecht', 'Veenendaal', 'Den Haag'];
+  const channelOptions = ['Showroom', 'Telefoon', 'E-mail', 'Chat', 'Website'];
+  const branchOptions = ['Amsterdam', 'Rotterdam', 'Utrecht', 'Veenendaal', 'Den Haag'];
   const jaarOptions = Array.from({ length: 6 }, (_, i) => String(new Date().getFullYear() + i));
   const maandOptions = [
     'januari', 'februari', 'maart', 'april', 'mei', 'juni',
@@ -24,48 +24,48 @@
     <div class="view-card">
       <div class="view-card-hdr">
         <span class="view-card-title">Offerte gegevens</span>
-        <template v-if="!isEditingGegevens">
+        <template v-if="!isEditingDetails">
           <Button
             label="Bewerken"
             icon="pi pi-pencil"
             size="small"
             severity="secondary"
             text
-            @click="isEditingGegevens = true"
+            @click="isEditingDetails = true"
           />
         </template>
         <template v-else>
           <div class="flex gap-2">
-            <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingGegevens = false" />
-            <Button label="Opslaan" size="small" @click="isEditingGegevens = false" />
+            <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingDetails = false" />
+            <Button label="Opslaan" size="small" @click="isEditingDetails = false" />
           </div>
         </template>
       </div>
 
       <Transition name="card-fade" mode="out-in">
         <!-- View mode -->
-        <div v-if="!isEditingGegevens" key="view" class="view-card-body">
+        <div v-if="!isEditingDetails" key="view" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Besteldatum</span>
-            <span class="fr-value">{{ quotation.besteldatum }}</span>
+            <span class="fr-value">{{ quotation.orderDate }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Geholpen door</span>
-            <span class="fr-value">{{ quotation.geholpenDoor }}</span>
+            <span class="fr-value">{{ quotation.assistedBy }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Kanaal</span>
-            <span class="fr-value">{{ quotation.kanaal }}</span>
+            <span class="fr-value">{{ quotation.channel }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Vestiging</span>
-            <span class="fr-value">{{ quotation.vestiging }}</span>
+            <span class="fr-value">{{ quotation.branch }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Wanneer verbouwen</span>
-            <span :class="quotation.wanneerVerbouwenMaand ? 'fr-value' : 'fr-empty'">
-              {{ quotation.wanneerVerbouwenMaand && quotation.wanneerVerbouwenJaar
-                ? `${quotation.wanneerVerbouwenMaand} ${quotation.wanneerVerbouwenJaar}`
+            <span :class="quotation.renovationMonth ? 'fr-value' : 'fr-empty'">
+              {{ quotation.renovationMonth && quotation.renovationYear
+                ? `${quotation.renovationMonth} ${quotation.renovationYear}`
                 : '—' }}
             </span>
           </div>
@@ -75,25 +75,25 @@
         <div v-else key="edit" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Besteldatum</span>
-            <span class="fr-value">{{ quotation.besteldatum }}</span>
+            <span class="fr-value">{{ quotation.orderDate }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Geholpen door</span>
-            <span class="fr-value">{{ quotation.geholpenDoor }}</span>
+            <span class="fr-value">{{ quotation.assistedBy }}</span>
           </div>
           <div class="fr-row">
             <label class="fr-label">Kanaal</label>
-            <Select v-model="quotation.kanaal" :options="kanaalOptions" class="w-full" />
+            <Select v-model="quotation.channel" :options="channelOptions" class="w-full" />
           </div>
           <div class="fr-row">
             <label class="fr-label">Vestiging</label>
-            <Select v-model="quotation.vestiging" :options="vestigingOptions" class="w-full" />
+            <Select v-model="quotation.branch" :options="branchOptions" class="w-full" />
           </div>
           <div class="fr-row fr-row--top">
             <label class="fr-label">Wanneer verbouwen</label>
             <div class="verbouwen-grid">
-              <Select v-model="quotation.wanneerVerbouwenMaand" :options="maandOptions" placeholder="Maand" class="w-full" />
-              <Select v-model="quotation.wanneerVerbouwenJaar" :options="jaarOptions" placeholder="Jaar" class="w-full" />
+              <Select v-model="quotation.renovationMonth" :options="maandOptions" placeholder="Maand" class="w-full" />
+              <Select v-model="quotation.renovationYear" :options="jaarOptions" placeholder="Jaar" class="w-full" />
             </div>
           </div>
         </div>
@@ -104,37 +104,37 @@
     <div class="view-card">
       <div class="view-card-hdr">
         <span class="view-card-title">Externe contacten</span>
-        <template v-if="!isEditingContacten">
+        <template v-if="!isEditingContacts">
           <Button
             label="Bewerken"
             icon="pi pi-pencil"
             size="small"
             severity="secondary"
             text
-            @click="isEditingContacten = true"
+            @click="isEditingContacts = true"
           />
         </template>
         <template v-else>
           <div class="flex gap-2">
-            <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingContacten = false" />
-            <Button label="Opslaan" size="small" @click="isEditingContacten = false" />
+            <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingContacts = false" />
+            <Button label="Opslaan" size="small" @click="isEditingContacts = false" />
           </div>
         </template>
       </div>
 
       <Transition name="card-fade" mode="out-in">
         <!-- View mode: summary -->
-        <div v-if="!isEditingContacten" key="view" class="view-card-body">
+        <div v-if="!isEditingContacts" key="view" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Aanbevolen door</span>
-            <span :class="quotation.aanbevolen?.bedrijf ? 'fr-value' : 'fr-empty'">
-              {{ quotation.aanbevolen?.bedrijf || '—' }}
+            <span :class="quotation.recommended?.company ? 'fr-value' : 'fr-empty'">
+              {{ quotation.recommended?.company || '—' }}
             </span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Aannemer</span>
-            <span :class="quotation.aannemer?.bedrijf ? 'fr-value' : 'fr-empty'">
-              {{ quotation.aannemer?.bedrijf || '—' }}
+            <span :class="quotation.contractor?.company ? 'fr-value' : 'fr-empty'">
+              {{ quotation.contractor?.company || '—' }}
             </span>
           </div>
         </div>
@@ -145,7 +145,7 @@
             <div class="ext-section-hdr">
               <span class="ext-section-title">Aanbevolen door</span>
             </div>
-            <AanbevolenDoorSection />
+            <RecommendedBySection />
           </div>
 
           <div class="ext-sep" />
@@ -154,7 +154,7 @@
             <div class="ext-section-hdr">
               <span class="ext-section-title">Aannemer / Installateur</span>
             </div>
-            <AannemerSection />
+            <ContractorSection />
           </div>
         </div>
       </Transition>

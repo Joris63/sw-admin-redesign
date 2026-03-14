@@ -5,10 +5,10 @@
 
   const customer = inject<Ref<CustomerData>>('customer')!;
 
-  const isEditingInstellingen = ref(false);
-  const isEditingKrediet = ref(false);
+  const isEditingSettings = ref(false);
+  const isEditingCredit = ref(false);
 
-  const reviewInactiefRedenOptions = ['Email vertraagd', 'Weigering', 'Overig'];
+  const reviewInactiveReasonOptions = ['Email vertraagd', 'Weigering', 'Overig'];
 </script>
 
 <template>
@@ -17,14 +17,14 @@
     <div class="view-card">
       <div class="view-card-hdr">
         <span class="view-card-title">Instellingen</span>
-        <template v-if="!isEditingInstellingen">
+        <template v-if="!isEditingSettings">
           <Button
             label="Bewerken"
             icon="pi pi-pencil"
             size="small"
             severity="secondary"
             text
-            @click="isEditingInstellingen = true"
+            @click="isEditingSettings = true"
           />
         </template>
         <template v-else>
@@ -34,32 +34,32 @@
               size="small"
               severity="secondary"
               outlined
-              @click="isEditingInstellingen = false"
+              @click="isEditingSettings = false"
             />
-            <Button label="Opslaan" size="small" @click="isEditingInstellingen = false" />
+            <Button label="Opslaan" size="small" @click="isEditingSettings = false" />
           </div>
         </template>
       </div>
       <Transition name="card-fade" mode="out-in">
-        <div v-if="!isEditingInstellingen" key="view" class="view-card-body">
+        <div v-if="!isEditingSettings" key="view" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Financieel e-mailadres</span>
-            <span class="fr-value">{{ customer.financieelEmail || '—' }}</span>
+            <span class="fr-value">{{ customer.financialEmail || '—' }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Reviews</span>
-            <span class="fr-value">{{ customer.reviewsActief ? 'Actief' : 'Inactief' }}</span>
+            <span class="fr-value">{{ customer.reviewsActive ? 'Actief' : 'Inactief' }}</span>
           </div>
-          <div v-if="!customer.reviewsActief" class="fr-row">
+          <div v-if="!customer.reviewsActive" class="fr-row">
             <span class="fr-label">Inactief reden</span>
-            <span class="fr-value">{{ customer.reviewInactiefReden || '—' }}</span>
+            <span class="fr-value">{{ customer.reviewInactiveReason || '—' }}</span>
           </div>
           <div class="fr-row fr-row--top">
             <span class="fr-label">Opmerkingen</span>
             <span
-              :class="customer.opmerkingen ? 'fr-value' : 'fr-empty'"
+              :class="customer.notes ? 'fr-value' : 'fr-empty'"
               style="white-space: pre-wrap"
-              >{{ customer.opmerkingen || '—' }}</span
+              >{{ customer.notes || '—' }}</span
             >
           </div>
         </div>
@@ -67,7 +67,7 @@
           <div class="fr-row">
             <label class="fr-label">Financieel e-mailadres</label>
             <InputText
-              v-model="customer.financieelEmail"
+              v-model="customer.financialEmail"
               class="w-full"
               placeholder="Financieel e-mailadres"
             />
@@ -75,17 +75,17 @@
           <div class="fr-row">
             <label class="fr-label">Reviews</label>
             <div class="flex items-center gap-3">
-              <ToggleSwitch v-model="customer.reviewsActief" input-id="reviews" />
+              <ToggleSwitch v-model="customer.reviewsActive" input-id="reviews" />
               <label for="reviews" class="text-sm text-surface-600 cursor-pointer"
                 >Reviews actief</label
               >
             </div>
           </div>
-          <div v-if="!customer.reviewsActief" class="fr-row">
+          <div v-if="!customer.reviewsActive" class="fr-row">
             <label class="fr-label">Inactief reden</label>
             <Select
-              v-model="customer.reviewInactiefReden"
-              :options="reviewInactiefRedenOptions"
+              v-model="customer.reviewInactiveReason"
+              :options="reviewInactiveReasonOptions"
               class="w-full"
               placeholder="Selecteer reden"
               show-clear
@@ -94,7 +94,7 @@
           <div class="fr-row fr-row--top">
             <label class="fr-label">Opmerkingen</label>
             <Textarea
-              v-model="customer.opmerkingen"
+              v-model="customer.notes"
               class="w-full"
               :rows="4"
               placeholder="Opmerkingen"
@@ -109,14 +109,14 @@
     <div class="view-card">
       <div class="view-card-hdr">
         <span class="view-card-title">Krediet</span>
-        <template v-if="!isEditingKrediet">
+        <template v-if="!isEditingCredit">
           <Button
             label="Bewerken"
             icon="pi pi-pencil"
             size="small"
             severity="secondary"
             text
-            @click="isEditingKrediet = true"
+            @click="isEditingCredit = true"
           />
         </template>
         <template v-else>
@@ -126,52 +126,52 @@
               size="small"
               severity="secondary"
               outlined
-              @click="isEditingKrediet = false"
+              @click="isEditingCredit = false"
             />
-            <Button label="Opslaan" size="small" @click="isEditingKrediet = false" />
+            <Button label="Opslaan" size="small" @click="isEditingCredit = false" />
           </div>
         </template>
       </div>
       <Transition name="card-fade" mode="out-in">
-        <div v-if="!isEditingKrediet" key="view" class="view-card-body">
+        <div v-if="!isEditingCredit" key="view" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Betalen op rekening</span>
-            <span class="fr-value">{{ customer.kanBetalenOpRekening ? 'Ja' : 'Nee' }}</span>
+            <span class="fr-value">{{ customer.canPayOnAccount ? 'Ja' : 'Nee' }}</span>
           </div>
           <Transition name="fade-slide">
-            <div v-if="customer.kanBetalenOpRekening">
+            <div v-if="customer.canPayOnAccount">
               <div class="fr-row">
                 <span class="fr-label">Debiteur nummer</span>
-                <span class="fr-value">{{ customer.debiteurNummer || '—' }}</span>
+                <span class="fr-value">{{ customer.debtorNumber || '—' }}</span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Kredietlimiet</span>
                 <span class="fr-value">{{
-                  customer.kredietlimiet ? `€ ${customer.kredietlimiet}` : '—'
+                  customer.creditLimit ? `€ ${customer.creditLimit}` : '—'
                 }}</span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Vervaldagen factuur</span>
-                <span class="fr-value">{{ customer.vervaldagenFactuur }} dagen</span>
+                <span class="fr-value">{{ customer.invoiceDueDays }} dagen</span>
               </div>
               <div class="fr-row">
                 <span class="fr-label">Tijdelijk krediet</span>
                 <span class="fr-value">{{
-                  customer.tijdelijkKredietToestaan ? 'Toegestaan' : 'Niet toegestaan'
+                  customer.allowTemporaryCredit ? 'Toegestaan' : 'Niet toegestaan'
                 }}</span>
               </div>
               <Transition name="fade-slide">
-                <div v-if="customer.tijdelijkKredietToestaan">
+                <div v-if="customer.allowTemporaryCredit">
                   <div class="fr-row">
                     <span class="fr-label">Tijdelijk limiet</span>
                     <span class="fr-value">{{
-                      customer.tijdelijkKredietLimiet ? `€ ${customer.tijdelijkKredietLimiet}` : '—'
+                      customer.temporaryCreditLimit ? `€ ${customer.temporaryCreditLimit}` : '—'
                     }}</span>
                   </div>
                   <div class="fr-row">
                     <span class="fr-label">Vervaldatum</span>
                     <span class="fr-value">{{
-                      customer.tijdelijkKredietVervalDatum?.toLocaleDateString('nl-NL') || '—'
+                      customer.temporaryCreditExpiryDate?.toLocaleDateString('nl-NL') || '—'
                     }}</span>
                   </div>
                 </div>
@@ -183,31 +183,31 @@
           <div class="fr-row">
             <label class="fr-label">Betalen op rekening</label>
             <div class="flex items-center gap-3">
-              <ToggleSwitch v-model="customer.kanBetalenOpRekening" input-id="betalen-rekening" />
+              <ToggleSwitch v-model="customer.canPayOnAccount" input-id="betalen-rekening" />
               <label for="betalen-rekening" class="text-sm text-surface-600 cursor-pointer"
                 >Kan betalen op rekening</label
               >
             </div>
           </div>
           <Transition name="fade-slide">
-            <div v-if="customer.kanBetalenOpRekening">
+            <div v-if="customer.canPayOnAccount">
               <div class="fr-row">
                 <label class="fr-label">Debiteur nummer</label>
                 <InputText
-                  v-model="customer.debiteurNummer"
+                  v-model="customer.debtorNumber"
                   class="w-full"
                   placeholder="Debiteur nummer"
                 />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Kredietlimiet</label>
-                <InputNumber v-model="customer.kredietlimiet" class="w-full" placeholder="0" />
+                <InputNumber v-model="customer.creditLimit" class="w-full" placeholder="0" />
               </div>
               <div class="fr-row">
                 <label class="fr-label">Vervaldagen factuur</label>
                 <div class="flex items-center gap-2">
                   <InputNumber
-                    v-model="customer.vervaldagenFactuur"
+                    v-model="customer.invoiceDueDays"
                     style="width: 8rem"
                     placeholder="14"
                   />
@@ -218,7 +218,7 @@
                 <label class="fr-label">Tijdelijk krediet</label>
                 <div class="flex items-center gap-3">
                   <ToggleSwitch
-                    v-model="customer.tijdelijkKredietToestaan"
+                    v-model="customer.allowTemporaryCredit"
                     input-id="tijdelijk-krediet"
                   />
                   <label for="tijdelijk-krediet" class="text-sm text-surface-600 cursor-pointer"
@@ -227,11 +227,11 @@
                 </div>
               </div>
               <Transition name="fade-slide">
-                <div v-if="customer.tijdelijkKredietToestaan">
+                <div v-if="customer.allowTemporaryCredit">
                   <div class="fr-row">
                     <label class="fr-label">Tijdelijk limiet</label>
                     <InputNumber
-                      v-model="customer.tijdelijkKredietLimiet"
+                      v-model="customer.temporaryCreditLimit"
                       class="w-full"
                       placeholder="0"
                     />
@@ -239,7 +239,7 @@
                   <div class="fr-row">
                     <label class="fr-label">Vervaldatum</label>
                     <DatePicker
-                      v-model="customer.tijdelijkKredietVervalDatum"
+                      v-model="customer.temporaryCreditExpiryDate"
                       date-format="dd-mm-yy"
                       show-icon
                       icon-display="input"

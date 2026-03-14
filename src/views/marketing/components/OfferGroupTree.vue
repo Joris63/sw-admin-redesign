@@ -82,7 +82,7 @@
           <i :class="`pi ${node.expanded ? 'pi-chevron-down' : 'pi-chevron-right'} text-xs`" />
         </button>
         <div v-else class="w-5 shrink-0" />
-        <span class="group-naam flex-1 truncate">{{ node.naam }}</span>
+        <span class="group-naam flex-1 truncate">{{ node.name }}</span>
         <i
           v-if="groupHasPending(node.id)"
           class="pi pi-clock pending-clock"

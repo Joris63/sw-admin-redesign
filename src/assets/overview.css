@@ -44,22 +44,22 @@
     white-space: nowrap;
   }
 
-  .status-badge--actief, .status-badge--yes {
+  .status-badge--active, .status-badge--yes {
     background: var(--p-green-100);
     color: var(--p-green-700);
   }
-  
+
   .status-badge--no {
     background: var(--p-red-100);
     color: var(--p-red-700);
   }
 
-  .status-badge--verlopen {
+  .status-badge--expired {
     background: var(--p-gray-100);
     color: var(--p-gray-500);
   }
 
-  .status-badge--gepland {
+  .status-badge--planned {
     background: var(--p-blue-100);
     color: var(--p-blue-700);
   }

@@ -4,11 +4,11 @@
 
   const quotation = inject<Ref<QuotationData>>('quotation')!;
 
-  const isEditingAdres = ref(false);
+  const isEditingAddress = ref(false);
   const isEditingDetails = ref(false);
 
-  const landOptions = ['Nederland', 'België', 'Duitsland', 'Frankrijk', 'Luxemburg'];
-  const telefoonLandOptions = [
+  const countryOptions = ['Nederland', 'België', 'Duitsland', 'Frankrijk', 'Luxemburg'];
+  const phoneCountryOptions = [
     { label: '+31', value: 'NL' },
     { label: '+32', value: 'BE' },
     { label: '+49', value: 'DE' },
@@ -16,18 +16,18 @@
 
   const emailCopied = ref(false);
   function copyEmail() {
-    navigator.clipboard.writeText(quotation.value.klantEmail);
+    navigator.clipboard.writeText(quotation.value.customerEmail);
     emailCopied.value = true;
     setTimeout(() => (emailCopied.value = false), 1500);
   }
 
-  function telefoonPrefix(code: string) {
-    return telefoonLandOptions.find((o) => o.value === code)?.label ?? code;
+  function phonePrefix(code: string) {
+    return phoneCountryOptions.find((o) => o.value === code)?.label ?? code;
   }
 
-  const klantInitials = computed(() =>
-    quotation.value.voornaam && quotation.value.achternaam
-      ? (quotation.value.voornaam[0] + quotation.value.achternaam[0]).toUpperCase()
+  const customerInitials = computed(() =>
+    quotation.value.firstName && quotation.value.lastName
+      ? (quotation.value.firstName[0] + quotation.value.lastName[0]).toUpperCase()
       : '??'
   );
 </script>
@@ -48,11 +48,11 @@
       </div>
       <div class="view-card-body">
         <div class="klant-profile">
-          <div class="klant-avatar">{{ klantInitials }}</div>
+          <div class="klant-avatar">{{ customerInitials }}</div>
           <div class="klant-info">
-            <span class="klant-name">{{ quotation.voornaam }} {{ quotation.achternaam }}</span>
+            <span class="klant-name">{{ quotation.firstName }} {{ quotation.lastName }}</span>
             <div class="klant-email-row">
-              <span class="klant-email">{{ quotation.klantEmail }}</span>
+              <span class="klant-email">{{ quotation.customerEmail }}</span>
               <Button
                 :icon="emailCopied ? 'pi pi-check' : 'pi pi-copy'"
                 size="small"
@@ -68,14 +68,14 @@
           <div class="klant-meta-item">
             <span class="klant-meta-label">Account</span>
             <Tag
-              :value="quotation.klantHeeftAccount ? 'Actief' : 'Geen account'"
-              :severity="quotation.klantHeeftAccount ? 'success' : 'secondary'"
+              :value="quotation.customerHasAccount ? 'Actief' : 'Geen account'"
+              :severity="quotation.customerHasAccount ? 'success' : 'secondary'"
             />
           </div>
           <div class="klant-meta-sep" />
           <div class="klant-meta-item">
             <span class="klant-meta-label">Type</span>
-            <span class="klant-meta-val">{{ quotation.klantType }}</span>
+            <span class="klant-meta-val">{{ quotation.customerType }}</span>
           </div>
         </div>
       </div>
@@ -85,51 +85,51 @@
     <div class="view-card">
       <div class="view-card-hdr">
         <span class="view-card-title">Factuuradres</span>
-        <template v-if="!isEditingAdres">
+        <template v-if="!isEditingAddress">
           <Button
             label="Bewerken"
             icon="pi pi-pencil"
             size="small"
             severity="secondary"
             text
-            @click="isEditingAdres = true"
+            @click="isEditingAddress = true"
           />
         </template>
         <template v-else>
           <div class="flex gap-2">
-            <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingAdres = false" />
-            <Button label="Opslaan" size="small" @click="isEditingAdres = false" />
+            <Button label="Annuleren" size="small" severity="secondary" outlined @click="isEditingAddress = false" />
+            <Button label="Opslaan" size="small" @click="isEditingAddress = false" />
           </div>
         </template>
       </div>
 
       <Transition name="card-fade" mode="out-in">
         <!-- View mode -->
-        <div v-if="!isEditingAdres" key="view" class="view-card-body">
+        <div v-if="!isEditingAddress" key="view" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Naam</span>
-            <span class="fr-value">{{ quotation.voornaam }} {{ quotation.achternaam }}</span>
+            <span class="fr-value">{{ quotation.firstName }} {{ quotation.lastName }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Land</span>
-            <span class="fr-value">{{ quotation.land }}</span>
+            <span class="fr-value">{{ quotation.country }}</span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Adres</span>
             <span class="fr-value">
-              {{ quotation.straat }} {{ quotation.huisnummer }}{{ quotation.toevoeging ? ' ' + quotation.toevoeging : '' }},
-              {{ quotation.postcode }} {{ quotation.woonplaats }}
+              {{ quotation.street }} {{ quotation.houseNumber }}{{ quotation.addition ? ' ' + quotation.addition : '' }},
+              {{ quotation.postalCode }} {{ quotation.city }}
             </span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Telefoon</span>
-            <span :class="quotation.telefoon ? 'fr-value' : 'fr-empty'">
-              {{ quotation.telefoon ? `${telefoonPrefix(quotation.telefoonLand)} ${quotation.telefoon}` : '—' }}
+            <span :class="quotation.phone ? 'fr-value' : 'fr-empty'">
+              {{ quotation.phone ? `${phonePrefix(quotation.phoneCountry)} ${quotation.phone}` : '—' }}
             </span>
           </div>
           <div class="fr-row">
             <span class="fr-label">Alt. telefoon</span>
-            <span :class="quotation.alternatief ? 'fr-value' : 'fr-empty'">{{ quotation.alternatief || '—' }}</span>
+            <span :class="quotation.alternative ? 'fr-value' : 'fr-empty'">{{ quotation.alternative || '—' }}</span>
           </div>
         </div>
 
@@ -137,42 +137,42 @@
         <div v-else key="edit" class="view-card-body">
           <div class="fr-row">
             <label class="fr-label">Voornaam</label>
-            <InputText v-model="quotation.voornaam" class="w-full" />
+            <InputText v-model="quotation.firstName" class="w-full" />
           </div>
           <div class="fr-row">
             <label class="fr-label">Achternaam</label>
-            <InputText v-model="quotation.achternaam" class="w-full" />
+            <InputText v-model="quotation.lastName" class="w-full" />
           </div>
           <div class="fr-row">
             <label class="fr-label">Land</label>
-            <Select v-model="quotation.land" :options="landOptions" class="w-full" />
+            <Select v-model="quotation.country" :options="countryOptions" class="w-full" />
           </div>
           <div class="fr-row fr-row--top">
             <label class="fr-label">Adres</label>
             <div class="addr-grid">
-              <InputText v-model="quotation.postcode" placeholder="Postcode" />
-              <InputText v-model="quotation.huisnummer" placeholder="Nr." />
-              <InputText v-model="quotation.toevoeging" placeholder="Toev." />
-              <InputText v-model="quotation.straat" placeholder="Straat" class="addr-full" />
-              <InputText v-model="quotation.woonplaats" placeholder="Woonplaats" class="addr-full" />
+              <InputText v-model="quotation.postalCode" placeholder="Postcode" />
+              <InputText v-model="quotation.houseNumber" placeholder="Nr." />
+              <InputText v-model="quotation.addition" placeholder="Toev." />
+              <InputText v-model="quotation.street" placeholder="Straat" class="addr-full" />
+              <InputText v-model="quotation.city" placeholder="Woonplaats" class="addr-full" />
             </div>
           </div>
           <div class="fr-row">
             <label class="fr-label">Telefoon</label>
             <div class="phone-row">
               <Select
-                v-model="quotation.telefoonLand"
-                :options="telefoonLandOptions"
+                v-model="quotation.phoneCountry"
+                :options="phoneCountryOptions"
                 option-label="label"
                 option-value="value"
                 class="phone-flag"
               />
-              <InputText v-model="quotation.telefoon" class="flex-1" placeholder="Telefoonnummer" />
+              <InputText v-model="quotation.phone" class="flex-1" placeholder="Telefoonnummer" />
             </div>
           </div>
           <div class="fr-row">
             <label class="fr-label">Alt. telefoon</label>
-            <InputText v-model="quotation.alternatief" class="w-full" placeholder="Alternatief telefoonnummer" />
+            <InputText v-model="quotation.alternative" class="w-full" placeholder="Alternatief telefoonnummer" />
           </div>
         </div>
       </Transition>
@@ -203,13 +203,13 @@
         <div v-if="!isEditingDetails" key="view" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Referentie</span>
-            <span :class="quotation.referentie ? 'fr-value' : 'fr-empty'">{{ quotation.referentie || '—' }}</span>
+            <span :class="quotation.reference ? 'fr-value' : 'fr-empty'">{{ quotation.reference || '—' }}</span>
           </div>
         </div>
         <div v-else key="edit" class="view-card-body">
           <div class="fr-row">
             <label class="fr-label">Referentie</label>
-            <InputText v-model="quotation.referentie" class="w-full" placeholder="Klantreferentie (optioneel)" />
+            <InputText v-model="quotation.reference" class="w-full" placeholder="Klantreferentie (optioneel)" />
           </div>
         </div>
       </Transition>

@@ -6,15 +6,15 @@
   const customer = inject<Ref<CustomerData>>('customer')!;
 
   const newAccountEmail = ref('');
-  const emailWijzigenVisible = ref(false);
+  const emailChangeVisible = ref(false);
 
-  function openEmailWijzigen() {
+  function openEmailChange() {
     newAccountEmail.value = '';
-    emailWijzigenVisible.value = true;
+    emailChangeVisible.value = true;
   }
-  function submitEmailWijzigen() {
+  function submitEmailChange() {
     // TODO: call API
-    emailWijzigenVisible.value = false;
+    emailChangeVisible.value = false;
   }
 </script>
 
@@ -32,7 +32,7 @@
         </div>
         <div class="fr-row">
           <span class="fr-label">Laatste login</span>
-          <span class="fr-value">{{ customer.accountLaatsteLogin }}</span>
+          <span class="fr-value">{{ customer.accountLastLogin }}</span>
         </div>
       </div>
     </div>
@@ -70,14 +70,14 @@
           size="small"
           severity="secondary"
           outlined
-          @click="openEmailWijzigen"
+          @click="openEmailChange"
         />
       </div>
     </div>
   </div>
 
   <Dialog
-    v-model:visible="emailWijzigenVisible"
+    v-model:visible="emailChangeVisible"
     header="E-mail adres wijzigen"
     :style="{ width: '28rem' }"
     modal
@@ -100,9 +100,9 @@
         label="Annuleren"
         severity="secondary"
         outlined
-        @click="emailWijzigenVisible = false"
+        @click="emailChangeVisible = false"
       />
-      <Button label="Verstuur e-mail" :disabled="!newAccountEmail" @click="submitEmailWijzigen" />
+      <Button label="Verstuur e-mail" :disabled="!newAccountEmail" @click="submitEmailChange" />
     </template>
   </Dialog>
 </template>

@@ -89,7 +89,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/logistics/locations/winkels/:id',
+      path: '/logistics/locations/stores/:id',
       name: 'StoreEdit',
       component: StoreEdit,
       meta: {

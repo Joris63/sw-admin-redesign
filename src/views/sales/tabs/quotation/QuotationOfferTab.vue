@@ -7,7 +7,7 @@
   const isEditing = ref(false);
 
   const productCount = computed(() =>
-    quotation.value.groups.reduce((sum, g) => sum + g.lines.reduce((s, l) => s + l.aantal, 0), 0)
+    quotation.value.groups.reduce((sum, g) => sum + g.lines.reduce((s, l) => s + l.quantity, 0), 0)
   );
 </script>
 

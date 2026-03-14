@@ -3,16 +3,16 @@ export interface OrdersAddStep {
 }
 
 export interface CartItem {
-  naam: string;
-  productcode: string;
-  levertijd: string;
-  voorraad: number;
-  aantal: number;
-  prijs: number;
+  name: string;
+  productCode: string;
+  deliveryTime: string;
+  stock: number;
+  quantity: number;
+  price: number;
   imageUrl?: string;
   discountPercent: number;
   discountAmount: number;
-  prijscorrectie: boolean;
+  priceCorrection: boolean;
 }
 
 export interface CartGroup {
@@ -21,4 +21,4 @@ export interface CartGroup {
   items: CartItem[];
 }
 
-export type FinalizeMode = 'offerte' | 'bestelling' | null;
+export type FinalizeMode = 'quotation' | 'order' | null;

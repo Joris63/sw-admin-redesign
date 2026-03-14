@@ -11,16 +11,16 @@ const groups = ref<CartGroup[]>([
     name: 'Ongegroepeerd',
     items: [
       {
-        naam: 'Saniclass klikwaste afvoerplug - 5/4" - chroom',
-        productcode: 'SW1175 20',
-        levertijd: '1 Dag',
-        voorraad: 5,
+        name: 'Saniclass klikwaste afvoerplug - 5/4" - chroom',
+        productCode: 'SW1175 20',
+        deliveryTime: '1 Dag',
+        stock: 5,
         imageUrl: 'https://static.rorix.nl/image/product/overig/320x320/547889564e421.jpg',
-        aantal: 1,
-        prijs: 19.99,
+        quantity: 1,
+        price: 19.99,
         discountPercent: 0,
         discountAmount: 0,
-        prijscorrectie: false,
+        priceCorrection: false,
       },
     ],
   },
@@ -34,17 +34,17 @@ const groups = ref<CartGroup[]>([
     name: 'Garantiepakketten (optioneel)',
     items: [
       {
-        naam: 'Extra garantiepakket totaal (+3 jaar)',
-        productcode: 'SW353906 20',
-        levertijd: '1 Dag',
+        name: 'Extra garantiepakket totaal (+3 jaar)',
+        productCode: 'SW353906 20',
+        deliveryTime: '1 Dag',
         imageUrl:
           'https://static.rorix.nl/image/product/overig/320x320/531e3526127d15e89326245ac1de3730.jpg',
-        voorraad: 5,
-        aantal: 1,
-        prijs: 199.99,
+        stock: 5,
+        quantity: 1,
+        price: 199.99,
         discountPercent: 0,
         discountAmount: 0,
-        prijscorrectie: false,
+        priceCorrection: false,
       },
     ],
   },
@@ -53,28 +53,28 @@ const groups = ref<CartGroup[]>([
     name: 'Accessoires',
     items: [
       {
-        naam: 'Hansgrohe Flowstar huls voor hoekstopkraan chroom',
-        productcode: '0606227 8',
-        levertijd: '61 Dagen',
+        name: 'Hansgrohe Flowstar huls voor hoekstopkraan chroom',
+        productCode: '0606227 8',
+        deliveryTime: '61 Dagen',
         imageUrl: 'https://static.rorix.nl/image/product/plieger/320x320/606227.jpg',
-        voorraad: 0,
-        aantal: 1,
-        prijs: 37.99,
+        stock: 0,
+        quantity: 1,
+        price: 37.99,
         discountPercent: 0,
         discountAmount: 0,
-        prijscorrectie: false,
+        priceCorrection: false,
       },
       {
-        naam: 'Laufen Toebehoren flexibele sifon kunststof',
-        productcode: '0080673 8',
-        levertijd: '38 Dagen',
+        name: 'Laufen Toebehoren flexibele sifon kunststof',
+        productCode: '0080673 8',
+        deliveryTime: '38 Dagen',
         imageUrl: 'https://static.rorix.nl/image/product/overig/320x320/528b769c9afdb.jpg',
-        voorraad: 0,
-        aantal: 1,
-        prijs: 42.99,
+        stock: 0,
+        quantity: 1,
+        price: 42.99,
         discountPercent: 0,
         discountAmount: 0,
-        prijscorrectie: false,
+        priceCorrection: false,
       },
     ],
   },
@@ -84,13 +84,13 @@ const groups = ref<CartGroup[]>([
 const orderDiscountExpanded = ref(false);
 const orderDiscountPercent = ref(0);
 const orderDiscountAmount = ref(0);
-const orderPrijscorrectie = ref(false);
-const verzendkostenValue = ref(0);
+const orderPriceCorrection = ref(false);
+const shippingCostValue = ref(0);
 
 // ── Helper functions ──────────────────────────────────────────
 function rowTotal(item: CartItem): number {
-  const unitPrice = item.prijs * (1 - item.discountPercent / 100) - item.discountAmount;
-  return Math.max(0, item.aantal * unitPrice);
+  const unitPrice = item.price * (1 - item.discountPercent / 100) - item.discountAmount;
+  return Math.max(0, item.quantity * unitPrice);
 }
 
 function groupTotal(group: CartGroup): number {
@@ -98,16 +98,16 @@ function groupTotal(group: CartGroup): number {
 }
 
 function groupItemCount(group: CartGroup): number {
-  return group.items.reduce((sum, item) => sum + item.aantal, 0);
+  return group.items.reduce((sum, item) => sum + item.quantity, 0);
 }
 
 // ── Computed totals ───────────────────────────────────────────
 const cartItemCount = computed(() =>
-  groups.value.reduce((sum, g) => sum + g.items.reduce((s, i) => s + i.aantal, 0), 0)
+  groups.value.reduce((sum, g) => sum + g.items.reduce((s, i) => s + i.quantity, 0), 0)
 );
 
 const cartSubtotal = computed(() =>
-  groups.value.reduce((sum, g) => sum + g.items.reduce((s, i) => s + i.prijs * i.aantal, 0), 0)
+  groups.value.reduce((sum, g) => sum + g.items.reduce((s, i) => s + i.price * i.quantity, 0), 0)
 );
 
 const cartTotal = computed(() =>
@@ -122,7 +122,7 @@ const orderDiscountValue = computed(
 );
 
 const orderTotal = computed(() =>
-  Math.max(0, cartTotal.value - orderDiscountValue.value + verzendkostenValue.value)
+  Math.max(0, cartTotal.value - orderDiscountValue.value + shippingCostValue.value)
 );
 
 // ── Finalize mode ─────────────────────────────────────────────
@@ -148,8 +148,8 @@ export function useOrderCart() {
     orderDiscountExpanded,
     orderDiscountPercent,
     orderDiscountAmount,
-    orderPrijscorrectie,
-    verzendkostenValue,
+    orderPriceCorrection,
+    shippingCostValue,
     cartItemCount,
     cartSubtotal,
     cartTotal,

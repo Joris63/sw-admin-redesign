@@ -24,32 +24,32 @@
             :class="{ 'wl-tab--active': wl.id === selectedWishlistId }"
             @click="selectedWishlistId = wl.id"
           >
-            {{ wl.naam }}
+            {{ wl.name }}
             <span class="wl-tab-count">{{ wl.items.length }}</span>
           </button>
         </div>
       </div>
       <DataTable v-if="selectedWishlist" :value="selectedWishlist.items" class="ce-table">
-        <Column field="naam" header="Naam">
+        <Column field="name" header="Naam">
           <template #body="{ data }">
-            <a href="#" class="text-primary-600 hover:underline text-sm">{{ data.naam }}</a>
+            <a href="#" class="text-primary-600 hover:underline text-sm">{{ data.name }}</a>
           </template>
         </Column>
-        <Column field="productcode" header="Productcode" style="width: 10rem" />
+        <Column field="productCode" header="Productcode" style="width: 10rem" />
         <Column
-          field="aantal"
+          field="quantity"
           header="Aantal"
           :pt="{ columnheadercontent: { class: 'justify-end!' } }"
           body-class="col-right"
         />
         <Column
-          field="prijs"
+          field="price"
           header="Prijs"
           :pt="{ columnheadercontent: { class: 'justify-end!' } }"
           body-class="col-right"
         >
           <template #body="{ data }"
-            >€ {{ data.prijs.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
+            >€ {{ data.price.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
           >
         </Column>
         <Column style="width: 3rem">
@@ -60,15 +60,15 @@
         <template #footer>
           <div v-if="selectedWishlist.items.length" class="table-subtotal">
             <span
-              >Subtotaal, {{ selectedWishlist.items.reduce((s, i) => s + i.aantal, 0) }} product{{
-                selectedWishlist.items.reduce((s, i) => s + i.aantal, 0) !== 1 ? 'en' : ''
+              >Subtotaal, {{ selectedWishlist.items.reduce((s, i) => s + i.quantity, 0) }} product{{
+                selectedWishlist.items.reduce((s, i) => s + i.quantity, 0) !== 1 ? 'en' : ''
               }}</span
             >
             <span
               >€
               {{
                 selectedWishlist.items
-                  .reduce((s, i) => s + i.prijs * i.aantal, 0)
+                  .reduce((s, i) => s + i.price * i.quantity, 0)
                   .toLocaleString('nl-NL', { minimumFractionDigits: 2 })
               }}</span
             >

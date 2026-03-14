@@ -18,18 +18,18 @@
   function openEditAddress(addr: CustomerAddress) {
     addrDrawerAddress.value = {
       id: addr.id,
-      aanhef: null,
-      voornaam: addr.naam,
-      achternaam: '',
-      telefoonLand: '+31',
-      telefoon: addr.telefoon,
-      terAttentieVan: '',
-      land: addr.land,
-      postcode: addr.postcode,
-      huisnummer: addr.huisnummer,
-      toevoeging: '',
-      straat: addr.straat,
-      woonplaats: addr.woonplaats,
+      salutation: null,
+      firstName: addr.name,
+      lastName: '',
+      phoneCountry: '+31',
+      phone: addr.phone,
+      attentionOf: '',
+      country: addr.country,
+      postalCode: addr.postalCode,
+      houseNumber: addr.houseNumber,
+      addition: '',
+      street: addr.street,
+      city: addr.city,
     };
     addrDrawerVisible.value = true;
   }
@@ -40,28 +40,28 @@
       if (idx !== -1) {
         customer.value.addresses[idx] = {
           ...customer.value.addresses[idx],
-          naam: [data.aanhef, data.voornaam, data.achternaam].filter(Boolean).join(' '),
-          straat: data.straat,
-          huisnummer: data.huisnummer,
-          postcode: data.postcode,
-          woonplaats: data.woonplaats,
-          land: data.land,
-          telefoon: `${data.telefoonLand} ${data.telefoon}`.trim(),
+          name: [data.salutation, data.firstName, data.lastName].filter(Boolean).join(' '),
+          street: data.street,
+          houseNumber: data.houseNumber,
+          postalCode: data.postalCode,
+          city: data.city,
+          country: data.country,
+          phone: `${data.phoneCountry} ${data.phone}`.trim(),
         };
       }
     } else {
       const newId = Math.max(0, ...customer.value.addresses.map((a) => a.id)) + 1;
       customer.value.addresses.push({
         id: newId,
-        naam: [data.aanhef, data.voornaam, data.achternaam].filter(Boolean).join(' '),
-        straat: data.straat,
-        huisnummer: data.huisnummer,
-        postcode: data.postcode,
-        woonplaats: data.woonplaats,
-        land: data.land,
-        telefoon: `${data.telefoonLand} ${data.telefoon}`.trim(),
-        isStandaardBezorg: false,
-        isStandaardFactuur: false,
+        name: [data.salutation, data.firstName, data.lastName].filter(Boolean).join(' '),
+        street: data.street,
+        houseNumber: data.houseNumber,
+        postalCode: data.postalCode,
+        city: data.city,
+        country: data.country,
+        phone: `${data.phoneCountry} ${data.phone}`.trim(),
+        isDefaultDelivery: false,
+        isDefaultInvoice: false,
       });
     }
   }
@@ -70,15 +70,15 @@
     customer.value.addresses = customer.value.addresses.filter((a) => a.id !== id);
   }
 
-  function makeStandaardBezorg(id: number) {
+  function makeDefaultDelivery(id: number) {
     customer.value.addresses.forEach((a) => {
-      a.isStandaardBezorg = a.id === id;
+      a.isDefaultDelivery = a.id === id;
     });
   }
 
-  function makeStandaardFactuur(id: number) {
+  function makeDefaultInvoice(id: number) {
     customer.value.addresses.forEach((a) => {
-      a.isStandaardFactuur = a.id === id;
+      a.isDefaultInvoice = a.id === id;
     });
   }
 </script>
@@ -96,7 +96,7 @@
     <div class="addr-grid">
       <div v-for="addr in customer.addresses" :key="addr.id" class="addr-card">
         <div class="addr-card-head">
-          <div class="addr-name">{{ addr.naam }}</div>
+          <div class="addr-name">{{ addr.name }}</div>
           <div class="addr-card-actions">
             <Button
               icon="pi pi-pencil"
@@ -107,7 +107,7 @@
               @click="openEditAddress(addr)"
             />
             <Button
-              v-if="!addr.isStandaardBezorg && !addr.isStandaardFactuur"
+              v-if="!addr.isDefaultDelivery && !addr.isDefaultInvoice"
               icon="pi pi-trash"
               severity="danger"
               text
@@ -118,27 +118,27 @@
           </div>
         </div>
         <div class="addr-line">
-          {{ addr.straat }} {{ addr.huisnummer }}, {{ addr.postcode }} {{ addr.woonplaats }}
+          {{ addr.street }} {{ addr.houseNumber }}, {{ addr.postalCode }} {{ addr.city }}
         </div>
-        <div class="addr-line">{{ addr.land }}</div>
-        <div v-if="addr.telefoon" class="addr-line">{{ addr.telefoon }}</div>
+        <div class="addr-line">{{ addr.country }}</div>
+        <div v-if="addr.phone" class="addr-line">{{ addr.phone }}</div>
         <div class="addr-chips">
           <button
             class="addr-chip"
-            :class="addr.isStandaardBezorg ? 'addr-chip--active' : 'addr-chip--inactive'"
-            :disabled="addr.isStandaardBezorg"
-            @click="makeStandaardBezorg(addr.id)"
+            :class="addr.isDefaultDelivery ? 'addr-chip--active' : 'addr-chip--inactive'"
+            :disabled="addr.isDefaultDelivery"
+            @click="makeDefaultDelivery(addr.id)"
           >
-            <i class="pi" :class="addr.isStandaardBezorg ? 'pi-check' : 'pi-home'" />
+            <i class="pi" :class="addr.isDefaultDelivery ? 'pi-check' : 'pi-home'" />
             Bezorgadres
           </button>
           <button
             class="addr-chip"
-            :class="addr.isStandaardFactuur ? 'addr-chip--active' : 'addr-chip--inactive'"
-            :disabled="addr.isStandaardFactuur"
-            @click="makeStandaardFactuur(addr.id)"
+            :class="addr.isDefaultInvoice ? 'addr-chip--active' : 'addr-chip--inactive'"
+            :disabled="addr.isDefaultInvoice"
+            @click="makeDefaultInvoice(addr.id)"
           >
-            <i class="pi" :class="addr.isStandaardFactuur ? 'pi-check' : 'pi-file'" />
+            <i class="pi" :class="addr.isDefaultInvoice ? 'pi-check' : 'pi-file'" />
             Factuuradres
           </button>
         </div>

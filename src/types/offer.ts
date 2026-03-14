@@ -1,8 +1,8 @@
-export type OfferStatus = 'Actief' | 'Verlopen' | 'Binnenkort gepland';
+export type OfferStatus = 'Active' | 'Expired' | 'Planned';
 
 export interface Offer {
   id: number;
-  naam: string;
+  name: string;
   startdatum: string;
   einddatum: string;
   status: OfferStatus;
@@ -14,12 +14,12 @@ export interface OfferProduct {
   id: number;
   code: string;
   site: string;
-  merk: string;
+  brand: string;
 }
 
 export interface OfferGroup {
   id: number;
-  naam: string;
+  name: string;
   expanded: boolean;
   children: OfferGroup[];
   products: OfferProduct[];
@@ -27,7 +27,7 @@ export interface OfferGroup {
 
 export interface PendingProductChange {
   code: string;
-  merk: string;
+  brand: string;
   action: 'add' | 'remove';
 }
 

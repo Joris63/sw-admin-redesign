@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import type { OmzetPerJaar } from '@/types/customer';
+  import type { RevenuePerYear } from '@/types/customer';
 
-  const omzetPerJaar: OmzetPerJaar[] = [
-    { jaar: 2025, omzet: 14.95 },
-    { jaar: 2024, omzet: 1842.3 },
-    { jaar: 2023, omzet: 3210.55 },
+  const revenuePerYear: RevenuePerYear[] = [
+    { year: 2025, revenue: 14.95 },
+    { year: 2024, revenue: 1842.3 },
+    { year: 2023, revenue: 3210.55 },
   ];
 </script>
 
@@ -21,11 +21,11 @@
           outlined
         />
       </div>
-      <DataTable :value="omzetPerJaar" class="ce-table">
-        <Column field="jaar" header="Jaar" style="width: 8rem" />
-        <Column field="omzet" header="Omzet">
+      <DataTable :value="revenuePerYear" class="ce-table">
+        <Column field="year" header="Jaar" style="width: 8rem" />
+        <Column field="revenue" header="Omzet">
           <template #body="{ data }"
-            >€ {{ data.omzet.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
+            >€ {{ data.revenue.toLocaleString('nl-NL', { minimumFractionDigits: 2 }) }}</template
           >
         </Column>
         <template #empty><span class="table-empty">Geen omzet gevonden</span></template>

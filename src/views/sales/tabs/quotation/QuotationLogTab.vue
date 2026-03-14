@@ -4,11 +4,11 @@
 
   const quotation = inject<Ref<QuotationData>>('quotation')!;
 
-  const activeTab = ref<'producten' | 'algemeen'>('producten');
+  const activeTab = ref<'products' | 'general'>('products');
 
   const tabs = [
-    { id: 'producten', label: 'Product informatie' },
-    { id: 'algemeen', label: 'Algemene informatie' },
+    { id: 'products', label: 'Product informatie' },
+    { id: 'general', label: 'Algemene informatie' },
   ] as const;
 
   const actieSeverity: Record<string, string> = {
@@ -35,37 +35,37 @@
     </div>
 
     <div class="log-scroll">
-      <template v-if="activeTab === 'producten'">
+      <template v-if="activeTab === 'products'">
         <div class="view-card">
           <div class="view-card-hdr">
             <span class="view-card-title">Product informatie</span>
           </div>
           <DataTable :value="quotation.productLog" class="ce-table" >
-            <Column header="Datum" field="datum" style="width: 11rem" />
+            <Column header="Datum" field="date" style="width: 11rem" />
             <Column header="Productcode" style="width: 9rem">
               <template #body="{ data }">
-                <span class="text-xs text-gray-600">{{ data.productcode ?? '—' }}</span>
+                <span class="text-xs text-gray-600">{{ data.productCode ?? '—' }}</span>
               </template>
             </Column>
-            <Column header="Omschrijving" field="omschrijving" />
+            <Column header="Omschrijving" field="description" />
             <Column header="Aantal" style="width: 5rem">
               <template #body="{ data }">
-                <span class="text-sm">{{ data.aantal ?? '—' }}</span>
+                <span class="text-sm">{{ data.quantity ?? '—' }}</span>
               </template>
             </Column>
             <Column header="Prijs" style="width: 7rem">
               <template #body="{ data }">
                 <span class="text-sm">
-                  {{ data.prijs != null ? `€\u00a0${data.prijs.toFixed(2).replace('.', ',')}` : '—' }}
+                  {{ data.price != null ? `€\u00a0${data.price.toFixed(2).replace('.', ',')}` : '—' }}
                 </span>
               </template>
             </Column>
             <Column header="Actie" style="width: 8rem">
               <template #body="{ data }">
-                <Tag :value="data.actie" :severity="actieSeverity[data.actie] || 'secondary'" />
+                <Tag :value="data.action" :severity="actieSeverity[data.action] || 'secondary'" />
               </template>
             </Column>
-            <Column header="Gebruiker" field="gebruiker" style="width: 9rem" />
+            <Column header="Gebruiker" field="user" style="width: 9rem" />
             <template #empty>
               <span class="table-empty">Geen product log entries.</span>
             </template>
@@ -73,15 +73,15 @@
         </div>
       </template>
 
-      <template v-else-if="activeTab === 'algemeen'">
+      <template v-else-if="activeTab === 'general'">
         <div class="view-card">
           <div class="view-card-hdr">
             <span class="view-card-title">Algemene informatie</span>
           </div>
-          <DataTable :value="quotation.algemeenLog" class="ce-table" >
-            <Column header="Datum" field="datum" style="width: 11rem" />
-            <Column header="Omschrijving" field="omschrijving" />
-            <Column header="Gebruiker" field="gebruiker" style="width: 9rem" />
+          <DataTable :value="quotation.generalLog" class="ce-table" >
+            <Column header="Datum" field="date" style="width: 11rem" />
+            <Column header="Omschrijving" field="description" />
+            <Column header="Gebruiker" field="user" style="width: 9rem" />
             <template #empty>
               <span class="table-empty">Geen log entries.</span>
             </template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { ref, computed, provide } from 'vue';
-  import { useRouter } from 'vue-router';
   import EditPageLayout from '@/components/layout/EditPageLayout.vue';
   import EditPageHeader from '@/components/layout/EditPageHeader.vue';
   import EditPageNav from '@/components/layout/EditPageNav.vue';
@@ -13,141 +12,139 @@
   import QuotationLogTab from './tabs/quotation/QuotationLogTab.vue';
   import type { QuotationData } from '@/types/quotations';
 
-  const router = useRouter();
-
   // ── Mock data ──────────────────────────────────────────────────────────────
 
   const quotation = ref<QuotationData>({
-    offertenummer: '3028059',
+    quotationNumber: '3028059',
     status: 'Open',
     site: 'sanitairwinkel.nl',
 
-    voornaam: 'Mariëlle',
-    achternaam: 'Vos-Hartman',
-    land: 'Nederland',
-    straat: 'Oude Kerkstraat',
-    huisnummer: '38',
-    toevoeging: 'B',
-    postcode: '2514CR',
-    woonplaats: 'Den Haag',
-    telefoonLand: 'NL',
-    telefoon: '0703456789',
-    alternatief: '0612345678',
+    firstName: 'Mariëlle',
+    lastName: 'Vos-Hartman',
+    country: 'Nederland',
+    street: 'Oude Kerkstraat',
+    houseNumber: '38',
+    addition: 'B',
+    postalCode: '2514CR',
+    city: 'Den Haag',
+    phoneCountry: 'NL',
+    phone: '0703456789',
+    alternative: '0612345678',
 
-    klantEmail: 'm.vos-hartman@example.nl',
-    klantHeeftAccount: true,
-    klantType: 'Particulier',
+    customerEmail: 'm.vos-hartman@example.nl',
+    customerHasAccount: true,
+    customerType: 'Particulier',
 
-    besteldatum: '14 februari 2026 11:03',
-    geholpenDoor: 'Sophie Meijer',
-    kanaal: 'Showroom',
-    vestiging: 'Den Haag',
-    wanneerVerbouwenJaar: '2026',
-    wanneerVerbouwenMaand: 'juni',
-    referentie: 'Verbouwing badkamer + toilet',
+    orderDate: '14 februari 2026 11:03',
+    assistedBy: 'Sophie Meijer',
+    channel: 'Showroom',
+    branch: 'Den Haag',
+    renovationYear: '2026',
+    renovationMonth: 'juni',
+    reference: 'Verbouwing badkamer + toilet',
 
-    aanbevolen: {
-      bedrijf: 'Klant Jan de Groot',
-      woonplaats: 'Den Haag',
-      typeBedrijf: 'Particulier',
+    recommended: {
+      company: 'Klant Jan de Groot',
+      city: 'Den Haag',
+      companyType: 'Particulier',
     },
-    aannemer: {
-      bedrijf: 'Installatiebedrijf Smit & Zonen',
-      woonplaats: 'Rijswijk',
-      typeBedrijf: 'Installateur',
+    contractor: {
+      company: 'Installatiebedrijf Smit & Zonen',
+      city: 'Rijswijk',
+      companyType: 'Installateur',
     },
 
     groups: [
       {
         id: '0',
-        naam: 'Badkamer',
+        name: 'Badkamer',
         lines: [
           {
             id: 1,
-            productcode: 'SW721043 2',
-            naam: 'Wiesbaden inloopdouche 120x200cm - 8mm veiligheidsglas - chroom',
-            levertijd: '2-4 werkdagen',
-            voorraad: 'op-voorraad',
-            aantal: 1,
-            prijsOud: 1299.0,
-            prijs: 1089.0,
+            productCode: 'SW721043 2',
+            name: 'Wiesbaden inloopdouche 120x200cm - 8mm veiligheidsglas - chroom',
+            deliveryTime: '2-4 werkdagen',
+            stock: 'in-stock',
+            quantity: 1,
+            oldPrice: 1299.0,
+            price: 1089.0,
           },
           {
             id: 2,
-            productcode: 'SW514882 7',
-            naam: 'QeramiQ Ducks toiletpot rimless - diepspoel - glans wit',
-            levertijd: '1-2 werkdagen',
-            voorraad: 'op-voorraad',
-            aantal: 1,
-            prijs: 349.0,
+            productCode: 'SW514882 7',
+            name: 'QeramiQ Ducks toiletpot rimless - diepspoel - glans wit',
+            deliveryTime: '1-2 werkdagen',
+            stock: 'in-stock',
+            quantity: 1,
+            price: 349.0,
           },
           {
             id: 3,
-            productcode: 'SW309417 1',
-            naam: 'Hotbath Cobber thermostaatkraan - 2-weg - chroom',
-            levertijd: '3-5 werkdagen',
-            voorraad: 'beperkt',
-            aantal: 1,
-            prijsOud: 589.0,
-            prijs: 499.0,
+            productCode: 'SW309417 1',
+            name: 'Hotbath Cobber thermostaatkraan - 2-weg - chroom',
+            deliveryTime: '3-5 werkdagen',
+            stock: 'limited',
+            quantity: 1,
+            oldPrice: 589.0,
+            price: 499.0,
           },
           {
             id: 4,
-            productcode: 'SW102931 8',
-            naam: 'Villeroy & Boch Subway 2.0 opzetwastafel 50cm - glans wit',
-            levertijd: '1-2 werkdagen',
-            voorraad: 'op-voorraad',
-            aantal: 1,
-            prijs: 219.0,
+            productCode: 'SW102931 8',
+            name: 'Villeroy & Boch Subway 2.0 opzetwastafel 50cm - glans wit',
+            deliveryTime: '1-2 werkdagen',
+            stock: 'in-stock',
+            quantity: 1,
+            price: 219.0,
           },
         ],
       },
       {
         id: '1',
-        naam: 'Toilet',
+        name: 'Toilet',
         lines: [
           {
             id: 5,
-            productcode: 'SW884102 5',
-            naam: 'Geberit UP320 inbouwreservoir - 12cm - wit',
-            levertijd: '2-3 werkdagen',
-            voorraad: 'op-voorraad',
-            aantal: 1,
-            prijs: 189.0,
+            productCode: 'SW884102 5',
+            name: 'Geberit UP320 inbouwreservoir - 12cm - wit',
+            deliveryTime: '2-3 werkdagen',
+            stock: 'in-stock',
+            quantity: 1,
+            price: 189.0,
           },
           {
             id: 6,
-            productcode: 'SW774231 9',
-            naam: 'Geberit Sigma20 bedieningsplaat - glans chroom / mat chroom',
-            levertijd: '1-2 werkdagen',
-            voorraad: 'op-voorraad',
-            aantal: 1,
-            prijs: 129.0,
+            productCode: 'SW774231 9',
+            name: 'Geberit Sigma20 bedieningsplaat - glans chroom / mat chroom',
+            deliveryTime: '1-2 werkdagen',
+            stock: 'in-stock',
+            quantity: 1,
+            price: 129.0,
           },
         ],
       },
       {
         id: '2',
-        naam: 'Tegels & Afwerking',
+        name: 'Tegels & Afwerking',
         lines: [
           {
             id: 7,
-            productcode: 'SW302100 4',
-            naam: 'De Beer Isolatiemat EPS 100 - 10m² - R=2.0',
-            levertijd: '2-4 werkdagen',
-            voorraad: 'op-voorraad',
-            aantal: 3,
-            prijs: 119.0,
+            productCode: 'SW302100 4',
+            name: 'De Beer Isolatiemat EPS 100 - 10m² - R=2.0',
+            deliveryTime: '2-4 werkdagen',
+            stock: 'in-stock',
+            quantity: 3,
+            price: 119.0,
           },
           {
             id: 8,
-            productcode: 'SW189021 3',
-            naam: 'Sanicare HVS radiator 60x120cm - 690W - mat zwart',
-            levertijd: '4-6 werkdagen',
-            voorraad: 'niet-op-voorraad',
-            aantal: 1,
-            prijsOud: 499.0,
-            prijs: 429.0,
+            productCode: 'SW189021 3',
+            name: 'Sanicare HVS radiator 60x120cm - 690W - mat zwart',
+            deliveryTime: '4-6 werkdagen',
+            stock: 'out-of-stock',
+            quantity: 1,
+            oldPrice: 499.0,
+            price: 429.0,
           },
         ],
       },
@@ -156,195 +153,195 @@
     emails: [
       {
         id: 1,
-        datum: '14 feb 2026 11:18',
-        onderwerp: 'Uw offerte 3028059',
-        naar: 'm.vos-hartman@example.nl',
+        date: '14 feb 2026 11:18',
+        subject: 'Uw offerte 3028059',
+        to: 'm.vos-hartman@example.nl',
         type: 'Offerte',
       },
       {
         id: 2,
-        datum: '21 feb 2026 14:32',
-        onderwerp: 'Herinnering offerte 3028059',
-        naar: 'm.vos-hartman@example.nl',
+        date: '21 feb 2026 14:32',
+        subject: 'Herinnering offerte 3028059',
+        to: 'm.vos-hartman@example.nl',
         type: 'Herinnering',
       },
       {
         id: 3,
-        datum: '27 feb 2026 09:05',
-        onderwerp: 'Aanpassing offerte 3028059',
-        naar: 'm.vos-hartman@example.nl',
+        date: '27 feb 2026 09:05',
+        subject: 'Aanpassing offerte 3028059',
+        to: 'm.vos-hartman@example.nl',
         type: 'Offerte',
       },
     ],
 
-    opmerkingen: [
+    notes: [
       {
         id: 1,
-        datum: '14 feb 2026 11:45',
-        tekst: 'Klant wil graag dezelfde leverancier als vorige badkamer.',
-        voor: 'Inkoop',
-        gebruiker: 'Sophie Meijer',
+        date: '14 feb 2026 11:45',
+        text: 'Klant wil graag dezelfde leverancier als vorige badkamer.',
+        for: 'Inkoop',
+        user: 'Sophie Meijer',
       },
       {
         id: 2,
-        datum: '21 feb 2026 10:12',
-        tekst: 'Levering graag na 1 april i.v.m. aannemer planning.',
-        voor: 'Logistiek',
-        gebruiker: 'Sophie Meijer',
+        date: '21 feb 2026 10:12',
+        text: 'Levering graag na 1 april i.v.m. aannemer planning.',
+        for: 'Logistiek',
+        user: 'Sophie Meijer',
       },
       {
         id: 3,
-        datum: '27 feb 2026 09:30',
-        tekst: 'Prijs inloopdouche aangepast na overleg met klant.',
-        voor: 'Verkoop',
-        gebruiker: 'Sophie Meijer',
+        date: '27 feb 2026 09:30',
+        text: 'Prijs inloopdouche aangepast na overleg met klant.',
+        for: 'Verkoop',
+        user: 'Sophie Meijer',
       },
     ],
 
-    documenten: [
+    documents: [
       {
         id: 1,
-        naam: 'Offerte_3028059_v1.pdf',
-        datum: '14 feb 2026',
+        name: 'Offerte_3028059_v1.pdf',
+        date: '14 feb 2026',
         type: 'Offerte',
       },
       {
         id: 2,
-        naam: 'Offerte_3028059_v2.pdf',
-        datum: '27 feb 2026',
+        name: 'Offerte_3028059_v2.pdf',
+        date: '27 feb 2026',
         type: 'Offerte',
       },
       {
         id: 3,
-        naam: 'Tekening_badkamer.pdf',
-        datum: '10 feb 2026',
+        name: 'Tekening_badkamer.pdf',
+        date: '10 feb 2026',
         type: 'Bijlage',
       },
     ],
 
-    taken: [
+    tasks: [
       {
         id: 2816302,
-        omschrijving: 'Offerte opvolgen na herinnering',
+        description: 'Offerte opvolgen na herinnering',
         deadline: '7 mrt 2026',
-        status: 'Niet begonnen',
-        afdeling: 'Verkoop',
-        gebruiker: 'Sophie Meijer',
-        eigenaar: 'Sophie Meijer',
+        status: 'Not started',
+        department: 'Verkoop',
+        user: 'Sophie Meijer',
+        owner: 'Sophie Meijer',
       },
       {
         id: 2816415,
-        omschrijving: 'Leveringstijd inloopdouche bevestigen bij leverancier',
+        description: 'Leveringstijd inloopdouche bevestigen bij leverancier',
         deadline: '5 mrt 2026',
-        status: 'In behandeling',
-        afdeling: 'Inkoop',
-        gebruiker: 'Bas Kuijpers',
-        eigenaar: 'Sophie Meijer',
+        status: 'In progress',
+        department: 'Inkoop',
+        user: 'Bas Kuijpers',
+        owner: 'Sophie Meijer',
       },
       {
         id: 2816891,
-        omschrijving: 'Prijsaanpassing verwerken in offerte',
+        description: 'Prijsaanpassing verwerken in offerte',
         deadline: '28 feb 2026',
-        status: 'Afgerond',
-        afdeling: 'Verkoop',
-        gebruiker: 'Sophie Meijer',
-        eigenaar: 'Sophie Meijer',
+        status: 'Completed',
+        department: 'Verkoop',
+        user: 'Sophie Meijer',
+        owner: 'Sophie Meijer',
       },
     ],
 
     productLog: [
       {
         id: 1,
-        datum: '14 feb 2026 11:03',
+        date: '14 feb 2026 11:03',
         productId: '721043',
-        productcode: 'SW721043 2',
-        omschrijving: 'Wiesbaden inloopdouche 120x200cm',
-        aantal: 1,
-        prijs: 1299.0,
-        actie: 'Toegevoegd',
-        gebruiker: 'Sophie Meijer',
+        productCode: 'SW721043 2',
+        description: 'Wiesbaden inloopdouche 120x200cm',
+        quantity: 1,
+        price: 1299.0,
+        action: 'Toegevoegd',
+        user: 'Sophie Meijer',
       },
       {
         id: 2,
-        datum: '14 feb 2026 11:05',
+        date: '14 feb 2026 11:05',
         productId: '514882',
-        productcode: 'SW514882 7',
-        omschrijving: 'QeramiQ Ducks toiletpot rimless',
-        aantal: 1,
-        prijs: 349.0,
-        actie: 'Toegevoegd',
-        gebruiker: 'Sophie Meijer',
+        productCode: 'SW514882 7',
+        description: 'QeramiQ Ducks toiletpot rimless',
+        quantity: 1,
+        price: 349.0,
+        action: 'Toegevoegd',
+        user: 'Sophie Meijer',
       },
       {
         id: 3,
-        datum: '14 feb 2026 11:07',
+        date: '14 feb 2026 11:07',
         productId: '309417',
-        productcode: 'SW309417 1',
-        omschrijving: 'Hotbath Cobber thermostaatkraan',
-        aantal: 1,
-        prijs: 589.0,
-        actie: 'Toegevoegd',
-        gebruiker: 'Sophie Meijer',
+        productCode: 'SW309417 1',
+        description: 'Hotbath Cobber thermostaatkraan',
+        quantity: 1,
+        price: 589.0,
+        action: 'Toegevoegd',
+        user: 'Sophie Meijer',
       },
       {
         id: 4,
-        datum: '27 feb 2026 09:02',
+        date: '27 feb 2026 09:02',
         productId: '721043',
-        productcode: 'SW721043 2',
-        omschrijving: 'Wiesbaden inloopdouche 120x200cm',
-        aantal: 1,
-        prijs: 1089.0,
-        actie: 'Gewijzigd',
-        gebruiker: 'Sophie Meijer',
+        productCode: 'SW721043 2',
+        description: 'Wiesbaden inloopdouche 120x200cm',
+        quantity: 1,
+        price: 1089.0,
+        action: 'Gewijzigd',
+        user: 'Sophie Meijer',
       },
       {
         id: 5,
-        datum: '27 feb 2026 09:04',
+        date: '27 feb 2026 09:04',
         productId: '309417',
-        productcode: 'SW309417 1',
-        omschrijving: 'Hotbath Cobber thermostaatkraan',
-        aantal: 1,
-        prijs: 499.0,
-        actie: 'Gewijzigd',
-        gebruiker: 'Sophie Meijer',
+        productCode: 'SW309417 1',
+        description: 'Hotbath Cobber thermostaatkraan',
+        quantity: 1,
+        price: 499.0,
+        action: 'Gewijzigd',
+        user: 'Sophie Meijer',
       },
     ],
 
-    algemeenLog: [
+    generalLog: [
       {
         id: 1,
-        datum: '14 feb 2026 11:03',
-        omschrijving: 'Offerte aangemaakt',
-        actie: 'Aangemaakt',
-        gebruiker: 'Sophie Meijer',
+        date: '14 feb 2026 11:03',
+        description: 'Offerte aangemaakt',
+        action: 'Aangemaakt',
+        user: 'Sophie Meijer',
       },
       {
         id: 2,
-        datum: '14 feb 2026 11:18',
-        omschrijving: 'Offerte e-mail verstuurd naar klant',
-        actie: 'E-mail verstuurd',
-        gebruiker: 'Systeem',
+        date: '14 feb 2026 11:18',
+        description: 'Offerte e-mail verstuurd naar klant',
+        action: 'E-mail verstuurd',
+        user: 'Systeem',
       },
       {
         id: 3,
-        datum: '21 feb 2026 14:32',
-        omschrijving: 'Herinnering e-mail verstuurd',
-        actie: 'E-mail verstuurd',
-        gebruiker: 'Systeem',
+        date: '21 feb 2026 14:32',
+        description: 'Herinnering e-mail verstuurd',
+        action: 'E-mail verstuurd',
+        user: 'Systeem',
       },
       {
         id: 4,
-        datum: '27 feb 2026 09:05',
-        omschrijving: 'Offerte bijgewerkt na klantoverleg',
-        actie: 'Gewijzigd',
-        gebruiker: 'Sophie Meijer',
+        date: '27 feb 2026 09:05',
+        description: 'Offerte bijgewerkt na klantoverleg',
+        action: 'Gewijzigd',
+        user: 'Sophie Meijer',
       },
       {
         id: 5,
-        datum: '27 feb 2026 09:05',
-        omschrijving: 'Aangepaste offerte e-mail verstuurd',
-        actie: 'E-mail verstuurd',
-        gebruiker: 'Systeem',
+        date: '27 feb 2026 09:05',
+        description: 'Aangepaste offerte e-mail verstuurd',
+        action: 'E-mail verstuurd',
+        user: 'Systeem',
       },
     ],
   });
@@ -354,11 +351,11 @@
   // ── Header computed ─────────────────────────────────────────────────────────
 
   const fullName = computed(() =>
-    [quotation.value.voornaam, quotation.value.achternaam].filter(Boolean).join(' ')
+    [quotation.value.firstName, quotation.value.lastName].filter(Boolean).join(' ')
   );
 
   const initials = computed(() =>
-    [quotation.value.voornaam, quotation.value.achternaam]
+    [quotation.value.firstName, quotation.value.lastName]
       .filter(Boolean)
       .map((s) => s[0])
       .join('')
@@ -367,12 +364,12 @@
   );
 
   const productCount = computed(() =>
-    quotation.value.groups.reduce((sum, g) => sum + g.lines.reduce((s, l) => s + l.aantal, 0), 0)
+    quotation.value.groups.reduce((sum, g) => sum + g.lines.reduce((s, l) => s + l.quantity, 0), 0)
   );
 
   const totalPrice = computed(() =>
     quotation.value.groups.reduce(
-      (sum, g) => sum + g.lines.reduce((s, l) => s + l.prijs * l.aantal, 0),
+      (sum, g) => sum + g.lines.reduce((s, l) => s + l.price * l.quantity, 0),
       0
     )
   );
@@ -404,7 +401,7 @@
       label: 'Beheer',
       items: [
         { id: 'communications', label: 'Communicatie', icon: 'pi-comment'    },
-        { id: 'tasks',          label: 'Taken',        icon: 'pi-list-check', badge: quotation.value.taken.length || undefined },
+        { id: 'tasks',          label: 'Taken',        icon: 'pi-list-check', badge: quotation.value.tasks.length || undefined },
         { id: 'logs',           label: 'Log',          icon: 'pi-history'   },
       ],
     },
@@ -412,9 +409,9 @@
 
   const statusStyle = computed(() => {
     const s = quotation.value.status;
-    if (s === 'Omgezet') return 'status-pill--accepted';
-    if (s === 'Verlopen') return 'status-pill--expired';
-    if (s === 'Geannuleerd') return 'status-pill--cancelled';
+    if (s === 'Converted') return 'status-pill--accepted';
+    if (s === 'Expired') return 'status-pill--expired';
+    if (s === 'Cancelled') return 'status-pill--cancelled';
     return 'status-pill--open';
   });
 </script>
@@ -423,7 +420,7 @@
   <EditPageLayout>
     <!-- ── Page header ─────────────────────────────────────────────────────── -->
     <EditPageHeader
-      :title="`Offerte ${quotation.offertenummer}`"
+      :title="`Offerte ${quotation.quotationNumber}`"
       :subtitle="fullName"
       :back="{ name: 'QuotationsOverview' }"
       avatar-class="qe-avatar"
@@ -446,7 +443,7 @@
           </div>
           <div class="edit-hdr-stat-sep" />
           <div class="edit-hdr-stat">
-            <span class="edit-hdr-stat-val">{{ quotation.besteldatum.split(' ').slice(0, 3).join(' ') }}</span>
+            <span class="edit-hdr-stat-val">{{ quotation.orderDate.split(' ').slice(0, 3).join(' ') }}</span>
             <span class="edit-hdr-stat-lbl">Datum</span>
           </div>
         </div>

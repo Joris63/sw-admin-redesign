@@ -5,21 +5,21 @@
 
   const customer = inject<Ref<CustomerData>>('customer')!;
 
-  const isEditingBasisKorting = ref(false);
-  const merkKortingenOpen = ref(true);
-  const productKortingenOpen = ref(true);
-  const merkFilter = ref('');
+  const isEditingBaseDiscount = ref(false);
+  const brandDiscountsOpen = ref(true);
+  const productDiscountsOpen = ref(true);
+  const brandFilter = ref('');
   const productFilter = ref('');
 
-  const filteredMerkKortingen = computed(() => {
-    const q = merkFilter.value.toLowerCase();
-    return customer.value.merkKortingen.filter((m) => m.merk.toLowerCase().includes(q));
+  const filteredBrandDiscounts = computed(() => {
+    const q = brandFilter.value.toLowerCase();
+    return customer.value.brandDiscounts.filter((m) => m.brand.toLowerCase().includes(q));
   });
 
-  const filteredProductKortingen = computed(() => {
+  const filteredProductDiscounts = computed(() => {
     const q = productFilter.value.toLowerCase();
-    return customer.value.productKortingen.filter(
-      (p) => p.product.toLowerCase().includes(q) || p.productcode.toLowerCase().includes(q)
+    return customer.value.productDiscounts.filter(
+      (p) => p.product.toLowerCase().includes(q) || p.productCode.toLowerCase().includes(q)
     );
   });
 </script>
@@ -30,14 +30,14 @@
     <div class="view-card">
       <div class="view-card-hdr">
         <span class="view-card-title">Basis korting</span>
-        <template v-if="!isEditingBasisKorting">
+        <template v-if="!isEditingBaseDiscount">
           <Button
             label="Bewerken"
             icon="pi pi-pencil"
             size="small"
             severity="secondary"
             text
-            @click="isEditingBasisKorting = true"
+            @click="isEditingBaseDiscount = true"
           />
         </template>
         <template v-else>
@@ -47,24 +47,24 @@
               size="small"
               severity="secondary"
               outlined
-              @click="isEditingBasisKorting = false"
+              @click="isEditingBaseDiscount = false"
             />
-            <Button label="Opslaan" size="small" @click="isEditingBasisKorting = false" />
+            <Button label="Opslaan" size="small" @click="isEditingBaseDiscount = false" />
           </div>
         </template>
       </div>
       <Transition name="card-fade" mode="out-in">
-        <div v-if="!isEditingBasisKorting" key="view" class="view-card-body">
+        <div v-if="!isEditingBaseDiscount" key="view" class="view-card-body">
           <div class="fr-row">
             <span class="fr-label">Basis korting</span>
-            <span class="fr-value">{{ customer.basisKorting }}%</span>
+            <span class="fr-value">{{ customer.baseDiscount }}%</span>
           </div>
         </div>
         <div v-else key="edit" class="view-card-body">
           <div class="fr-row">
             <label class="fr-label">Basis korting</label>
             <InputNumber
-              v-model="customer.basisKorting"
+              v-model="customer.baseDiscount"
               suffix="%"
               :min="0"
               :max="100"
@@ -82,42 +82,42 @@
       <div class="view-card-hdr">
         <div class="flex items-center gap-2">
           <span class="view-card-title">Merk kortingen</span>
-          <span class="kort-count-badge">{{ customer.merkKortingen.length }}</span>
+          <span class="kort-count-badge">{{ customer.brandDiscounts.length }}</span>
         </div>
         <div class="flex items-center gap-1">
           <Button icon="pi pi-plus" size="small" severity="secondary" text />
           <Button
-            :icon="merkKortingenOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+            :icon="brandDiscountsOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
             size="small"
             severity="secondary"
             text
-            @click="merkKortingenOpen = !merkKortingenOpen"
+            @click="brandDiscountsOpen = !brandDiscountsOpen"
           />
         </div>
       </div>
       <Transition name="card-fade">
-        <div v-if="merkKortingenOpen">
+        <div v-if="brandDiscountsOpen">
           <div class="kort-filter-bar">
             <InputText
-              v-model="merkFilter"
+              v-model="brandFilter"
               size="small"
               placeholder="Zoek merk..."
               class="w-full"
             />
           </div>
-          <DataTable :value="filteredMerkKortingen" class="ce-table" :empty-message="' '">
+          <DataTable :value="filteredBrandDiscounts" class="ce-table" :empty-message="' '">
             <template #empty>
               <span class="table-empty">{{
-                merkFilter ? 'Geen merken gevonden' : 'Geen merk kortingen'
+                brandFilter ? 'Geen merken gevonden' : 'Geen merk kortingen'
               }}</span>
             </template>
             <Column selection-mode="multiple" style="width: 3rem" />
-            <Column field="merk" header="Merk" />
-            <Column field="korting" header="Korting">
-              <template #body="{ data }">{{ data.korting }}%</template>
+            <Column field="brand" header="Merk" />
+            <Column field="discount" header="Korting">
+              <template #body="{ data }">{{ data.discount }}%</template>
             </Column>
-            <Column field="standaardKorting" header="Standaard kortingen">
-              <template #body="{ data }">{{ data.standaardKorting }}%</template>
+            <Column field="defaultDiscount" header="Standaard kortingen">
+              <template #body="{ data }">{{ data.defaultDiscount }}%</template>
             </Column>
           </DataTable>
         </div>
@@ -129,21 +129,21 @@
       <div class="view-card-hdr">
         <div class="flex items-center gap-2">
           <span class="view-card-title">Product kortingen</span>
-          <span class="kort-count-badge">{{ customer.productKortingen.length }}</span>
+          <span class="kort-count-badge">{{ customer.productDiscounts.length }}</span>
         </div>
         <div class="flex items-center gap-1">
           <Button icon="pi pi-plus" size="small" severity="secondary" text />
           <Button
-            :icon="productKortingenOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+            :icon="productDiscountsOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
             size="small"
             severity="secondary"
             text
-            @click="productKortingenOpen = !productKortingenOpen"
+            @click="productDiscountsOpen = !productDiscountsOpen"
           />
         </div>
       </div>
       <Transition name="card-fade">
-        <div v-if="productKortingenOpen">
+        <div v-if="productDiscountsOpen">
           <div class="kort-filter-bar">
             <InputText
               v-model="productFilter"
@@ -152,30 +152,30 @@
               class="w-full"
             />
           </div>
-          <DataTable :value="filteredProductKortingen" class="ce-table" :empty-message="' '">
+          <DataTable :value="filteredProductDiscounts" class="ce-table" :empty-message="' '">
             <template #empty>
               <span class="table-empty">{{
                 productFilter ? 'Geen producten gevonden' : 'Geen product kortingen'
               }}</span>
             </template>
             <Column selection-mode="multiple" style="width: 3rem" />
-            <Column field="productcode" header="Productcode" />
+            <Column field="productCode" header="Productcode" />
             <Column field="product" header="Product" />
             <Column
-              field="prijs"
+              field="price"
               header="Prijs"
               :pt="{ columnheadercontent: { class: 'justify-end!' } }"
               body-class="col-right"
             >
-              <template #body="{ data }">€ {{ data.prijs.toFixed(2) }}</template>
+              <template #body="{ data }">€ {{ data.price.toFixed(2) }}</template>
             </Column>
             <Column
-              field="kortingPrijs"
+              field="discountPrice"
               header="Korting prijs"
               :pt="{ columnheadercontent: { class: 'justify-end!' } }"
               body-class="col-right"
             >
-              <template #body="{ data }">€ {{ data.kortingPrijs.toFixed(2) }}</template>
+              <template #body="{ data }">€ {{ data.discountPrice.toFixed(2) }}</template>
             </Column>
           </DataTable>
         </div>

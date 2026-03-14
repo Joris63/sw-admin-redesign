@@ -3,12 +3,12 @@
   import { useOrderCart } from '@/composables/useOrderCart';
   import { useScrollNav } from '@/composables/useScrollNav';
   import OrderCartTotals from './OrderCartTotals.vue';
-  import AannemerSection from '../components/AannemerSection.vue';
+  import ContractorSection from '../components/ContractorSection.vue';
 
   const { finalizeMode } = useOrderCart();
   const { scrollTo } = useScrollNav();
 
-  const emit = defineEmits<{ submit: [mode: 'offerte' | 'bestelling'] }>();
+  const emit = defineEmits<{ submit: [mode: 'quotation' | 'order'] }>();
 
   // ── Section nav refs ─────────────────────────────────────────
   const sectionPlanning = ref<HTMLElement | null>(null);
@@ -19,13 +19,13 @@
   const sectionVoorwaarden = ref<HTMLElement | null>(null);
 
   const navItems = computed(() =>
-    finalizeMode.value === 'offerte'
+    finalizeMode.value === 'quotation'
       ? [
           { label: 'Planning', ref: sectionPlanning },
           { label: 'Afspraken', ref: sectionAfspraken },
           { label: 'Afronding', ref: sectionAfronding },
         ]
-      : finalizeMode.value === 'bestelling'
+      : finalizeMode.value === 'order'
         ? [
             { label: 'Planning', ref: sectionPlanning },
             { label: 'Levering', ref: sectionLevering },
@@ -59,21 +59,21 @@
   ];
 
   // ── Shared: Afspraken ────────────────────────────────────────
-  const afspraakNotitie = ref('');
-  const afspraakGemaaktMet = ref<string | null>('Joris Kamminga');
-  const gebruikerOptions = [
+  const appointmentNote = ref('');
+  const appointmentMadeWith = ref<string | null>('Joris Kamminga');
+  const userOptions = [
     { label: 'Joris Kamminga', value: 'Joris Kamminga' },
     { label: 'Sarah de Vries', value: 'Sarah de Vries' },
   ];
-  const afspraakDatum = ref<Date | null>(null);
-  const maakTaak = ref(false);
+  const appointmentDate = ref<Date | null>(null);
+  const createTask = ref(false);
 
   // ── Offerte: Afronding ───────────────────────────────────────
-  const automatischeOfferteMail = ref(true);
+  const automaticQuotationEmail = ref(true);
 
   // ── Bestelling: Levering ─────────────────────────────────────
-  const eindbestemming = ref('Klantadres');
-  const eindbestemmingOptions = ['Klantadres', 'Showroom', 'Pickup Point'];
+  const destination = ref('Klantadres');
+  const destinationOptions = ['Klantadres', 'Showroom', 'Pickup Point'];
 
   // ── Bestelling: Showroom ──────────────────────────────────────
   const selectedShowroom = ref<number | null>(1);
@@ -85,11 +85,11 @@
   ];
 
   // ── Bestelling: Pickup Point ──────────────────────────────────
-  const pickupPostcode = ref('');
-  const pickupHuisnummer = ref('');
-  const pickupToevoeging = ref('');
-  const pickupStraat = ref('');
-  const pickupStad = ref('');
+  const pickupPostalCode = ref('');
+  const pickupHouseNumber = ref('');
+  const pickupAddition = ref('');
+  const pickupStreet = ref('');
+  const pickupCity = ref('');
   const selectedPickupPoint = ref<number | null>(null);
   const pickupPoints = [
     {
@@ -155,28 +155,28 @@
   ];
 
   // ── Bestelling: Klantadres ────────────────────────────────────
-  const afwijkendBezorgadres = ref(false);
-  const bezorgAanhef = ref('Dhr.');
-  const bezorgAanhefOptions = ['Fam.', 'Dhr.', 'Mevr.'];
-  const bezorgTerAttentieVan = ref('');
-  const bezorgVoornaam = ref('');
-  const bezorgAchternaam = ref('');
-  const bezorgTelefoon = ref('');
-  const bezorgTelefoonAlt = ref('');
-  const bezorgLand = ref('Nederland');
-  const bezorgPostcode = ref('');
-  const bezorgHuisnummer = ref('');
-  const bezorgToevoeging = ref('');
-  const bezorgStraat = ref('');
-  const bezorgStad = ref('');
-  const leverStrategie = ref('Op afspraak');
-  const leverStrategieOptions = ['Op afspraak', 'Leverdatum'];
-  const gewensteLeverdatum = ref<Date | null>(null);
-  const uitgesteldeVerwerking = ref(false);
+  const alternativeDeliveryAddress = ref(false);
+  const deliverySalutation = ref('Dhr.');
+  const deliverySalutationOptions = ['Fam.', 'Dhr.', 'Mevr.'];
+  const deliveryAttentionOf = ref('');
+  const deliveryFirstName = ref('');
+  const deliveryLastName = ref('');
+  const deliveryPhone = ref('');
+  const deliveryPhoneAlt = ref('');
+  const deliveryCountry = ref('Nederland');
+  const deliveryPostalCode = ref('');
+  const deliveryHouseNumber = ref('');
+  const deliveryAddition = ref('');
+  const deliveryStreet = ref('');
+  const deliveryCity = ref('');
+  const deliveryStrategy = ref('Op afspraak');
+  const deliveryStrategyOptions = ['Op afspraak', 'Leverdatum'];
+  const desiredDeliveryDate = ref<Date | null>(null);
+  const deferredProcessing = ref(false);
 
   // ── Bestelling: Betaalmethode ────────────────────────────────
-  const betaalmethode = ref('Ideal');
-  const betaalmethodeOptions = ['Ideal', 'Contant', 'Creditcard', 'Pin', 'Anders'];
+  const paymentMethod = ref('Ideal');
+  const paymentMethodOptions = ['Ideal', 'Contant', 'Creditcard', 'Pin', 'Anders'];
 </script>
 
 <template>
@@ -188,12 +188,12 @@
     >
       <p class="text-sm text-gray-500">Hoe wil je doorgaan met dit overzicht?</p>
       <div class="flex gap-4">
-        <button class="choice-card" @click="finalizeMode = 'offerte'">
+        <button class="choice-card" @click="finalizeMode = 'quotation'">
           <i class="pi pi-file-edit choice-card__icon" style="font-size: 2.5rem" />
           <span class="choice-card__title">Opslaan</span>
           <span class="choice-card__desc">Sla op als aanbieding voor de klant</span>
         </button>
-        <button class="choice-card" @click="finalizeMode = 'bestelling'">
+        <button class="choice-card" @click="finalizeMode = 'order'">
           <i class="pi pi-shopping-cart choice-card__icon" style="font-size: 2.5rem" />
           <span class="choice-card__title">Bestelling plaatsen</span>
           <span class="choice-card__desc">Verwerk en bevestig de bestelling direct</span>
@@ -226,7 +226,7 @@
           <h2 class="section-heading">Planning</h2>
           <div class="flex flex-col gap-4">
             <!-- Wanneer verbouwen — offerte only -->
-            <template v-if="finalizeMode === 'offerte'">
+            <template v-if="finalizeMode === 'quotation'">
               <div class="form-row">
                 <span class="form-label">Wanneer verbouwen</span>
                 <div class="flex flex-col gap-2">
@@ -248,7 +248,7 @@
             </template>
 
             <!-- Aannemer / installateur -->
-            <AannemerSection />
+            <ContractorSection />
           </div>
         </section>
 
@@ -256,7 +256,7 @@
 
         <!-- ── Levering (bestelling only) ─────────────────────── -->
         <section
-          v-if="finalizeMode === 'bestelling'"
+          v-if="finalizeMode === 'order'"
           ref="sectionLevering"
           class="flex flex-col gap-4 py-6"
         >
@@ -264,34 +264,34 @@
           <div class="flex flex-col gap-4">
             <div class="form-row items-center">
               <span class="form-label">Eindbestemming</span>
-              <SelectButton v-model="eindbestemming" :options="eindbestemmingOptions" />
+              <SelectButton v-model="destination" :options="destinationOptions" />
             </div>
 
             <!-- Conditional content based on eindbestemming -->
             <Transition name="fade-slide" mode="out-in">
               <!-- Klantadres: optional different address -->
               <div
-                v-if="eindbestemming === 'Klantadres'"
+                v-if="destination === 'Klantadres'"
                 key="klantadres"
                 class="flex flex-col gap-4"
               >
                 <div class="form-row items-center">
                   <span class="form-label" />
                   <div class="flex items-center gap-2">
-                    <ToggleSwitch v-model="afwijkendBezorgadres" />
+                    <ToggleSwitch v-model="alternativeDeliveryAddress" />
                     <span class="text-sm text-gray-500">Afwijkend bezorgadres</span>
                   </div>
                 </div>
                 <Transition name="fade-slide">
-                  <div v-if="afwijkendBezorgadres" class="subform">
+                  <div v-if="alternativeDeliveryAddress" class="subform">
                     <div class="form-row items-center">
                       <span class="form-label">Aanhef</span>
-                      <SelectButton v-model="bezorgAanhef" :options="bezorgAanhefOptions" />
+                      <SelectButton v-model="deliverySalutation" :options="deliverySalutationOptions" />
                     </div>
                     <div class="form-row items-center">
                       <span class="form-label">Ter attentie van</span>
                       <InputText
-                        v-model="bezorgTerAttentieVan"
+                        v-model="deliveryAttentionOf"
                         placeholder="T.a.v. Jan de Vries"
                         class="flex-1"
                       />
@@ -299,9 +299,9 @@
                     <div class="form-row items-center">
                       <span class="form-label">Naam <span class="text-red-400">*</span></span>
                       <div class="flex gap-2 flex-1">
-                        <InputText v-model="bezorgVoornaam" placeholder="Jan" class="flex-1" />
+                        <InputText v-model="deliveryFirstName" placeholder="Jan" class="flex-1" />
                         <InputText
-                          v-model="bezorgAchternaam"
+                          v-model="deliveryLastName"
                           placeholder="de Vries"
                           class="flex-1"
                         />
@@ -328,7 +328,7 @@
                             </template>
                           </Select>
                           <InputText
-                            v-model="bezorgTelefoon"
+                            v-model="deliveryPhone"
                             placeholder="6 12345678"
                             class="flex-1"
                           />
@@ -349,7 +349,7 @@
                             </template>
                           </Select>
                           <InputText
-                            v-model="bezorgTelefoonAlt"
+                            v-model="deliveryPhoneAlt"
                             placeholder="6 87654321"
                             class="flex-1"
                           />
@@ -359,7 +359,7 @@
                     <div class="form-row items-center">
                       <span class="form-label">Land</span>
                       <Select
-                        v-model="bezorgLand"
+                        v-model="deliveryCountry"
                         :options="['Nederland', 'België', 'Duitsland']"
                         placeholder="Selecteer een land"
                         class="flex-1"
@@ -369,13 +369,13 @@
                       <span class="form-label">Adres <span class="text-red-400">*</span></span>
                       <div class="flex flex-col gap-2 flex-1">
                         <div class="grid grid-cols-3 gap-2">
-                          <InputText v-model="bezorgPostcode" placeholder="1234 AB" />
-                          <InputText v-model="bezorgHuisnummer" placeholder="12" />
-                          <InputText v-model="bezorgToevoeging" placeholder="A" />
+                          <InputText v-model="deliveryPostalCode" placeholder="1234 AB" />
+                          <InputText v-model="deliveryHouseNumber" placeholder="12" />
+                          <InputText v-model="deliveryAddition" placeholder="A" />
                         </div>
                         <div class="grid grid-cols-2 gap-2">
-                          <InputText v-model="bezorgStraat" placeholder="Kerkstraat" />
-                          <InputText v-model="bezorgStad" placeholder="Amsterdam" />
+                          <InputText v-model="deliveryStreet" placeholder="Kerkstraat" />
+                          <InputText v-model="deliveryCity" placeholder="Amsterdam" />
                         </div>
                       </div>
                     </div>
@@ -385,7 +385,7 @@
 
               <!-- Showroom: pick a location -->
               <div
-                v-else-if="eindbestemming === 'Showroom'"
+                v-else-if="destination === 'Showroom'"
                 key="showroom"
                 class="form-row items-center"
               >
@@ -401,7 +401,7 @@
 
               <!-- Pickup Point: address search + nearby list -->
               <div
-                v-else-if="eindbestemming === 'Pickup Point'"
+                v-else-if="destination === 'Pickup Point'"
                 key="pickup"
                 class="flex flex-col gap-4"
               >
@@ -409,13 +409,13 @@
                   <span class="form-label">Adres</span>
                   <div class="flex flex-col gap-2 flex-1">
                     <div class="grid grid-cols-3 gap-2">
-                      <InputText v-model="pickupPostcode" placeholder="1234 AB" />
-                      <InputText v-model="pickupHuisnummer" placeholder="12" />
-                      <InputText v-model="pickupToevoeging" placeholder="A" />
+                      <InputText v-model="pickupPostalCode" placeholder="1234 AB" />
+                      <InputText v-model="pickupHouseNumber" placeholder="12" />
+                      <InputText v-model="pickupAddition" placeholder="A" />
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                      <InputText v-model="pickupStraat" placeholder="Kerkstraat" />
-                      <InputText v-model="pickupStad" placeholder="Amsterdam" />
+                      <InputText v-model="pickupStreet" placeholder="Kerkstraat" />
+                      <InputText v-model="pickupCity" placeholder="Amsterdam" />
                     </div>
                   </div>
                 </div>
@@ -452,7 +452,7 @@
 
             <div class="form-row">
               <span class="form-label">Strategie</span>
-              <SelectButton v-model="leverStrategie" :options="leverStrategieOptions" />
+              <SelectButton v-model="deliveryStrategy" :options="deliveryStrategyOptions" />
             </div>
             <div class="form-row items-center">
               <span class="form-label">
@@ -460,7 +460,7 @@
                 <span class="text-red-400 ml-0.5">*</span>
               </span>
               <DatePicker
-                v-model="gewensteLeverdatum"
+                v-model="desiredDeliveryDate"
                 date-format="dd-mm-yy"
                 placeholder="DD-MM-JJJJ"
                 class="w-72"
@@ -471,18 +471,18 @@
             <div class="form-row items-center">
               <span class="form-label">Uitgestelde verwerking</span>
               <div class="flex items-center gap-2">
-                <ToggleSwitch v-model="uitgesteldeVerwerking" />
+                <ToggleSwitch v-model="deferredProcessing" />
                 <i class="pi pi-info-circle text-gray-400 text-sm" />
               </div>
             </div>
           </div>
         </section>
 
-        <Divider v-if="finalizeMode === 'bestelling'" class="my-0!" />
+        <Divider v-if="finalizeMode === 'order'" class="my-0!" />
 
         <!-- ── Betaalmethode (bestelling only) ────────────────── -->
         <section
-          v-if="finalizeMode === 'bestelling'"
+          v-if="finalizeMode === 'order'"
           ref="sectionBetaalmethode"
           class="flex flex-col gap-4 py-6"
         >
@@ -490,7 +490,7 @@
           <div>
             <div class="form-row items-center">
               <span class="form-label">Betaalmethode</span>
-              <SelectButton v-model="betaalmethode" :options="betaalmethodeOptions" />
+              <SelectButton v-model="paymentMethod" :options="paymentMethodOptions" />
             </div>
           </div>
         </section>
@@ -504,7 +504,7 @@
             <div class="form-row">
               <span class="form-label">Wat zullen we afspreken?</span>
               <Textarea
-                v-model="afspraakNotitie"
+                v-model="appointmentNote"
                 placeholder="Bijv. levering na 10:00, bel vooraf aan, parkeren bij zijdeur..."
                 rows="5"
                 class="w-full"
@@ -513,8 +513,8 @@
             <div class="form-row items-center">
               <span class="form-label">Deze afspraak is gemaakt met</span>
               <Select
-                v-model="afspraakGemaaktMet"
-                :options="gebruikerOptions"
+                v-model="appointmentMadeWith"
+                :options="userOptions"
                 option-label="label"
                 option-value="value"
                 class="w-72"
@@ -523,10 +523,10 @@
             <div class="form-row items-center">
               <span class="form-label">
                 Datum voor de afspraak
-                <span v-if="finalizeMode === 'offerte'" class="text-red-400 ml-0.5">*</span>
+                <span v-if="finalizeMode === 'quotation'" class="text-red-400 ml-0.5">*</span>
               </span>
               <DatePicker
-                v-model="afspraakDatum"
+                v-model="appointmentDate"
                 date-format="dd-mm-yy"
                 placeholder="DD-MM-JJJJ"
                 class="w-72"
@@ -536,16 +536,16 @@
             </div>
             <div class="form-row items-center">
               <span class="form-label">Wil je ook een taak aanmaken?</span>
-              <ToggleSwitch v-model="maakTaak" />
+              <ToggleSwitch v-model="createTask" />
             </div>
           </div>
         </section>
 
-        <Divider v-if="finalizeMode === 'offerte'" class="my-0!" />
+        <Divider v-if="finalizeMode === 'quotation'" class="my-0!" />
 
         <!-- ── Afronding (offerte only) ────────────────────────── -->
         <section
-          v-if="finalizeMode === 'offerte'"
+          v-if="finalizeMode === 'quotation'"
           ref="sectionAfronding"
           class="flex flex-col gap-4 py-6"
         >
@@ -554,7 +554,7 @@
             <div class="form-row items-center">
               <span class="form-label">Automatische offerte mail</span>
               <div class="flex items-center gap-2.5">
-                <ToggleSwitch v-model="automatischeOfferteMail" />
+                <ToggleSwitch v-model="automaticQuotationEmail" />
                 <span class="text-sm text-gray-500">
                   Moet er een automatische offerte mail verstuurd worden?
                 </span>
@@ -563,11 +563,11 @@
           </div>
         </section>
 
-        <Divider v-if="finalizeMode === 'bestelling'" class="my-0!" />
+        <Divider v-if="finalizeMode === 'order'" class="my-0!" />
 
         <!-- ── Voorwaarden (bestelling only) ──────────────────── -->
         <section
-          v-if="finalizeMode === 'bestelling'"
+          v-if="finalizeMode === 'order'"
           ref="sectionVoorwaarden"
           class="flex flex-col gap-4 py-6"
         >
@@ -605,16 +605,16 @@
           "
         />
         <Button
-          v-if="finalizeMode === 'offerte'"
+          v-if="finalizeMode === 'quotation'"
           label="Opslaan"
           icon="pi pi-save"
-          @click="emit('submit', 'offerte')"
+          @click="emit('submit', 'quotation')"
         />
         <Button
-          v-else-if="finalizeMode === 'bestelling'"
+          v-else-if="finalizeMode === 'order'"
           label="Bestelling plaatsen"
           icon="pi pi-check"
-          @click="emit('submit', 'bestelling')"
+          @click="emit('submit', 'order')"
         />
       </div>
     </div>

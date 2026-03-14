@@ -1,15 +1,15 @@
 export interface AddressForm {
   id: number | null;
-  aanhef: string | null;
-  voornaam: string;
-  achternaam: string;
-  telefoonLand: string;
-  telefoon: string;
-  terAttentieVan: string;
-  land: string;
-  postcode: string;
-  huisnummer: string;
-  toevoeging: string;
-  straat: string;
-  woonplaats: string;
+  salutation: string | null;
+  firstName: string;
+  lastName: string;
+  phoneCountry: string;
+  phone: string;
+  attentionOf: string;
+  country: string;
+  postalCode: string;
+  houseNumber: string;
+  addition: string;
+  street: string;
+  city: string;
 }
