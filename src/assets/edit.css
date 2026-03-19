@@ -23,6 +23,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.875rem 1.25rem;
+  min-height: 4.6875rem;
   border-bottom: 1px solid var(--p-gray-100);
   background: white;
   flex-shrink: 0;

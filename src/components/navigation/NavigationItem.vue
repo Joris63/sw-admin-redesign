@@ -99,7 +99,7 @@
   <button
     v-else
     :class="[
-      'nav-btn w-full flex items-center gap-2 rounded-md',
+      'nav-btn group w-full flex items-center gap-2 rounded-md',
       collapsed ? 'justify-center py-2 px-2' : 'justify-start py-1.5 px-2',
       isActive
         ? 'text-primary-700 bg-primary-50 font-semibold'
@@ -116,7 +116,7 @@
     />
     <template v-if="!collapsed">
       <span class="flex-1 text-left text-sm">{{ props.item.label }}</span>
-      <i v-if="isOldAdminRoute" class="pi pi-external-link text-gray-400 text-xs shrink-0" />
+      <i v-if="isOldAdminRoute" class="pi pi-external-link text-gray-400 text-xs shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
     </template>
   </button>
 </template>
