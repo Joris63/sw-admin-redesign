@@ -35,7 +35,7 @@
           </div>
           <Button
             icon="pi pi-pencil"
-            variant="text"
+            text
             severity="secondary"
             size="small"
             rounded
@@ -88,7 +88,7 @@
             </div>
             <Button
               icon="pi pi-pencil"
-              variant="text"
+              text
               severity="secondary"
               size="small"
               rounded
@@ -101,7 +101,7 @@
               <span class="fr-label">Naam</span>
               <div class="flex items-center gap-1">
                 <span class="fr-value text-primary">{{ mockCustomer.naam }}</span>
-                <Button icon="pi pi-copy" variant="text" size="small" rounded class="copy-btn" />
+                <Button icon="pi pi-copy" text size="small" rounded class="copy-btn" />
               </div>
             </div>
             <div class="fr-row fr-row--top">
@@ -116,14 +116,14 @@
               <span class="fr-label">E-mail</span>
               <div class="flex items-center gap-1">
                 <span class="fr-value text-primary">{{ mockCustomer.email }}</span>
-                <Button icon="pi pi-copy" variant="text" size="small" rounded class="copy-btn" />
+                <Button icon="pi pi-copy" text size="small" rounded class="copy-btn" />
               </div>
             </div>
             <div class="fr-row">
               <span class="fr-label">Telefoonnummer</span>
               <div class="flex items-center gap-1">
                 <span class="fr-value">{{ mockCustomer.telefoon }}</span>
-                <Button icon="pi pi-copy" variant="text" size="small" rounded class="copy-btn" />
+                <Button icon="pi pi-copy" text size="small" rounded class="copy-btn" />
               </div>
             </div>
             <div class="fr-row fr-row--top">
@@ -151,7 +151,7 @@
             </div>
             <Button
               icon="pi pi-pencil"
-              variant="text"
+              text
               severity="secondary"
               size="small"
               rounded

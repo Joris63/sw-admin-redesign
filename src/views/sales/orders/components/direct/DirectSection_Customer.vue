@@ -4,7 +4,7 @@
   const searchQuery = defineModel<string>('searchQuery');
   const customerSearchVisible = defineModel<boolean>('customerSearchVisible');
 
-  const props = defineProps<{
+  defineProps<{
     mockFoundCustomer: { name: string; email: string };
   }>();
 
@@ -76,7 +76,7 @@
               </div>
               <Button
                 icon="pi pi-times"
-                variant="text"
+                text
                 severity="secondary"
                 size="small"
                 rounded
@@ -196,12 +196,12 @@
   }
 
   .form-label {
-    @apply text-(--p-gray-500) text-sm pt-1.5;
+    @apply text-(--sw-text-label) text-sm pt-1.5;
   }
 
   .mode-card {
     transition: border-color var(--sw-duration-base) var(--sw-ease), box-shadow var(--sw-duration-base) var(--sw-ease), background var(--sw-duration-base) var(--sw-ease);
-    @apply flex items-center border-[1.5px] border-(--p-surface-200) rounded-[0.625rem] bg-(--p-surface-0) cursor-pointer text-left gap-3.5 p-4 px-5;
+    @apply flex items-center border-[1.5px] border-(--sw-border-md) rounded-lg bg-(--sw-bg) cursor-pointer text-left gap-3.5 p-4 px-5;
   }
   .mode-card:hover {
     border-color: var(--p-primary-300);
@@ -209,22 +209,22 @@
   }
   .mode-card--active {
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-primary-500) 12%, transparent);
-    @apply border-[var(--p-primary-500)] bg-[var(--p-primary-50)];
+    @apply border-primary-500 bg-primary-50;
   }
   .mode-card__icon {
     font-size: 0.95rem;
     transition: background var(--sw-duration-base) var(--sw-ease);
-    @apply rounded-full bg-[var(--p-primary-100)] text-[var(--p-primary-600)] flex items-center justify-center shrink-0 w-9 h-9;
+    @apply rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0 w-9 h-9;
   }
   .mode-card--active .mode-card__icon {
-    @apply bg-[var(--p-primary-200)];
+    @apply bg-primary-200;
   }
 
   .customer-indicator {
-    @apply flex items-center border-[1.5px] border-[var(--p-primary-300)] rounded-[0.625rem] bg-[var(--p-primary-50)] gap-3 py-3 px-4;
+    @apply flex items-center border-[1.5px] border-primary-300 rounded-lg bg-primary-50 gap-3 py-3 px-4;
   }
   .customer-indicator__avatar {
-    @apply rounded-full bg-[var(--p-primary-200)] text-[var(--p-primary-700)] flex items-center justify-center shrink-0 w-8 h-8 text-sm;
+    @apply rounded-full bg-primary-200 text-primary-700 flex items-center justify-center shrink-0 w-8 h-8 text-sm;
   }
 
   .fade-enter-active,

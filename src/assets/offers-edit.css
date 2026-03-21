@@ -34,7 +34,7 @@
 }
 .ctx-item {
   @apply flex items-center w-full text-left text-sm text-(--sw-text-sub) bg-none border-none cursor-pointer rounded gap-2 px-3 py-2;
-  transition: background 0.1s;
+  transition: background var(--sw-duration-fast) var(--sw-ease);
 }
 .ctx-item:hover {
   @apply bg-(--sw-bg-subtle);
@@ -52,7 +52,7 @@
 /* ── Transitions ─────────────────────────────────────────────── */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.15s ease;
+  transition: opacity var(--sw-duration-base) var(--sw-ease);
 }
 .fade-enter-from,
 .fade-leave-to {

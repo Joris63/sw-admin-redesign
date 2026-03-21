@@ -197,26 +197,24 @@
     @apply flex items-start flex-wrap gap-2;
   }
   .pending-label {
-    @apply text-xs text-[var(--p-gray-400)] whitespace-nowrap pt-1;
+    @apply text-xs text-(--sw-text-muted) whitespace-nowrap pt-1;
   }
   .pending-chips {
-    @apply flex flex-wrap;
-    gap: 0.35rem;
+    @apply flex flex-wrap gap-1.5;
   }
   .pending-chip {
-    @apply inline-flex items-center rounded-full text-xs font-medium border border-transparent;
-    gap: 0.3rem;
+    @apply inline-flex items-center rounded-full text-xs font-medium border border-transparent gap-1;
     padding: 0.175rem 0.5rem;
   }
   .pending-chip--remove {
-    @apply bg-[var(--p-red-50)] text-[var(--p-red-600)] border-[var(--p-red-200)];
+    @apply bg-red-50 text-red-600 border-red-200;
   }
   .pending-chip--add {
-    @apply bg-[var(--p-green-50)] text-[var(--p-green-700)] border-[var(--p-green-200)];
+    @apply bg-green-50 text-green-700 border-green-200;
   }
 
   /* ── site-tag (view mode websites) ───────────────────────────── */
   .site-tag {
-    @apply inline-flex items-center rounded-md text-xs font-medium bg-[var(--p-gray-100)] text-[var(--p-gray-600)] whitespace-nowrap py-0.5 px-2;
+    @apply inline-flex items-center rounded-md text-xs font-medium bg-(--sw-bg-muted) text-(--sw-text-sub) whitespace-nowrap py-0.5 px-2;
   }
 </style>

@@ -159,14 +159,14 @@
   }
 
   .group-naam {
-    @apply font-medium text-(--sw-text-sub) text-[0.8125rem];
+    @apply font-medium text-(--sw-text-sub) sw-body-sm;
   }
   .group-row--active .group-naam {
     @apply text-primary-700;
   }
 
   .item-count {
-    @apply font-semibold text-(--sw-text-muted) bg-(--sw-bg-muted) rounded-full text-center shrink-0 min-w-5 text-[0.6875rem];
+    @apply font-semibold text-(--sw-text-muted) bg-(--sw-bg-muted) rounded-full text-center shrink-0 min-w-5 sw-micro;
     padding: 0.05rem 0.375rem;
     transition: opacity var(--sw-duration-fast);
   }

@@ -105,10 +105,10 @@
   }
 
   .customize-item__lock {
-    @apply ml-auto text-(--sw-text-muted) text-[0.65rem];
+    @apply ml-auto text-(--sw-text-muted) sw-micro;
   }
 
   .customize-empty {
-    @apply text-(--sw-text-muted) text-[0.8125rem] text-center italic p-3;
+    @apply text-(--sw-text-muted) sw-body-sm text-center italic p-3;
   }
 </style>

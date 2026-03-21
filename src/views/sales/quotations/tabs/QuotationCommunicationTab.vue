@@ -36,7 +36,7 @@
           <div class="view-card-hdr">
             <span class="view-card-title">Verzonden e-mails</span>
             <span class="kort-count-badge">{{ quotation.emails.length }}</span>
-            <div class="flex gap-2" style="margin-left: auto">
+            <div class="flex gap-2 ml-auto">
               <Button
                 label="Afdrukken"
                 icon="pi pi-print"
@@ -78,7 +78,7 @@
               icon="pi pi-plus"
               severity="secondary"
               text
-              style="margin-left: auto"
+              class="ml-auto"
             />
           </div>
           <DataTable :value="quotation.notes" class="ce-table">
@@ -109,7 +109,7 @@
               icon="pi pi-plus"
               severity="secondary"
               text
-              style="margin-left: auto"
+              class="ml-auto"
             />
           </div>
           <DataTable :value="quotation.documents" class="ce-table">
@@ -138,24 +138,24 @@
   }
 
   .comm-tabbar {
-    @apply flex border-b border-(--p-gray-100) bg-white shrink-0 px-4;
+    @apply flex border-b border-(--sw-border) bg-(--sw-bg) shrink-0 px-4;
   }
   .comm-tab {
     border-bottom: 2px solid transparent;
     transition:
-      color 0.15s,
-      border-color 0.15s;
-    @apply bg-transparent border-0 border-b-2 cursor-pointer text-(--p-surface-500) font-medium whitespace-nowrap py-2.5 px-4 text-sm -mb-px;
+      color var(--sw-duration-base) var(--sw-ease),
+      border-color var(--sw-duration-base) var(--sw-ease);
+    @apply bg-transparent border-0 border-b-2 cursor-pointer text-(--sw-text-label) font-medium whitespace-nowrap py-2.5 px-4 text-sm -mb-px;
   }
   .comm-tab:hover {
-    @apply text-(--p-surface-700);
+    @apply text-(--sw-text-strong);
   }
   .comm-tab--active {
     border-bottom-color: var(--p-primary-500);
-    @apply text-[var(--p-primary-600)];
+    @apply text-primary-600;
   }
 
   .comm-scroll {
-    @apply flex-1 overflow-y-auto bg-(--p-surface-50) p-4;
+    @apply flex-1 overflow-y-auto bg-(--sw-bg-page) p-4;
   }
 </style>

@@ -288,6 +288,6 @@
   }
 
   .filter-module :deep(.p-selectbutton .p-button) {
-    @apply text-[0.8125rem] py-1.5 px-3;
+    @apply sw-body-sm py-1.5 px-3;
   }
 </style>

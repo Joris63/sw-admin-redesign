@@ -1,3 +1,5 @@
+<!-- eslint-disable vue/no-mutating-props -->
+<!-- Props are intentionally mutable here: store is a shared Record<string, any> mock object -->
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditableCard from '@/components/EditableCard.vue';

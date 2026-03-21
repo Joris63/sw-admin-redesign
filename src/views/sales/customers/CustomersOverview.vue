@@ -192,7 +192,7 @@
         <template #body="{ data }">
           <Button
             icon="pi pi-pencil"
-            variant="text"
+            text
             severity="secondary"
             size="small"
             rounded

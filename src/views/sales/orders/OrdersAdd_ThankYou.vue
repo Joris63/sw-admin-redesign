@@ -282,7 +282,7 @@
     box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.04),
       0 10px 40px -4px rgba(0, 0, 0, 0.08);
-    @apply relative z-1 flex flex-col items-center bg-white border border-[#e5e7eb] rounded-[1.25rem] min-w-[480px] gap-6 py-10 px-12;
+    @apply relative z-1 flex flex-col items-center bg-(--sw-bg) border border-(--sw-border-md) rounded-2xl min-w-[480px] gap-6 py-10 px-12;
   }
 
   /* ── Animated checkmark ───────────────────────────────────── */
@@ -325,10 +325,10 @@
 
   /* ── Summary pill ─────────────────────────────────────────── */
   .summary-pill {
-    @apply flex items-center bg-[#f9fafb] border border-[#e5e7eb] rounded-full gap-3 py-3 px-5 text-sm;
+    @apply flex items-center bg-(--sw-bg-subtle) border border-(--sw-border-md) rounded-full gap-3 py-3 px-5 text-sm;
   }
 
   .pill-divider {
-    @apply w-px h-[14px] bg-[#d1d5db] shrink-0;
+    @apply w-px h-3.5 bg-(--sw-border-input) shrink-0;
   }
 </style>

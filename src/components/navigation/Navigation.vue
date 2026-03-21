@@ -32,7 +32,7 @@
         @click="visible = !visible"
         :icon="visible ? 'pi pi-arrow-left' : 'pi pi-bars'"
         rounded
-        variant="text"
+        text
         class="text-neutral-50! hover:text-primary-500!"
       />
     </div>

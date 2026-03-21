@@ -16,7 +16,7 @@
     </div>
     <Button
       icon="pi pi-times"
-      variant="text"
+      text
       severity="secondary"
       size="small"
       rounded

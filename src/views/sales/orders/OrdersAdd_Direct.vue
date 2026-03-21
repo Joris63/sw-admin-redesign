@@ -80,7 +80,7 @@
         <Divider class="my-3!" />
         <div class="flex flex-col gap-2 px-3">
           <!-- Live totals -->
-          <div class="flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5">
+          <div class="flex flex-col gap-2 rounded-lg border border-(--sw-border-md) bg-(--sw-bg-subtle) px-3 py-2.5">
             <div class="flex justify-between text-xs text-gray-500">
               <span>Subtotaal</span>
               <span class="text-gray-700">{{ formatPrice(cartSubtotal) }}</span>
@@ -99,7 +99,7 @@
                 {{ shippingCostValue === 0 ? 'Gratis' : formatPrice(shippingCostValue) }}
               </span>
             </div>
-            <div class="border-t border-gray-200 pt-2 flex justify-between items-baseline">
+            <div class="border-t border-(--sw-border-md) pt-2 flex justify-between items-baseline">
               <span class="text-xs font-semibold text-gray-600">Totaal</span>
               <span class="text-sm font-bold text-gray-900">{{ formatPrice(orderTotal) }}</span>
             </div>
@@ -136,7 +136,7 @@
               />
             </IconField>
             <Button label="HM nummer" icon="pi pi-plus" icon-pos="left" class="btn-outlined" />
-            <div class="pl-2 border-l border-gray-200">
+            <div class="pl-2 border-l border-(--sw-border-md)">
               <Button icon="pi pi-ellipsis-v" class="btn-outlined" />
             </div>
           </div>

@@ -113,7 +113,7 @@
           <template #body="{ data }">
             <Button
               icon="pi pi-pencil"
-              variant="text"
+              text
               severity="secondary"
               size="small"
               rounded
@@ -161,7 +161,7 @@
           <template #body="{ data }">
             <Button
               icon="pi pi-pencil"
-              variant="text"
+              text
               severity="secondary"
               size="small"
               rounded
@@ -188,7 +188,7 @@
         </Column>
         <Column header="" style="width: 3rem">
           <template #body>
-            <Button icon="pi pi-pencil" variant="text" severity="secondary" size="small" rounded />
+            <Button icon="pi pi-pencil" text severity="secondary" size="small" rounded />
           </template>
         </Column>
       </OverviewTable>
@@ -220,7 +220,7 @@
         </Column>
         <Column header="" style="width: 3rem">
           <template #body>
-            <Button icon="pi pi-pencil" variant="text" severity="secondary" size="small" rounded />
+            <Button icon="pi pi-pencil" text severity="secondary" size="small" rounded />
           </template>
         </Column>
       </OverviewTable>
@@ -242,7 +242,7 @@
         </Column>
         <Column header="" style="width: 3rem">
           <template #body>
-            <Button icon="pi pi-pencil" variant="text" severity="secondary" size="small" rounded />
+            <Button icon="pi pi-pencil" text severity="secondary" size="small" rounded />
           </template>
         </Column>
       </OverviewTable>

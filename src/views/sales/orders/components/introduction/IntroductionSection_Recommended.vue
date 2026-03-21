@@ -88,7 +88,7 @@ const selectedCompanyType = ref(null);
             </div>
             <Button
               icon="pi pi-times"
-              variant="text"
+              text
               severity="secondary"
               size="small"
               rounded
@@ -142,7 +142,7 @@ const selectedCompanyType = ref(null);
 }
 
 .form-label {
-  @apply text-(--p-gray-500) text-sm pt-1.5;
+  @apply text-(--sw-text-label) text-sm pt-1.5;
 }
 
 .mode-card {
@@ -150,16 +150,16 @@ const selectedCompanyType = ref(null);
     border-color var(--sw-duration-base) var(--sw-ease),
     box-shadow var(--sw-duration-base) var(--sw-ease),
     background var(--sw-duration-base) var(--sw-ease);
-  @apply flex items-center border-[1.5px] border-(--p-surface-200) rounded-[0.625rem] bg-(--p-surface-0) cursor-pointer text-left gap-3.5 p-4 px-5;
+  @apply flex items-center border-[1.5px] border-(--sw-border-md) rounded-lg bg-(--sw-bg) cursor-pointer text-left gap-3.5 p-4 px-5;
 }
 
 .mode-card--neutral:hover {
-  @apply border-(--p-gray-400);
+  @apply border-(--sw-border-input);
 }
 
 .mode-card--active-neutral {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-gray-500) 10%, transparent);
-  @apply border-(--p-gray-400) bg-(--p-gray-50);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sw-text-label) 10%, transparent);
+  @apply border-(--sw-border-input) bg-(--sw-bg-subtle);
 }
 
 .mode-card__icon {
@@ -169,19 +169,19 @@ const selectedCompanyType = ref(null);
 }
 
 .mode-card__icon--neutral {
-  @apply bg-(--p-gray-100) text-(--p-gray-500);
+  @apply bg-(--sw-bg-muted) text-(--sw-text-label);
 }
 
 .mode-card--active-neutral .mode-card__icon--neutral {
-  @apply bg-(--p-gray-200) text-(--p-gray-600);
+  @apply bg-(--sw-border-md) text-(--sw-text-sub);
 }
 
 .customer-indicator {
-  @apply flex items-center border-[1.5px] border-(--p-gray-300) rounded-[0.625rem] bg-(--p-gray-50) gap-3 py-3 px-4;
+  @apply flex items-center border-[1.5px] border-(--sw-border-input) rounded-lg bg-(--sw-bg-subtle) gap-3 py-3 px-4;
 }
 
 .customer-indicator__avatar {
-  @apply rounded-full bg-(--p-gray-200) text-(--p-gray-600) flex items-center justify-center shrink-0 w-8 h-8 text-sm;
+  @apply rounded-full bg-(--sw-border-md) text-(--sw-text-sub) flex items-center justify-center shrink-0 w-8 h-8 text-sm;
 }
 
 .fade-enter-active,

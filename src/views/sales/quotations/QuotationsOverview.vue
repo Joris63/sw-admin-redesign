@@ -143,13 +143,13 @@
           <div class="flex items-center gap-1">
             <Button
               icon="pi pi-pencil"
-              variant="text"
+              text
               severity="secondary"
               size="small"
               rounded
               @click="router.push({ name: 'QuotationEdit', params: { id: data.id } })"
             />
-            <Button icon="pi pi-cart-plus" variant="text" severity="secondary" size="small" rounded />
+            <Button icon="pi pi-cart-plus" text severity="secondary" size="small" rounded />
           </div>
         </template>
       </Column>

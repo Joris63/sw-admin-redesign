@@ -118,7 +118,7 @@ function onRowContextMenu(event: any) {
             <template v-if="!props.readonly && !props.activeGroups.includes(group.id)">
               <Button
                 icon="pi pi-plus"
-                variant="text"
+                text
                 severity="secondary"
                 rounded
                 class="header-action-btn"
@@ -130,14 +130,14 @@ function onRowContextMenu(event: any) {
             <template v-if="group.id !== '0' && !props.readonly">
               <Button
                 icon="pi pi-pencil"
-                variant="text"
+                text
                 severity="secondary"
                 rounded
                 class="header-action-btn"
               />
               <Button
                 icon="pi pi-trash"
-                variant="text"
+                text
                 severity="secondary"
                 rounded
                 class="header-action-btn"
@@ -146,7 +146,7 @@ function onRowContextMenu(event: any) {
             <div v-if="!props.readonly" class="flex flex-col">
               <Button
                 icon="pi pi-chevron-up"
-                variant="text"
+                text
                 severity="secondary"
                 rounded
                 class="header-action-btn reorder-btn"
@@ -155,7 +155,7 @@ function onRowContextMenu(event: any) {
               />
               <Button
                 icon="pi pi-chevron-down"
-                variant="text"
+                text
                 severity="secondary"
                 rounded
                 class="header-action-btn reorder-btn"
@@ -277,7 +277,7 @@ function onRowContextMenu(event: any) {
                 <div class="flex items-center gap-1">
                   <Button
                     icon="pi pi-ellipsis-h"
-                    variant="text"
+                    text
                     severity="secondary"
                     rounded
                     class="row-action-btn"
@@ -286,14 +286,14 @@ function onRowContextMenu(event: any) {
                   <Button
                     v-if="!props.readonly"
                     icon="pi pi-trash"
-                    variant="text"
+                    text
                     severity="danger"
                     rounded
                     class="row-action-btn"
                   />
                   <Button
                     :icon="isRowExpanded(group.id, data) ? 'pi pi-minus' : 'pi pi-plus'"
-                    variant="text"
+                    text
                     severity="secondary"
                     rounded
                     class="row-action-btn"
@@ -302,14 +302,14 @@ function onRowContextMenu(event: any) {
                   <div v-if="!props.readonly" class="flex flex-col ml-1">
                     <Button
                       icon="pi pi-chevron-up"
-                      variant="text"
+                      text
                       severity="secondary"
                       rounded
                       class="row-action-btn reorder-btn"
                     />
                     <Button
                       icon="pi pi-chevron-down"
-                      variant="text"
+                      text
                       severity="secondary"
                       rounded
                       class="row-action-btn reorder-btn"

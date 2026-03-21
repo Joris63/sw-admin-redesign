@@ -136,7 +136,7 @@
             verder gaan
           </button>
         </span>
-        <Button icon="pi pi-times" variant="text" severity="warn" size="small" rounded @click="pendingBannerVisible = false" />
+        <Button icon="pi pi-times" text severity="warn" size="small" rounded @click="pendingBannerVisible = false" />
       </div>
     </Transition>
 

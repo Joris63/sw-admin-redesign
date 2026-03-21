@@ -87,7 +87,7 @@ const city = ref('');
               <Button
                 v-if="addingNewAddress"
                 icon="pi pi-times"
-                variant="text"
+                text
                 severity="secondary"
                 size="small"
                 rounded
@@ -163,7 +163,7 @@ const city = ref('');
         </div>
       </div>
 
-      <p v-else key="addr-empty" class="text-sm text-gray-400 italic">
+      <p v-else key="addr-empty" class="text-sm text-(--sw-text-muted) italic">
         Selecteer eerst een klant hierboven.
       </p>
     </Transition>
@@ -178,29 +178,29 @@ const city = ref('');
 }
 
 .form-label {
-  @apply text-(--p-gray-500) text-sm pt-1.5;
+  @apply text-(--sw-text-label) text-sm pt-1.5;
 }
 
 .address-card {
   transition:
-    border-color 0.15s ease,
-    background 0.15s ease;
-  @apply flex items-center border-[1.5px] border-(--p-surface-200) rounded-lg bg-(--p-surface-0) cursor-pointer w-full gap-3 py-3.5 px-4;
+    border-color var(--sw-duration-base) var(--sw-ease),
+    background var(--sw-duration-base) var(--sw-ease);
+  @apply flex items-center border-[1.5px] border-(--sw-border-md) rounded-lg bg-(--sw-bg) cursor-pointer w-full gap-3 py-3.5 px-4;
 }
 
 .address-card:hover {
-  @apply border-[var(--p-primary-300)];
+  @apply border-primary-300;
 }
 
 .address-card--selected {
-  @apply border-[var(--p-primary-500)] bg-[var(--p-primary-50)];
+  @apply border-primary-500 bg-primary-50;
 }
 
 .address-card--add {
-  @apply border-dashed text-(--p-surface-500);
+  @apply border-dashed text-(--sw-text-label);
 }
 
 .address-card--add:hover {
-  @apply text-(--p-surface-700);
+  @apply text-(--sw-text-strong);
 }
 </style>

@@ -10,7 +10,7 @@
 }
 
 .view-card {
-  @apply bg-(--sw-bg) border border-(--sw-border-md) rounded-[0.625rem] mb-5;
+  @apply bg-(--sw-bg) border border-(--sw-border-md) rounded-lg mb-5;
 }
 .view-card-hdr {
   @apply flex items-center justify-between border-b border-(--sw-border) bg-(--sw-bg-subtle) sticky z-10 pt-2 pr-3 pb-2 pl-5 min-h-11 rounded-t-[0.625rem] -top-6;

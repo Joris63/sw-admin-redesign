@@ -240,7 +240,7 @@
 <style scoped>
 @reference "@/assets/style.css";
   .drw-site {
-    @apply font-medium text-(--sw-text-label) text-[0.8125rem];
+    @apply font-medium text-(--sw-text-label) sw-body-sm;
   }
 
   .drw-collapsible {
@@ -253,7 +253,7 @@
     @apply text-primary-400;
   }
   .drw-chevron {
-    @apply text-(--sw-text-muted) text-[0.6875rem];
+    @apply text-(--sw-text-muted) sw-micro;
     transition: color var(--sw-duration-fast);
   }
   .drw-collapsible-body {
@@ -262,13 +262,13 @@
 
   /* Feature cards */
   .opt-card {
-    @apply border-[1.5px] border-(--sw-border-md) rounded-[0.625rem] overflow-hidden;
+    @apply border-[1.5px] border-(--sw-border-md) rounded-lg overflow-hidden;
   }
   .opt-card__hdr {
     @apply flex items-center justify-between bg-(--sw-bg-subtle) border-b border-(--sw-border) px-3 py-2;
   }
   .opt-card__title {
-    @apply flex items-center font-semibold text-(--sw-text-strong) text-[0.8125rem] gap-2;
+    @apply flex items-center font-semibold text-(--sw-text-strong) sw-body-sm gap-2;
   }
   .opt-card__title .pi {
     @apply text-[0.8rem] text-(--sw-text-muted);
@@ -277,7 +277,7 @@
     @apply flex flex-col py-3.5 px-4 gap-3.5;
   }
   .opt-remove {
-    @apply flex items-center justify-center rounded shrink-0 cursor-pointer text-(--sw-text-muted) w-[1.375rem] h-[1.375rem] bg-none border-none text-[0.7rem];
+    @apply flex items-center justify-center rounded shrink-0 cursor-pointer text-(--sw-text-muted) w-[1.375rem] h-[1.375rem] bg-none border-none sw-micro;
     transition: background var(--sw-duration-fast), color var(--sw-duration-fast);
   }
   .opt-remove:hover {
@@ -302,7 +302,7 @@
     @apply text-primary-500;
   }
   .opt-add-btn__icon {
-    @apply text-[0.7rem] text-(--sw-text-muted);
+    @apply sw-micro text-(--sw-text-muted);
     transition: color var(--sw-duration-fast);
   }
 

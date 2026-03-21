@@ -315,7 +315,7 @@ const deferredProcessing = ref(false);
 <style scoped>
 @reference "@/assets/style.css";
 .subform {
-  @apply flex flex-col bg-(--p-gray-50) border border-(--p-gray-200) rounded-[0.625rem] gap-4 py-5 px-6;
+  @apply flex flex-col bg-(--sw-bg-subtle) border border-(--sw-border-md) rounded-lg gap-4 py-5 px-6;
 }
 
 .form-row {
@@ -324,6 +324,6 @@ const deferredProcessing = ref(false);
 }
 
 .form-label {
-  @apply text-(--p-gray-500) text-sm pt-1.5;
+  @apply text-(--sw-text-label) text-sm pt-1.5;
 }
 </style>

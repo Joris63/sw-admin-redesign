@@ -171,6 +171,6 @@ function formatDate(date: Date | null) {
   @apply border-b-0;
 }
 .exception-reason-site {
-  @apply text-[0.8125rem] font-medium text-(--sw-text-label) w-[8.5rem] shrink-0;
+  @apply sw-body-sm font-medium text-(--sw-text-label) w-[8.5rem] shrink-0;
 }
 </style>

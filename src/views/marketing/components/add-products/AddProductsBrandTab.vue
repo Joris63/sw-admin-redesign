@@ -8,7 +8,7 @@
     (e: 'update:exclusionCsvFile', value: File | null): void;
   }>();
 
-  const props = defineProps<{
+  defineProps<{
     selectedMerkenSeries: string[];
     selectedCategories: string[];
     exclusionCsvFile: File | null;

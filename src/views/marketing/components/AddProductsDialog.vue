@@ -14,7 +14,7 @@
     merk: string;
   }
 
-  const props = defineProps<{
+  defineProps<{
     groupNaam: string;
   }>();
 

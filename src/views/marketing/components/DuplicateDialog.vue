@@ -187,18 +187,16 @@
     @apply flex flex-col gap-1;
   }
   .dlg-hdr__title {
-    @apply text-base font-semibold text-[var(--p-surface-800)];
+    @apply text-base font-semibold text-(--sw-text);
   }
   .dlg-hdr__src {
-    @apply flex items-center;
-    gap: 0.35rem;
+    @apply flex items-center gap-1.5;
   }
   .dlg-hdr__icon {
-    @apply text-[var(--p-gray-400)];
-    font-size: 0.7rem;
+    @apply text-(--sw-text-muted) text-xs;
   }
   .dlg-src-chip {
-    @apply inline-block bg-[var(--p-primary-50)] text-[var(--p-primary-700)] rounded text-xs font-medium;
+    @apply inline-block bg-primary-50 text-primary-700 rounded text-xs font-medium;
     padding: 0.05rem 0.4rem;
   }
 
@@ -211,24 +209,24 @@
     @apply flex flex-col gap-1.5;
   }
   .drw-label {
-    @apply text-sm font-medium text-[var(--p-surface-700)];
+    @apply text-sm font-medium text-(--sw-text-strong);
   }
   .drw-req {
-    @apply text-[var(--p-red-500)];
+    @apply text-red-500;
   }
   .drw-hint {
-    @apply text-xs text-[var(--p-gray-400)] leading-[1.4];
+    @apply text-xs text-(--sw-text-muted) leading-[1.4];
   }
   .drw-row {
     @apply flex items-center justify-between gap-4;
   }
 
   .date-sep {
-    @apply text-sm text-[var(--p-gray-300)] shrink-0;
+    @apply text-sm text-(--sw-text-faint) shrink-0;
   }
 
   /* ── Footer ────────────────────────────────────────────────────────── */
   :deep(.dlg-footer) {
-    @apply flex justify-end border-t border-[var(--p-gray-100)] gap-2 px-6 py-3.5;
+    @apply flex justify-end border-t border-(--sw-border) gap-2 px-6 py-3.5;
   }
 </style>

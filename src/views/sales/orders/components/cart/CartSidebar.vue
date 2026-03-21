@@ -44,7 +44,7 @@ function toggleGroupMenu(event: Event) {
         <Button
           v-if="!props.readonly"
           icon="pi pi-plus"
-          variant="text"
+          text
           severity="secondary"
           rounded
           size="small"
@@ -89,7 +89,7 @@ function toggleGroupMenu(event: Event) {
           v-for="s in SUGGESTIONS"
           :key="s"
           :label="s"
-          variant="text"
+          text
           severity="secondary"
           icon="pi pi-plus"
           class="justify-start! px-2!"
@@ -103,7 +103,7 @@ function toggleGroupMenu(event: Event) {
 <style scoped>
 @reference "@/assets/style.css";
 .cart-sidebar {
-  @apply w-[17rem] shrink-0 border-r border-(--p-gray-200) bg-(--p-gray-50) overflow-y-auto py-3 px-2.5;
+  @apply w-[17rem] shrink-0 border-r border-(--sw-border-md) bg-(--sw-bg-subtle) overflow-y-auto py-3 px-2.5;
 }
 
 .sidebar-section {
@@ -115,7 +115,7 @@ function toggleGroupMenu(event: Event) {
 }
 
 .sidebar-label {
-  @apply text-[0.7rem] font-bold uppercase tracking-[0.06em] text-(--p-surface-400);
+  @apply sw-micro font-bold uppercase tracking-[0.06em] text-(--sw-text-muted);
 }
 
 .sidebar-add-btn {
@@ -123,26 +123,26 @@ function toggleGroupMenu(event: Event) {
   height: 1.625rem !important;
   min-width: 0 !important;
   padding: 0 !important;
-  font-size: 0.7rem !important;
+  font-size: 0.6875rem !important;
 }
 
 .sidebar-group-item {
   transition:
     background var(--sw-duration-fast) var(--sw-ease),
     color var(--sw-duration-fast) var(--sw-ease);
-  @apply flex items-center relative rounded-md cursor-pointer text-(--p-gray-600) gap-1.5 py-1.5 px-2.5 text-sm;
+  @apply flex items-center relative rounded-md cursor-pointer text-(--sw-text-sub) gap-1.5 py-1.5 px-2.5 text-sm;
 }
 
 .sidebar-group-item:hover {
-  @apply bg-(--p-gray-100) text-(--p-gray-800);
+  @apply bg-(--sw-bg-muted) text-(--sw-text);
 }
 
 .sidebar-group-item--active {
-  @apply bg-[var(--p-primary-50)] text-[var(--p-primary-700)];
+  @apply bg-primary-50 text-primary-700;
 }
 
 .sidebar-group-item--active:hover {
-  @apply bg-[var(--p-primary-100)];
+  @apply bg-primary-100;
 }
 
 .sidebar-item-end {
@@ -151,11 +151,11 @@ function toggleGroupMenu(event: Event) {
 
 .sidebar-count {
   transition: opacity var(--sw-duration-fast) var(--sw-ease);
-  @apply text-[0.7rem] bg-(--p-gray-200) text-(--p-gray-500) rounded-full leading-[1.3] whitespace-nowrap px-1.5;
+  @apply sw-micro bg-(--sw-border-md) text-(--sw-text-label) rounded-full leading-[1.3] whitespace-nowrap px-1.5;
 }
 
 .sidebar-group-item--active .sidebar-count {
-  @apply bg-[var(--p-primary-100)] text-[var(--p-primary-600)];
+  @apply bg-primary-100 text-primary-600;
 }
 
 .sidebar-group-menu {
@@ -163,10 +163,10 @@ function toggleGroupMenu(event: Event) {
     background var(--sw-duration-fast) var(--sw-ease),
     color var(--sw-duration-fast) var(--sw-ease),
     opacity var(--sw-duration-fast) var(--sw-ease);
-  @apply absolute inset-0 flex items-center justify-center border-none bg-transparent rounded cursor-pointer text-(--p-gray-400);
+  @apply absolute inset-0 flex items-center justify-center border-none bg-transparent rounded cursor-pointer text-(--sw-text-muted);
 }
 
 .sidebar-group-menu:hover {
-  @apply bg-(--p-gray-200) text-(--p-gray-700);
+  @apply bg-(--sw-border-md) text-(--sw-text-strong);
 }
 </style>

@@ -99,21 +99,21 @@
   }
 
   .log-tabbar {
-    @apply flex border-b border-(--p-gray-100) bg-white shrink-0 px-4;
+    @apply flex border-b border-(--sw-border) bg-(--sw-bg) shrink-0 px-4;
   }
   .log-tab {
     border-bottom: 2px solid transparent;
-    transition: color var(--sw-duration-base), border-color var(--sw-duration-base);
+    transition: color var(--sw-duration-base) var(--sw-ease), border-color var(--sw-duration-base) var(--sw-ease);
     margin-bottom: -1px;
-    @apply bg-transparent border-0 cursor-pointer text-(--p-surface-500) font-medium py-2.5 px-4 text-sm;
+    @apply bg-transparent border-0 cursor-pointer text-(--sw-text-label) font-medium py-2.5 px-4 text-sm;
   }
-  .log-tab:hover { @apply text-(--p-surface-700); }
+  .log-tab:hover { @apply text-(--sw-text-strong); }
   .log-tab--active {
     border-bottom-color: var(--p-primary-500);
-    @apply text-[var(--p-primary-600)];
+    @apply text-primary-600;
   }
 
   .log-scroll {
-    @apply flex-1 overflow-y-auto bg-(--p-surface-50) p-4;
+    @apply flex-1 overflow-y-auto bg-(--sw-bg-page) p-4;
   }
 </style>

@@ -66,7 +66,7 @@
           type="button"
           icon="pi pi-sign-out"
           rounded
-          variant="text"
+          text
           severity="warn"
           class="text-orange-300! hover:bg-orange-300/20!"
         />
@@ -96,7 +96,7 @@
           type="button"
           icon="pi pi-expand"
           rounded
-          variant="text"
+          text
           class="text-white/70! hover:text-white! hover:bg-white/15!"
         />
       </div>

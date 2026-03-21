@@ -80,7 +80,7 @@ const {
         </div>
         <Button
           icon="pi pi-times"
-          variant="text"
+          text
           severity="secondary"
           size="small"
           rounded
@@ -100,7 +100,7 @@ const {
           v-if="!orderDiscountExpanded && !props.readonly"
           icon="pi pi-plus"
           icon-pos="left"
-          variant="text"
+          text
           severity="secondary"
           size="small"
           class="totals-add-btn"

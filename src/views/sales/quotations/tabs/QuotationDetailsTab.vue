@@ -130,9 +130,9 @@
   .ext-section:last-child { @apply pb-5; }
   .ext-section-hdr { @apply mb-3; }
   .ext-section-title {
-    @apply font-bold uppercase tracking-[0.05em] text-(--p-surface-400) text-xs;
+    @apply font-bold uppercase tracking-[0.05em] text-(--sw-text-muted) text-xs;
   }
   .ext-sep {
-    @apply h-px bg-(--p-gray-100) mt-5 mx-5;
+    @apply h-px bg-(--sw-border) mt-5 mx-5;
   }
 </style>
