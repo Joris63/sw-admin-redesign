@@ -8,6 +8,9 @@
 @import './edit.css';
 @import './add.css';
 @import './overview.css';
+@import './cart-accordion.css';
+@import './filter.css';
+@import './offers-edit.css';
 
 @theme inline {
   --color-brand-50: var(--p-brand-50);

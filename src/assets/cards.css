@@ -140,3 +140,19 @@
 .card-fade-leave-to {
   opacity: 0;
 }
+
+/* Slide-fade used for conditionally shown sub-sections */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}

@@ -35,6 +35,7 @@ declare module 'vue' {
     EditPageNav: typeof import('./src/components/layout/EditPageNav.vue')['default']
     EditPageTabs: typeof import('./src/components/layout/EditPageTabs.vue')['default']
     FilterBar: typeof import('./src/components/FilterBar.vue')['default']
+    FilterCustomizeMenu: typeof import('./src/components/filter/FilterCustomizeMenu.vue')['default']
     IconField: typeof import('primevue/iconfield')['default']
     InputChips: typeof import('primevue/inputchips')['default']
     InputIcon: typeof import('primevue/inputicon')['default']

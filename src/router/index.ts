@@ -1,18 +1,18 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
-import OrdersAdd from '@/views/sales/OrdersAdd.vue';
-import OrdersAdd_Direct from '@/views/sales/OrdersAdd_Direct.vue';
-import OrdersAdd_ThankYou from '@/views/sales/OrdersAdd_ThankYou.vue';
-import CustomersOverview from '@/views/sales/CustomersOverview.vue';
-import CustomerEdit from '@/views/sales/CustomerEdit.vue';
+import OrdersAdd from '@/views/sales/orders/OrdersAdd.vue';
+import OrdersAdd_Direct from '@/views/sales/orders/OrdersAdd_Direct.vue';
+import OrdersAdd_ThankYou from '@/views/sales/orders/OrdersAdd_ThankYou.vue';
+import CustomersOverview from '@/views/sales/customers/CustomersOverview.vue';
+import CustomerEdit from '@/views/sales/customers/CustomerEdit.vue';
 import OffersOverview from '@/views/marketing/OffersOverview.vue';
 import OffersEdit from '@/views/marketing/OffersEdit.vue';
-import QuotationsOverview from '@/views/sales/QuotationsOverview.vue';
-import QuotationEdit from '@/views/sales/QuotationEdit.vue';
+import QuotationsOverview from '@/views/sales/quotations/QuotationsOverview.vue';
+import QuotationEdit from '@/views/sales/quotations/QuotationEdit.vue';
 import LocationsOverview from '@/views/logistics/LocationsOverview.vue';
-import StoreEdit from '@/views/logistics/StoreEdit.vue';
-import StoreAdd from '@/views/logistics/StoreAdd.vue';
-import WarehouseEdit from '@/views/logistics/WarehouseEdit.vue';
+import StoreEdit from '@/views/logistics/store/StoreEdit.vue';
+import StoreAdd from '@/views/logistics/store/StoreAdd.vue';
+import WarehouseEdit from '@/views/logistics/warehouse/WarehouseEdit.vue';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
