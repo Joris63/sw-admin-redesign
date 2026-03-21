@@ -84,12 +84,12 @@
         <div class="fr-row">
           <label class="fr-label">Afkorting <span class="fr-req">*</span></label>
           <div class="flex gap-2">
-            <InputText v-model="form.abbreviation" placeholder="UTR" style="max-width: 7rem" />
+            <InputText v-model="form.abbreviation" placeholder="UTR" class="max-w-[7rem]" />
             <InputText v-model="form.slug" class="flex-1" placeholder="showroom_utr" />
           </div>
         </div>
         <div class="fr-row fr-row--top">
-          <label class="fr-label" style="padding-top: 0.5rem">Opties</label>
+          <label class="fr-label pt-2">Opties</label>
           <div class="options-grid">
             <div class="option-item">
               <ToggleSwitch v-model="form.mainStore" inputId="opt-main" />
@@ -213,7 +213,7 @@
         </div>
         <div class="fr-row">
           <label class="fr-label">Google code <span class="fr-req">*</span></label>
-          <InputText v-model="form.googleCode" placeholder="Google code" style="max-width: 12rem" />
+          <InputText v-model="form.googleCode" placeholder="Google code" class="max-w-[12rem]" />
         </div>
       </AddPageSection>
     </div>
@@ -232,7 +232,7 @@
   }
 
   .option-item {
-    @apply flex items-center text-sm text-[var(--p-surface-700)] gap-2.5;
+    @apply flex items-center text-sm text-(--sw-text) gap-2.5;
   }
 
   .option-item label {

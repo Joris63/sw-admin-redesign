@@ -226,10 +226,10 @@
   }
 
   .fade-enter-active {
-    transition: opacity 0.15s ease;
+    transition: opacity var(--sw-duration-base) var(--sw-ease);
   }
   .fade-leave-active {
-    transition: opacity 0.1s ease;
+    transition: opacity var(--sw-duration-fast) var(--sw-ease);
   }
   .fade-enter-from,
   .fade-leave-to {

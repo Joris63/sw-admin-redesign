@@ -200,7 +200,7 @@
   }
 
   .mode-card {
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    transition: border-color var(--sw-duration-base) var(--sw-ease), box-shadow var(--sw-duration-base) var(--sw-ease), background var(--sw-duration-base) var(--sw-ease);
     @apply flex items-center border-[1.5px] border-(--p-surface-200) rounded-[0.625rem] bg-(--p-surface-0) cursor-pointer text-left gap-3.5 p-4 px-5;
   }
   .mode-card:hover {
@@ -213,7 +213,7 @@
   }
   .mode-card__icon {
     font-size: 0.95rem;
-    transition: background 0.15s ease;
+    transition: background var(--sw-duration-base) var(--sw-ease);
     @apply rounded-full bg-[var(--p-primary-100)] text-[var(--p-primary-600)] flex items-center justify-center shrink-0 w-9 h-9;
   }
   .mode-card--active .mode-card__icon {
@@ -229,7 +229,7 @@
 
   .fade-enter-active,
   .fade-leave-active {
-    transition: opacity 0.2s ease;
+    transition: opacity var(--sw-duration-slow) var(--sw-ease);
   }
   .fade-enter-from,
   .fade-leave-to {
@@ -237,10 +237,10 @@
   }
 
   .fade-slide-enter-active {
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity var(--sw-duration-slow) var(--sw-ease), transform var(--sw-duration-slow) var(--sw-ease);
   }
   .fade-slide-leave-active {
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transition: opacity var(--sw-duration-base) var(--sw-ease), transform var(--sw-duration-base) var(--sw-ease);
   }
   .fade-slide-enter-from,
   .fade-slide-leave-to {

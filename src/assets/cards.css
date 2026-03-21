@@ -76,9 +76,27 @@
   @apply text-xs font-semibold bg-(--sw-bg-muted) text-(--sw-text-label) rounded-full py-0.5 px-2;
 }
 
+/* Collapse — reveal/hide sub-sections (expandable fields, drawers, etc.)
+   Asymmetric: enter slower than leave for a snappy feel. */
+.collapse-enter-active {
+  transition:
+    opacity var(--sw-duration-base) var(--sw-ease),
+    transform var(--sw-duration-base) var(--sw-ease);
+}
+.collapse-leave-active {
+  transition:
+    opacity var(--sw-duration-fast) var(--sw-ease),
+    transform var(--sw-duration-fast) var(--sw-ease);
+}
+.collapse-enter-from,
+.collapse-leave-to {
+  opacity: 0;
+  transform: translateY(-0.25rem);
+}
+
 .card-fade-enter-active,
 .card-fade-leave-active {
-  transition: opacity 0.15s ease;
+  transition: opacity var(--sw-duration-base) var(--sw-ease);
 }
 .card-fade-enter-from,
 .card-fade-leave-to {
@@ -89,8 +107,8 @@
 .fade-slide-enter-active,
 .fade-slide-leave-active {
   transition:
-    opacity 0.15s ease,
-    transform 0.15s ease;
+    opacity var(--sw-duration-base) var(--sw-ease),
+    transform var(--sw-duration-base) var(--sw-ease);
 }
 .fade-slide-enter-from {
   @apply opacity-0;

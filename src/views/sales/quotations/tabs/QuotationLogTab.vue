@@ -103,7 +103,7 @@
   }
   .log-tab {
     border-bottom: 2px solid transparent;
-    transition: color 0.15s, border-color 0.15s;
+    transition: color var(--sw-duration-base), border-color var(--sw-duration-base);
     margin-bottom: -1px;
     @apply bg-transparent border-0 cursor-pointer text-(--p-surface-500) font-medium py-2.5 px-4 text-sm;
   }

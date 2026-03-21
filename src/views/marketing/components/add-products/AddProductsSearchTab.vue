@@ -136,8 +136,8 @@
     text-underline-offset: 2px;
     text-decoration-color: var(--p-primary-300);
     transition:
-      color 0.15s ease,
-      background 0.15s ease;
+      color var(--sw-duration-base) var(--sw-ease),
+      background var(--sw-duration-base) var(--sw-ease);
   }
   .drw-change-btn:hover {
     color: var(--p-primary-700);
@@ -163,7 +163,7 @@
     background: none;
     border: none;
     border-bottom: 1px solid var(--p-gray-100);
-    transition: background 0.1s;
+    transition: background var(--sw-duration-fast);
   }
   .ac-item:last-child {
     border-bottom: none;
@@ -209,8 +209,8 @@
     background: none;
     border: none;
     transition:
-      background 0.1s,
-      color 0.1s;
+      background var(--sw-duration-fast),
+      color var(--sw-duration-fast);
   }
   .si-remove:hover {
     background: var(--p-red-50);

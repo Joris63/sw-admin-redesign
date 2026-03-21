@@ -175,19 +175,5 @@
     margin: 0;
   }
 
-  .collapse-enter-active {
-    transition:
-      opacity 0.18s ease,
-      transform 0.18s ease;
-  }
-  .collapse-leave-active {
-    transition:
-      opacity 0.12s ease,
-      transform 0.12s ease;
-  }
-  .collapse-enter-from,
-  .collapse-leave-to {
-    opacity: 0;
-    transform: translateY(-0.25rem);
-  }
+  /* collapse transition — defined globally in cards.css */
 </style>

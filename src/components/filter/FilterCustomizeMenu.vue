@@ -67,16 +67,12 @@
 <style scoped>
 @reference "tailwindcss";
   .customize-btn {
-    @apply flex items-center justify-center border-none bg-none text-[var(--p-surface-400)] cursor-pointer rounded-md shrink-0 w-8 h-8;
-    font-size: 0.9rem;
-    border: none;
-    background: none;
-    transition: color 0.15s, background 0.15s;
+    @apply flex items-center justify-center border-none bg-none text-(--sw-text-muted) cursor-pointer rounded-md shrink-0 w-8 h-8 text-[0.9rem];
+    transition: color var(--sw-duration-base), background var(--sw-duration-base);
   }
 
   .customize-btn:hover {
-    color: var(--p-surface-700);
-    background: var(--p-surface-100);
+    @apply text-(--sw-text-sub) bg-(--sw-bg-muted);
   }
 
   .customize-popover {
@@ -84,9 +80,7 @@
   }
 
   .customize-popover__title {
-    @apply m-0 mb-2 font-bold uppercase text-[var(--p-surface-400)];
-    font-size: 0.6875rem;
-    letter-spacing: 0.06em;
+    @apply sw-nano m-0 mb-2 text-(--sw-text-muted);
   }
 
   .customize-list {
@@ -94,12 +88,12 @@
   }
 
   .customize-item {
-    @apply flex items-center cursor-pointer text-sm text-[var(--p-surface-700)] gap-2.5 px-3 py-2;
-    transition: background 0.1s;
+    @apply flex items-center cursor-pointer text-sm text-(--sw-text) gap-2.5 px-3 py-2;
+    transition: background var(--sw-duration-fast);
   }
 
   .customize-item:hover {
-    background: var(--p-surface-50);
+    @apply bg-(--sw-bg-subtle);
   }
 
   .customize-item--required {
@@ -111,12 +105,10 @@
   }
 
   .customize-item__lock {
-    @apply ml-auto text-[var(--p-surface-400)];
-    font-size: 0.65rem;
+    @apply ml-auto text-(--sw-text-muted) text-[0.65rem];
   }
 
   .customize-empty {
-    @apply text-[var(--p-surface-400)] text-center italic p-3;
-    font-size: 0.8125rem;
+    @apply text-(--sw-text-muted) text-[0.8125rem] text-center italic p-3;
   }
 </style>

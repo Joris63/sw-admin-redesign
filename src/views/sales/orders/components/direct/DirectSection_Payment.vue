@@ -41,10 +41,10 @@
   }
 
   .fade-slide-enter-active {
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity var(--sw-duration-slow) var(--sw-ease), transform var(--sw-duration-slow) var(--sw-ease);
   }
   .fade-slide-leave-active {
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transition: opacity var(--sw-duration-base) var(--sw-ease), transform var(--sw-duration-base) var(--sw-ease);
   }
   .fade-slide-enter-from,
   .fade-slide-leave-to {

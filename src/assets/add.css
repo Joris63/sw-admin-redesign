@@ -42,7 +42,7 @@
 
 .add-nav-item {
   @apply flex items-start w-full bg-none border-none border-l-2 border-l-transparent cursor-pointer text-left gap-2.5 py-2 pr-4 pl-4.5;
-  transition: border-color 0.12s;
+  transition: border-color var(--sw-duration-fast);
 }
 
 .add-nav-item--active {
@@ -51,7 +51,7 @@
 
 .add-nav-num {
   @apply rounded-full bg-(--sw-bg-muted) text-(--sw-text-muted) text-[0.625rem] font-bold flex items-center justify-center shrink-0 w-5 h-5 mt-0.5;
-  transition: background 0.12s, color 0.12s;
+  transition: background var(--sw-duration-fast), color var(--sw-duration-fast);
 }
 
 .add-nav-item--active .add-nav-num {
@@ -60,7 +60,7 @@
 
 .add-nav-item-label {
   @apply block text-sm text-(--sw-text-label) leading-[1.3];
-  transition: color 0.12s;
+  transition: color var(--sw-duration-fast);
 }
 
 .add-nav-item--active .add-nav-item-label {
@@ -112,7 +112,7 @@
 
 .scroll-nav-item {
   @apply flex items-center w-full bg-none border-none border-l-2 border-l-transparent cursor-pointer text-left text-sm text-(--sw-text-muted) leading-[1.3] py-1.5 pr-4 pl-4.5;
-  transition: color 0.12s, border-color 0.12s;
+  transition: color var(--sw-duration-fast), border-color var(--sw-duration-fast);
 }
 
 .scroll-nav-item:hover {

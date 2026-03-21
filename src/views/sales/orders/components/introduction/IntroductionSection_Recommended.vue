@@ -147,9 +147,9 @@ const selectedCompanyType = ref(null);
 
 .mode-card {
   transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease;
+    border-color var(--sw-duration-base) var(--sw-ease),
+    box-shadow var(--sw-duration-base) var(--sw-ease),
+    background var(--sw-duration-base) var(--sw-ease);
   @apply flex items-center border-[1.5px] border-(--p-surface-200) rounded-[0.625rem] bg-(--p-surface-0) cursor-pointer text-left gap-3.5 p-4 px-5;
 }
 
@@ -164,7 +164,7 @@ const selectedCompanyType = ref(null);
 
 .mode-card__icon {
   font-size: 0.95rem;
-  transition: background 0.15s ease;
+  transition: background var(--sw-duration-base) var(--sw-ease);
   @apply rounded-full flex items-center justify-center shrink-0 w-9 h-9;
 }
 
@@ -186,7 +186,7 @@ const selectedCompanyType = ref(null);
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.2s ease;
+  transition: opacity var(--sw-duration-slow) var(--sw-ease);
 }
 
 .fade-enter-from,

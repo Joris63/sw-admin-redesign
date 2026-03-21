@@ -118,31 +118,22 @@
 <style scoped>
 @reference "tailwindcss";
   .groups-panel {
-    @apply w-[420px] shrink-0 flex flex-col bg-white border-r border-[var(--p-gray-100)];
+    @apply w-[420px] shrink-0 flex flex-col bg-(--sw-bg) border-r border-(--sw-border);
   }
   .groups-panel--headless {
     @apply w-full border-r-0 flex-1 min-h-0;
   }
 
   .groups-panel__header {
-    @apply flex items-center justify-between font-bold uppercase text-[var(--p-gray-400)] border-b border-[var(--p-gray-100)] shrink-0 px-3 py-2.5;
-    font-size: 0.6875rem;
-    letter-spacing: 0.06em;
+    @apply sw-nano flex items-center justify-between font-bold text-(--sw-text-muted) border-b border-(--sw-border) shrink-0 px-3 py-2.5;
   }
 
   .icon-btn {
-    @apply flex items-center justify-center rounded cursor-pointer text-[var(--p-gray-400)];
-    width: 1.375rem;
-    height: 1.375rem;
-    background: none;
-    border: none;
-    transition:
-      background 0.1s,
-      color 0.1s;
+    @apply flex items-center justify-center rounded cursor-pointer text-(--sw-text-muted) w-[1.375rem] h-[1.375rem] bg-none border-none;
+    transition: background var(--sw-duration-fast), color var(--sw-duration-fast);
   }
   .icon-btn:hover {
-    background: var(--p-gray-200);
-    color: var(--p-gray-700);
+    @apply bg-(--sw-bg-muted) text-(--sw-text-sub);
   }
 
   .groups-tree {
@@ -151,10 +142,10 @@
 
   .group-row {
     @apply flex items-center rounded-md cursor-pointer relative gap-1 py-1.5 px-2 mb-0.5;
-    transition: background 0.1s;
+    transition: background var(--sw-duration-fast);
   }
   .group-row:hover {
-    background: var(--p-gray-100);
+    @apply bg-(--sw-border);
   }
   .group-row:hover .row-actions {
     opacity: 1 !important;
@@ -164,78 +155,64 @@
     opacity: 0;
   }
   .group-row--active {
-    background: var(--p-primary-50);
+    @apply bg-primary-50;
   }
 
   .group-naam {
-    @apply font-medium text-[var(--p-gray-700)];
-    font-size: 0.8125rem;
+    @apply font-medium text-(--sw-text-sub) text-[0.8125rem];
   }
   .group-row--active .group-naam {
-    color: var(--p-primary-700);
+    @apply text-primary-700;
   }
 
   .item-count {
-    @apply font-semibold text-[var(--p-gray-400)] bg-[var(--p-gray-100)] rounded-full text-center shrink-0 min-w-5;
-    font-size: 0.6875rem;
+    @apply font-semibold text-(--sw-text-muted) bg-(--sw-bg-muted) rounded-full text-center shrink-0 min-w-5 text-[0.6875rem];
     padding: 0.05rem 0.375rem;
-    transition: opacity 0.1s;
+    transition: opacity var(--sw-duration-fast);
   }
   .group-row--active .item-count {
-    background: var(--p-primary-100);
-    color: var(--p-primary-600);
+    @apply bg-primary-100 text-primary-600;
   }
 
   .row-actions {
     @apply absolute flex items-center opacity-0 right-2 gap-1;
     top: 50%;
     transform: translateY(-50%);
-    transition: opacity 0.1s;
+    transition: opacity var(--sw-duration-fast);
   }
 
   .expand-btn,
   .row-action-btn {
-    @apply flex items-center justify-center cursor-pointer text-[var(--p-gray-400)] rounded shrink-0;
-    width: 1.375rem;
-    height: 1.375rem;
-    background: none;
-    border: none;
-    transition:
-      background 0.1s,
-      color 0.1s;
+    @apply flex items-center justify-center cursor-pointer text-(--sw-text-muted) rounded shrink-0 w-[1.375rem] h-[1.375rem] bg-none border-none;
+    transition: background var(--sw-duration-fast), color var(--sw-duration-fast);
   }
   .expand-btn:hover,
   .row-action-btn:hover {
-    background: var(--p-gray-200);
-    color: var(--p-gray-700);
+    @apply bg-(--sw-border-md) text-(--sw-text-sub);
   }
 
   .row-action-btn--danger:hover {
-    background: var(--p-red-50) !important;
-    color: var(--p-red-500) !important;
+    @apply bg-red-50! text-red-500!;
   }
 
   /* Pending clock dot */
   .pending-clock {
-    @apply shrink-0;
-    font-size: 0.6rem;
+    @apply shrink-0 text-[0.6rem];
     margin-right: -0.125rem;
-    transition: opacity 0.1s;
+    transition: opacity var(--sw-duration-fast);
   }
   .pending-clock--add {
-    color: var(--p-amber-400);
+    @apply text-amber-400;
   }
   .pending-clock--mixed {
-    color: var(--p-red-400);
+    @apply text-red-400;
   }
 
   /* Scheduled group states */
   .group-row--removing .group-naam {
-    text-decoration: line-through;
-    color: var(--p-red-400);
+    @apply line-through text-red-400;
   }
   .group-row--adding .group-naam {
-    color: var(--p-green-600);
-    font-style: italic;
+    @apply text-green-600 italic;
   }
 </style>

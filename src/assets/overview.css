@@ -23,7 +23,7 @@
 }
 
 .overview-table .p-datatable-tbody > tr {
-  transition: background 0.1s ease;
+  transition: background var(--sw-duration-fast) var(--sw-ease);
 }
 
 /* ── Status badges ───────────────────────────────────────── */

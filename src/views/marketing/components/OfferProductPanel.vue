@@ -92,11 +92,11 @@
   .products-panel { @apply flex-1 min-w-0 flex flex-col overflow-clip relative; }
   .products-panel__header { @apply flex items-center justify-between shrink-0 bg-[var(--p-gray-50)] border-b border-[var(--p-gray-100)] gap-3 py-2 pr-3 pl-5; min-height: 2.75rem; }
   .products-nav { @apply flex items-center flex-1 min-w-0 gap-1.5; }
-  .nav-crumb { @apply font-medium text-[var(--p-gray-400)] cursor-pointer overflow-hidden whitespace-nowrap; font-size: 0.8125rem; background: none; border: none; padding: 0; max-width: 16rem; text-overflow: ellipsis; transition: color 0.1s; }
+  .nav-crumb { @apply font-medium text-[var(--p-gray-400)] cursor-pointer overflow-hidden whitespace-nowrap; font-size: 0.8125rem; background: none; border: none; padding: 0; max-width: 16rem; text-overflow: ellipsis; transition: color var(--sw-duration-fast); }
   .nav-crumb:hover { color: var(--p-gray-700); }
   .nav-crumb--leaf { @apply text-[var(--p-surface-700)] cursor-default; }
   .nav-sep { @apply text-[var(--p-gray-300)]; font-size: 0.625rem; }
   .header-group-actions { @apply flex items-center shrink-0 gap-0.5; }
-  .fade-enter-active, .fade-leave-active { transition: opacity 0.15s ease; }
+  .fade-enter-active, .fade-leave-active { transition: opacity var(--sw-duration-base) var(--sw-ease); }
   .fade-enter-from, .fade-leave-to { @apply opacity-0; }
 </style>

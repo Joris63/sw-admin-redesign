@@ -88,12 +88,12 @@ const isEditingMisc = ref(false);
         <div class="fr-row">
           <label class="fr-label">Afkorting <span class="fr-req">*</span></label>
           <div class="flex gap-2">
-            <InputText v-model="store.abbreviation" placeholder="UTR" style="max-width: 7rem" />
+            <InputText v-model="store.abbreviation" placeholder="UTR" class="max-w-[7rem]" />
             <InputText v-model="store.slug" class="flex-1" placeholder="showroom_utr" />
           </div>
         </div>
         <div class="fr-row fr-row--top">
-          <label class="fr-label" style="padding-top: 0.5rem">Opties</label>
+          <label class="fr-label pt-2">Opties</label>
           <div class="options-grid">
             <div class="option-item">
               <ToggleSwitch v-model="store.mainStore" inputId="edit-opt-main" />
@@ -248,8 +248,8 @@ const isEditingMisc = ref(false);
         <div class="fr-row">
           <label class="fr-label">Coördinaten</label>
           <div class="flex gap-2">
-            <InputText v-model="store.latitude" placeholder="52.091" style="flex: 1" />
-            <InputText v-model="store.longitude" placeholder="5.122" style="flex: 1" />
+            <InputText v-model="store.latitude" placeholder="52.091" class="flex-1" />
+            <InputText v-model="store.longitude" placeholder="5.122" class="flex-1" />
           </div>
         </div>
         <div class="fr-row">
@@ -264,7 +264,7 @@ const isEditingMisc = ref(false);
         </div>
         <div class="fr-row">
           <label class="fr-label">Google code</label>
-          <InputText v-model="store.googleCode" placeholder="17" style="max-width: 8rem" />
+          <InputText v-model="store.googleCode" placeholder="17" class="max-w-[8rem]" />
         </div>
       </div>
     </template>
@@ -278,7 +278,7 @@ const isEditingMisc = ref(false);
 }
 
 .option-item {
-  @apply flex items-center text-sm text-[var(--p-surface-700)] gap-2.5;
+  @apply flex items-center text-sm text-(--sw-text) gap-2.5;
 }
 
 .option-item label {

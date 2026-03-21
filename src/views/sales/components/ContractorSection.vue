@@ -29,7 +29,7 @@
   }
 
   .mode-card {
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    transition: border-color var(--sw-duration-base) var(--sw-ease), box-shadow var(--sw-duration-base) var(--sw-ease), background var(--sw-duration-base) var(--sw-ease);
     @apply flex items-center border-[1.5px] border-(--p-surface-200) rounded-[0.625rem] bg-(--p-surface-0) cursor-pointer text-left gap-3.5 p-4 px-5;
   }
   .mode-card--neutral:hover { @apply border-(--p-gray-400); }
@@ -39,7 +39,7 @@
   }
   .mode-card__icon {
     @apply text-[0.95rem];
-    transition: background 0.15s ease;
+    transition: background var(--sw-duration-base) var(--sw-ease);
     @apply rounded-full flex items-center justify-center shrink-0 w-9 h-9;
   }
   .mode-card__icon--neutral { @apply bg-(--p-gray-100) text-(--p-gray-500); }
@@ -52,7 +52,7 @@
     @apply rounded-full bg-(--p-gray-200) text-(--p-gray-600) flex items-center justify-center shrink-0 w-8 h-8 text-sm;
   }
 
-  .fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
+  .fade-enter-active, .fade-leave-active { transition: opacity var(--sw-duration-slow) var(--sw-ease); }
   .fade-enter-from, .fade-leave-to { @apply opacity-0; }
 </style>
 

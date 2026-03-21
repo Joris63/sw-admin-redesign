@@ -179,8 +179,8 @@
     text-underline-offset: 2px;
     text-decoration-color: var(--p-primary-300);
     transition:
-      color 0.15s ease,
-      background 0.15s ease;
+      color var(--sw-duration-base) var(--sw-ease),
+      background var(--sw-duration-base) var(--sw-ease);
   }
   .drw-change-btn:hover {
     color: var(--p-primary-700);
@@ -193,8 +193,8 @@
     border: 2px dashed var(--p-gray-200);
     border-radius: 0.625rem;
     transition:
-      border-color 0.15s,
-      background 0.15s;
+      border-color var(--sw-duration-base),
+      background var(--sw-duration-base);
   }
   .csv-drop:hover,
   .csv-drop--over {
@@ -206,7 +206,7 @@
     background: none;
     border: none;
     padding: 0;
-    transition: color 0.1s;
+    transition: color var(--sw-duration-fast);
   }
   .csv-select-btn:hover {
     color: var(--p-primary-800);
@@ -227,8 +227,8 @@
     background: none;
     border: none;
     transition:
-      background 0.1s,
-      color 0.1s;
+      background var(--sw-duration-fast),
+      color var(--sw-duration-fast);
   }
   .si-remove:hover {
     background: var(--p-red-50);
@@ -248,8 +248,8 @@
     font-size: 0.8125rem;
     border: 1.5px dashed var(--p-gray-200);
     transition:
-      border-color 0.15s,
-      background 0.15s;
+      border-color var(--sw-duration-base),
+      background var(--sw-duration-base);
   }
   .excl-csv-drop:hover,
   .excl-csv-drop--over {

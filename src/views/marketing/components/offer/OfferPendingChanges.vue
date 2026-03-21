@@ -111,7 +111,7 @@
     </Transition>
   </div>
 
-  <Dialog v-model:visible="showProductsDialog" modal :header="`Wijzigingen vannacht · ${totalPendingProducts} producten`" :style="{ width: '480px' }" @hide="dialogSearch = ''">
+  <Dialog v-model:visible="showProductsDialog" modal :header="`Wijzigingen vannacht · ${totalPendingProducts} producten`" :style="{ width: '30rem' }" @hide="dialogSearch = ''">
     <div class="pdlg-body">
       <div class="pdlg-summary">
         <span v-if="pendingProductAddCount" class="pdlg-sum--add">+{{ pendingProductAddCount }} toegevoegd</span>
@@ -137,7 +137,7 @@
 <style scoped>
 @reference "tailwindcss";
   .wijz-strip { @apply shrink-0 border-b border-[var(--p-gray-100)]; }
-  .wijz-hdr { @apply flex items-center justify-between w-full cursor-pointer text-left py-1.5 px-4; background: none; border: none; transition: background 0.1s; }
+  .wijz-hdr { @apply flex items-center justify-between w-full cursor-pointer text-left py-1.5 px-4; background: none; border: none; transition: background var(--sw-duration-fast); }
   .wijz-hdr:hover { background: var(--p-gray-50); }
   .wijz-hdr__left { @apply flex items-center; gap: 0.4rem; }
   .wijz-hdr__label { @apply text-xs font-medium text-[var(--p-gray-500)]; }
@@ -170,8 +170,7 @@
   .wijz-item--remove .wijz-sign { @apply text-[var(--p-red-500)]; }
   .wijz-code { @apply font-medium text-[var(--p-surface-700)]; font-family: monospace; font-size: 0.8rem; }
   .wijz-merk { @apply text-[var(--p-gray-400)] text-xs whitespace-nowrap overflow-hidden; text-overflow: ellipsis; }
-  .collapse-enter-active, .collapse-leave-active { transition: opacity 0.15s ease; }
-  .collapse-enter-from, .collapse-leave-to { @apply opacity-0; }
+  /* collapse transition — defined globally in cards.css */
   .pdlg-body { @apply flex flex-col gap-3; }
   .pdlg-summary { @apply flex items-center font-medium gap-2; font-size: 0.8125rem; }
   .pdlg-sum--add { @apply text-[var(--p-green-600)]; }

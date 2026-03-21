@@ -75,7 +75,7 @@ function applyImageFile(file: File | undefined, setter: (url: string) => void) {
                 }
               "
             >
-              <i class="pi pi-image" style="font-size: 1.75rem" />
+              <i class="pi pi-image text-[1.75rem]" />
               <span>Sleep een afbeelding hierheen</span>
               <button class="img-select-btn" @click.stop="heroInput?.click()">of selecteer een bestand</button>
             </div>
@@ -85,7 +85,7 @@ function applyImageFile(file: File | undefined, setter: (url: string) => void) {
                 <span class="text-sm font-medium text-surface-700">Hero afbeelding</span>
                 <button class="img-select-btn" @click="heroInput?.click()">Vervangen</button>
               </div>
-              <button class="img-remove-btn" style="margin-left: auto" @click="store.heroImage = ''">
+              <button class="img-remove-btn ml-auto" @click="store.heroImage = ''">
                 <i class="pi pi-times" />
               </button>
             </div>
@@ -122,7 +122,7 @@ function applyImageFile(file: File | undefined, setter: (url: string) => void) {
                 }
               "
             >
-              <i class="pi pi-image" style="font-size: 1.75rem" />
+              <i class="pi pi-image text-[1.75rem]" />
               <span>Sleep een afbeelding hierheen</span>
               <button class="img-select-btn" @click.stop="overviewInput?.click()">of selecteer een bestand</button>
             </div>
@@ -132,7 +132,7 @@ function applyImageFile(file: File | undefined, setter: (url: string) => void) {
                 <span class="text-sm font-medium text-surface-700">Overzicht afbeelding</span>
                 <button class="img-select-btn" @click="overviewInput?.click()">Vervangen</button>
               </div>
-              <button class="img-remove-btn" style="margin-left: auto" @click="store.overviewImage = ''">
+              <button class="img-remove-btn ml-auto" @click="store.overviewImage = ''">
                 <i class="pi pi-times" />
               </button>
             </div>
@@ -169,7 +169,7 @@ function applyImageFile(file: File | undefined, setter: (url: string) => void) {
                 }
               "
             >
-              <i class="pi pi-image" style="font-size: 1.75rem" />
+              <i class="pi pi-image text-[1.75rem]" />
               <span>Sleep een afbeelding hierheen</span>
               <button class="img-select-btn" @click.stop="sfeerInputs[i]?.click()">of selecteer een bestand</button>
             </div>
@@ -179,7 +179,7 @@ function applyImageFile(file: File | undefined, setter: (url: string) => void) {
                 <span class="text-sm font-medium text-surface-700">Sfeerimpressie {{ i + 1 }}</span>
                 <button class="img-select-btn" @click="sfeerInputs[i]?.click()">Vervangen</button>
               </div>
-              <button class="img-remove-btn" style="margin-left: auto" @click="store.atmosphereImages[i] = ''">
+              <button class="img-remove-btn ml-auto" @click="store.atmosphereImages[i] = ''">
                 <i class="pi pi-times" />
               </button>
             </div>
@@ -228,8 +228,8 @@ function applyImageFile(file: File | undefined, setter: (url: string) => void) {
 }
 .img-drop-zone {
   transition:
-    border-color 0.15s,
-    background 0.15s;
+    border-color var(--sw-duration-base),
+    background var(--sw-duration-base);
   @apply flex flex-col items-center border-2 border-dashed border-gray-200 rounded-lg cursor-pointer text-gray-400 text-sm text-center gap-1.5 py-7 px-6;
 }
 .img-drop-zone:hover,
@@ -237,7 +237,7 @@ function applyImageFile(file: File | undefined, setter: (url: string) => void) {
   @apply border-[var(--p-primary-300)] bg-[var(--p-primary-50)];
 }
 .img-select-btn {
-  transition: color 0.1s;
+  transition: color var(--sw-duration-fast);
   @apply text-sm font-semibold text-[var(--p-primary-600)] bg-transparent border-0 p-0 cursor-pointer;
 }
 .img-select-btn:hover {
@@ -251,9 +251,9 @@ function applyImageFile(file: File | undefined, setter: (url: string) => void) {
 }
 .img-remove-btn {
   transition:
-    background 0.1s,
-    color 0.1s;
-  @apply flex items-center justify-center rounded bg-transparent border-0 text-[var(--p-surface-400)] cursor-pointer text-xs shrink-0 w-[1.375rem] h-[1.375rem];
+    background var(--sw-duration-fast),
+    color var(--sw-duration-fast);
+  @apply flex items-center justify-center rounded bg-transparent border-0 text-(--sw-text-muted) cursor-pointer text-xs shrink-0 w-[1.375rem] h-[1.375rem];
 }
 .img-remove-btn:hover {
   @apply bg-red-50 text-red-500;

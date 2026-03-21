@@ -82,7 +82,7 @@
 <style scoped>
 @reference "tailwindcss";
   .wl-tab {
-    transition: all 0.1s;
+    transition: all var(--sw-duration-fast);
     @apply inline-flex items-center rounded-full border border-(--p-gray-200) bg-white text-(--p-surface-600) cursor-pointer gap-1.5 py-0.5 px-3 text-sm;
   }
   .wl-tab:hover {

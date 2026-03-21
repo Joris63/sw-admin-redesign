@@ -186,7 +186,7 @@
   }
 
   .addr-chip {
-    transition: opacity 0.1s;
+    transition: opacity var(--sw-duration-fast);
     @apply inline-flex items-center rounded-full font-medium border border-solid cursor-pointer gap-1 py-0.5 px-2.5 text-xs;
   }
   .addr-chip:disabled {

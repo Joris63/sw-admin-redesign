@@ -137,7 +137,7 @@
             :model-value="actietimerDagen"
             :min="1"
             :max="365"
-            style="width: 5rem; flex-shrink: 0"
+            class="w-[5rem] shrink-0"
             :input-style="{ width: '100%' }"
             @update:model-value="emit('update:actietimerDagen', $event)"
           />
@@ -166,7 +166,7 @@
             :options="PRIJS_MOD_OPTIONS"
             option-label="label"
             option-value="value"
-            style="width: 9.5rem"
+            class="w-[9.5rem]"
             @update:model-value="emit('update:prijsModType', $event)"
           />
         </div>
@@ -240,26 +240,21 @@
 <style scoped>
 @reference "tailwindcss";
   .drw-site {
-    @apply font-medium text-[var(--p-gray-500)];
-    font-size: 0.8125rem;
+    @apply font-medium text-(--sw-text-label) text-[0.8125rem];
   }
 
   .drw-collapsible {
-    @apply flex items-center justify-between w-full cursor-pointer text-left;
-    background: none;
-    border: none;
-    padding: 0;
+    @apply flex items-center justify-between w-full cursor-pointer text-left bg-none border-none p-0;
   }
   .drw-collapsible:hover .drw-label {
-    color: var(--p-primary-600);
+    @apply text-primary-600;
   }
   .drw-collapsible:hover .drw-chevron {
-    color: var(--p-primary-400);
+    @apply text-primary-400;
   }
   .drw-chevron {
-    @apply text-[var(--p-gray-400)];
-    font-size: 0.6875rem;
-    transition: color 0.1s;
+    @apply text-(--sw-text-muted) text-[0.6875rem];
+    transition: color var(--sw-duration-fast);
   }
   .drw-collapsible-body {
     @apply flex flex-col gap-3.5 mt-3;
@@ -267,36 +262,26 @@
 
   /* Feature cards */
   .opt-card {
-    @apply border border-[var(--p-gray-200)] overflow-hidden;
-    border-width: 1.5px;
-    border-radius: 0.625rem;
+    @apply border-[1.5px] border-(--sw-border-md) rounded-[0.625rem] overflow-hidden;
   }
   .opt-card__hdr {
-    @apply flex items-center justify-between bg-[var(--p-gray-50)] border-b border-[var(--p-gray-100)] px-3 py-2;
+    @apply flex items-center justify-between bg-(--sw-bg-subtle) border-b border-(--sw-border) px-3 py-2;
   }
   .opt-card__title {
-    @apply flex items-center font-semibold text-[var(--p-surface-700)] gap-2;
-    font-size: 0.8125rem;
+    @apply flex items-center font-semibold text-(--sw-text-strong) text-[0.8125rem] gap-2;
   }
   .opt-card__title .pi {
-    font-size: 0.8rem;
-    color: var(--p-gray-400);
+    @apply text-[0.8rem] text-(--sw-text-muted);
   }
   .opt-card__body {
     @apply flex flex-col py-3.5 px-4 gap-3.5;
   }
   .opt-remove {
-    @apply flex items-center justify-center rounded shrink-0 cursor-pointer text-[var(--p-gray-400)];
-    width: 1.375rem;
-    height: 1.375rem;
-    background: none;
-    border: none;
-    font-size: 0.7rem;
-    transition: background 0.1s, color 0.1s;
+    @apply flex items-center justify-center rounded shrink-0 cursor-pointer text-(--sw-text-muted) w-[1.375rem] h-[1.375rem] bg-none border-none text-[0.7rem];
+    transition: background var(--sw-duration-fast), color var(--sw-duration-fast);
   }
   .opt-remove:hover {
-    background: var(--p-red-50);
-    color: var(--p-red-500);
+    @apply bg-red-50 text-red-500;
   }
 
   /* Add list */
@@ -304,44 +289,30 @@
     @apply flex flex-col;
   }
   .opt-add-list--mt {
-    @apply border-t border-[var(--p-gray-100)] mt-1 pt-3;
+    @apply border-t border-(--sw-border) mt-1 pt-3;
   }
   .opt-add-btn {
-    @apply flex items-center cursor-pointer text-sm text-[var(--p-gray-500)] rounded-md text-left gap-2 py-1.5 px-2;
-    border: none;
-    background: none;
-    transition: background 0.1s, color 0.1s;
+    @apply flex items-center cursor-pointer text-sm text-(--sw-text-label) rounded-md text-left gap-2 py-1.5 px-2 border-none bg-none;
+    transition: background var(--sw-duration-fast), color var(--sw-duration-fast);
   }
   .opt-add-btn:hover {
-    background: var(--p-primary-50);
-    color: var(--p-primary-600);
+    @apply bg-primary-50 text-primary-600;
   }
   .opt-add-btn:hover .opt-add-btn__icon {
-    color: var(--p-primary-500);
+    @apply text-primary-500;
   }
   .opt-add-btn__icon {
-    font-size: 0.7rem;
-    color: var(--p-gray-400);
-    transition: color 0.1s;
+    @apply text-[0.7rem] text-(--sw-text-muted);
+    transition: color var(--sw-duration-fast);
   }
 
-  .collapse-enter-active {
-    transition: opacity 0.18s ease, transform 0.18s ease;
-  }
-  .collapse-leave-active {
-    transition: opacity 0.12s ease, transform 0.12s ease;
-  }
-  .collapse-enter-from,
-  .collapse-leave-to {
-    @apply opacity-0;
-    transform: translateY(-0.25rem);
-  }
+  /* collapse transition — defined globally in cards.css */
 
   .feature-enter-active {
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity var(--sw-duration-slow) var(--sw-ease), transform var(--sw-duration-slow) var(--sw-ease);
   }
   .feature-leave-active {
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transition: opacity var(--sw-duration-base) var(--sw-ease), transform var(--sw-duration-base) var(--sw-ease);
   }
   .feature-enter-from,
   .feature-leave-to {

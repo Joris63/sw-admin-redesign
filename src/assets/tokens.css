@@ -33,6 +33,22 @@
 }
 
 /* ════════════════════════════════════════════════════════════════
+   Transitions
+   ────────────────────────────────────────────────────────────────
+   Three speed tiers. Use in `transition:` declarations only.
+   Fast  → hover effects, micro-interactions (color, bg, border)
+   Base  → standard visibility changes (opacity, scale)
+   Slow  → larger movements (slide-in panels, max-height reveals)
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  --sw-duration-fast: 0.1s;
+  --sw-duration-base: 0.15s;
+  --sw-duration-slow: 0.2s;
+  --sw-ease: ease;
+}
+
+/* ════════════════════════════════════════════════════════════════
    Typography Utilities
    ────────────────────────────────────────────────────────────────
    Defined with @utility so they can be used with @apply anywhere

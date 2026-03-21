@@ -239,7 +239,7 @@
   }
 
   .search-row {
-    transition: background-color 0.1s ease;
+    transition: background-color var(--sw-duration-fast) var(--sw-ease);
     @apply border-b border-(--p-gray-100);
   }
 
@@ -262,7 +262,7 @@
 
   /* ── Search targeted state (persistent ring while group is set) ── */
   .search-targeted :deep(.p-inputtext) {
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color var(--sw-duration-slow) var(--sw-ease), box-shadow var(--sw-duration-slow) var(--sw-ease);
     @apply pr-40 border-[var(--p-primary-400)]!;
   }
 
@@ -278,7 +278,7 @@
   }
 
   /* ── Transitions ─────────────────────────────────────────── */
-  .fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
+  .fade-enter-active, .fade-leave-active { transition: opacity var(--sw-duration-slow) var(--sw-ease); }
   .fade-enter-from, .fade-leave-to { @apply opacity-0; }
 
   /* Pill pop — bouncy scale from natural position (no translate conflict) */
@@ -286,7 +286,7 @@
     animation: pill-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .pill-pop-leave-active {
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transition: opacity var(--sw-duration-base) var(--sw-ease), transform var(--sw-duration-base) var(--sw-ease);
   }
   .pill-pop-leave-to {
     @apply opacity-0;

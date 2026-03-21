@@ -56,9 +56,9 @@ function formatDate(date: Date | null) {
               <label :for="`closed-${row.day}`" class="text-sm text-surface-500 cursor-pointer">Gesloten</label>
             </div>
             <template v-if="!row.closed">
-              <InputText v-model="row.from" style="width: 5.5rem" placeholder="09:00" />
+              <InputText v-model="row.from" class="exception-time" placeholder="09:00" />
               <span class="text-surface-400 text-sm">–</span>
-              <InputText v-model="row.to" style="width: 5.5rem" placeholder="17:30" />
+              <InputText v-model="row.to" class="exception-time" placeholder="17:30" />
             </template>
           </div>
         </div>
@@ -70,7 +70,7 @@ function formatDate(date: Date | null) {
   <EditableCard v-model="isEditingExceptions" title="Uitzonderingen">
     <template #view>
       <div class="view-card-body">
-        <div v-if="!exceptions.length" class="fr-empty" style="padding: 0.25rem 0">
+        <div v-if="!exceptions.length" class="fr-empty py-1">
           Geen uitzonderingen ingesteld
         </div>
         <div v-for="ex in exceptions" :key="ex.id" class="exception-card">
@@ -93,12 +93,12 @@ function formatDate(date: Date | null) {
     </template>
     <template #edit>
       <div class="view-card-body">
-        <div v-if="!exceptions.length" class="fr-empty" style="padding: 0.25rem 0">
+        <div v-if="!exceptions.length" class="fr-empty py-1">
           Geen uitzonderingen
         </div>
         <div v-for="ex in exceptions" :key="ex.id" class="exception-card">
           <div class="exception-header">
-            <DatePicker v-model="ex.date" date-format="dd-mm-yy" placeholder="dd-mm-jj" style="width: 9rem" />
+            <DatePicker v-model="ex.date" date-format="dd-mm-yy" placeholder="dd-mm-jj" class="w-[9rem]" />
             <div class="flex items-center gap-2">
               <Checkbox v-model="ex.closed" binary :input-id="`ex-closed-${ex.id}`" />
               <label :for="`ex-closed-${ex.id}`" class="text-sm text-surface-600 cursor-pointer">Gesloten</label>
@@ -114,7 +114,7 @@ function formatDate(date: Date | null) {
               text
               size="small"
               rounded
-              style="margin-left: auto"
+              class="ml-auto"
               @click="removeException(ex.id)"
             />
           </div>
@@ -126,7 +126,7 @@ function formatDate(date: Date | null) {
             </div>
           </div>
         </div>
-        <div style="padding-top: 0.5rem">
+        <div class="pt-2">
           <Button
             label="Nieuwe uitzondering toevoegen"
             icon="pi pi-plus"
@@ -144,16 +144,16 @@ function formatDate(date: Date | null) {
 <style scoped>
 @reference "tailwindcss";
 .exception-card {
-  @apply border border-[var(--p-surface-200)] rounded-lg overflow-hidden mb-2.5;
+  @apply border border-(--sw-border-md) rounded-lg overflow-hidden mb-2.5;
 }
 .exception-card:last-of-type {
   @apply mb-0;
 }
 .exception-header {
-  @apply flex items-center bg-[var(--p-surface-50)] border-b border-[var(--p-surface-200)] gap-2.5 px-3 py-2;
+  @apply flex items-center bg-(--sw-bg-subtle) border-b border-(--sw-border-md) gap-2.5 px-3 py-2;
 }
 .exception-date {
-  @apply text-sm font-semibold text-[var(--p-surface-700)] min-w-[6rem];
+  @apply text-sm font-semibold text-(--sw-text-strong) min-w-[6rem];
 }
 .exception-time {
   @apply w-[5.5rem];
@@ -162,15 +162,15 @@ function formatDate(date: Date | null) {
   @apply flex flex-col gap-0 p-0;
 }
 .exception-reasons-header {
-  @apply text-[0.6875rem] font-semibold uppercase tracking-[0.05em] text-[var(--p-surface-400)] border-b border-[var(--p-surface-100)] px-3 pt-1.5 pb-1;
+  @apply sw-nano text-(--sw-text-muted) border-b border-(--sw-border) px-3 pt-1.5 pb-1;
 }
 .exception-reason-row {
-  @apply flex items-center border-b border-[var(--p-surface-100)] gap-2.5 px-3 py-2;
+  @apply flex items-center border-b border-(--sw-border) gap-2.5 px-3 py-2;
 }
 .exception-reason-row:last-child {
   @apply border-b-0;
 }
 .exception-reason-site {
-  @apply text-[0.8125rem] font-medium text-[var(--p-surface-500)] w-[8.5rem] shrink-0;
+  @apply text-[0.8125rem] font-medium text-(--sw-text-label) w-[8.5rem] shrink-0;
 }
 </style>

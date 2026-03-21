@@ -77,7 +77,7 @@
       </div>
 
       <!-- Adresgegevens -->
-      <div class="drw-section-hdr" style="margin-top: 0.5rem">Adresgegevens</div>
+      <div class="drw-section-hdr mt-2">Adresgegevens</div>
 
       <div class="drw-grid">
         <div class="drw-field">

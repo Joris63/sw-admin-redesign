@@ -53,7 +53,7 @@
 .edit-tab {
   @apply flex items-center text-sm font-normal text-(--sw-text-label) bg-none border-none border-b-2 border-b-transparent cursor-pointer whitespace-nowrap gap-1.5 px-4 py-2.5;
   margin-bottom: -1px;
-  transition: color 0.15s;
+  transition: color var(--sw-duration-base);
 }
 .edit-tab .pi { @apply text-sm; }
 .edit-tab:not(:disabled):hover { @apply text-(--sw-text-sub); }
@@ -64,15 +64,13 @@
   @apply opacity-[0.45] cursor-not-allowed;
 }
 .edit-tab-badge {
-  @apply bg-(--sw-bg-muted) text-(--sw-text-label) text-xs font-semibold rounded-full text-center leading-[1.4] min-w-5;
-  padding: 0.125rem 0.375rem;
+  @apply bg-(--sw-bg-muted) text-(--sw-text-label) text-xs font-semibold rounded-full text-center leading-[1.4] min-w-5 py-0.5 px-1.5;
 }
 .edit-tab--active .edit-tab-badge {
   @apply bg-primary-100 text-primary-600;
 }
 .tab-soon {
-  @apply sw-nano bg-primary-100 text-primary-600 rounded-full;
-  padding: 0.125rem 0.375rem;
+  @apply sw-nano bg-primary-100 text-primary-600 rounded-full py-0.5 px-1.5;
 }
 
 /* ── Edit page sidebar nav ────────────────────────────────────────── */
@@ -84,7 +82,7 @@
 }
 .edit-nav-item {
   @apply flex items-center w-full text-left bg-none border-none border-l-2 border-l-transparent cursor-pointer text-sm text-(--sw-text-label) gap-2 py-2 pr-4 pl-4.5;
-  transition: background 0.1s, color 0.1s;
+  transition: background var(--sw-duration-fast), color var(--sw-duration-fast);
 }
 .edit-nav-item:not(.edit-nav-item--active):hover {
   @apply bg-(--sw-bg-subtle) text-(--sw-text);
@@ -97,8 +95,7 @@
 }
 .edit-nav-item--active .edit-nav-icon { @apply opacity-100; }
 .edit-nav-badge {
-  @apply ml-auto bg-(--sw-bg-muted) text-(--sw-text-label) text-xs font-semibold rounded-full text-center leading-[1.4] min-w-5;
-  padding: 0.125rem 0.375rem;
+  @apply ml-auto bg-(--sw-bg-muted) text-(--sw-text-label) text-xs font-semibold rounded-full text-center leading-[1.4] min-w-5 py-0.5 px-1.5;
 }
 .edit-nav-item--active .edit-nav-badge {
   @apply bg-primary-100 text-primary-700;
@@ -106,8 +103,7 @@
 
 /* ── Status pills ─────────────────────────────────────────────────── */
 .status-pill {
-  @apply text-xs font-semibold rounded-full border leading-[1.5] w-fit;
-  padding: 0.125rem 0.5rem;
+  @apply text-xs font-semibold rounded-full border leading-[1.5] w-fit py-0.5 px-2;
 }
 .status-pill--active,
 .status-pill--accepted { @apply bg-(--p-green-100) text-(--p-green-800) border-(--p-green-200); }

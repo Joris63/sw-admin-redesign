@@ -128,8 +128,8 @@ function toggleGroupMenu(event: Event) {
 
 .sidebar-group-item {
   transition:
-    background 0.1s ease,
-    color 0.1s ease;
+    background var(--sw-duration-fast) var(--sw-ease),
+    color var(--sw-duration-fast) var(--sw-ease);
   @apply flex items-center relative rounded-md cursor-pointer text-(--p-gray-600) gap-1.5 py-1.5 px-2.5 text-sm;
 }
 
@@ -150,7 +150,7 @@ function toggleGroupMenu(event: Event) {
 }
 
 .sidebar-count {
-  transition: opacity 0.1s ease;
+  transition: opacity var(--sw-duration-fast) var(--sw-ease);
   @apply text-[0.7rem] bg-(--p-gray-200) text-(--p-gray-500) rounded-full leading-[1.3] whitespace-nowrap px-1.5;
 }
 
@@ -160,9 +160,9 @@ function toggleGroupMenu(event: Event) {
 
 .sidebar-group-menu {
   transition:
-    background 0.1s ease,
-    color 0.1s ease,
-    opacity 0.1s ease;
+    background var(--sw-duration-fast) var(--sw-ease),
+    color var(--sw-duration-fast) var(--sw-ease),
+    opacity var(--sw-duration-fast) var(--sw-ease);
   @apply absolute inset-0 flex items-center justify-center border-none bg-transparent rounded cursor-pointer text-(--p-gray-400);
 }
 
