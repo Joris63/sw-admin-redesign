@@ -42,10 +42,8 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .edit-hdr-actions {
-    margin-left: auto;
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
+    @apply ml-auto flex items-center gap-2;
   }
 </style>

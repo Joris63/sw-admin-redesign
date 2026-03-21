@@ -186,42 +186,30 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   /* ── Step wrapper ─────────────────────────────────────────── */
   .ov-step {
-    background: var(--p-surface-50) !important;
+    @apply bg-(--p-surface-50)!;
   }
 
   /* ── Scrollable card area ─────────────────────────────────── */
   .ov-body {
-    flex: 1;
-    overflow-y: auto;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-    min-height: 0;
+    @apply flex-1 overflow-y-auto bg-transparent flex flex-col min-h-0 gap-3.5;
   }
 
   /* override view-card margin since we use gap */
   .ov-card {
-    margin-bottom: 0 !important;
+    @apply mb-0!;
   }
 
   /* ── Two-column row ───────────────────────────────────────── */
   .ov-two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.875rem;
+    @apply grid grid-cols-2 gap-3.5;
   }
 
   /* ── Footer ───────────────────────────────────────────────── */
   .ov-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.875rem 1.25rem;
-    border-top: 1px solid var(--p-gray-200);
-    flex-shrink: 0;
+    @apply flex justify-between items-center border-t border-(--p-gray-200) shrink-0 py-3.5 px-5;
   }
 
   /* ── Edit button in card header ───────────────────────────── */
@@ -230,21 +218,21 @@
     height: 1.75rem !important;
     min-width: 0 !important;
     padding: 0 !important;
-    color: var(--p-gray-400) !important;
+    @apply text-(--p-gray-400)!;
   }
 
   .ov-edit-btn:hover {
-    color: var(--p-gray-700) !important;
+    @apply text-(--p-gray-700)!;
   }
 
   /* ── Copy button ──────────────────────────────────────────── */
   .copy-btn {
+    font-size: 0.7rem !important;
     width: 1.375rem !important;
     height: 1.375rem !important;
     min-width: 0 !important;
     padding: 0 !important;
-    color: var(--p-gray-400) !important;
-    font-size: 0.7rem !important;
+    @apply text-(--p-gray-400)!;
   }
 
 </style>

@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
 @import 'flag-icons/css/flag-icons.min.css';
+@import './tokens.css';
 @import './drawer.css';
 @import './cards.css';
 @import './edit.css';
@@ -88,31 +89,31 @@ body {
 }
 
 h1 {
-  margin-top: 0;
+  @apply mt-0;
 }
 
 /* ── Outlined gray button (subtle actions) ───────────────── */
 .p-button.btn-outlined {
-  background: transparent;
-  border-color: var(--p-gray-300);
-  color: var(--p-gray-600);
+  background: var(--sw-bg);
+  border-color: var(--sw-border-input);
+  color: var(--sw-text-label);
 }
 
 .p-button.btn-outlined:hover {
-  background: var(--p-gray-100) !important;
+  background: var(--sw-bg-muted) !important;
   border-color: var(--p-gray-400) !important;
-  color: var(--p-gray-700) !important;
+  color: var(--sw-text-sub) !important;
 }
 
 /* ── Back button (light gray) ─────────────────────────────── */
 .p-button.btn-back {
-  background: var(--p-gray-100);
-  border-color: var(--p-gray-200);
-  color: var(--p-gray-600);
+  background: var(--sw-bg-muted);
+  border-color: var(--sw-border-md);
+  color: var(--sw-text-label);
 }
 
 .p-button.btn-back:hover {
-  background: var(--p-gray-200) !important;
-  border-color: var(--p-gray-300) !important;
-  color: var(--p-gray-700) !important;
+  background: var(--sw-border-md) !important;
+  border-color: var(--sw-border-input) !important;
+  color: var(--sw-text-strong) !important;
 }

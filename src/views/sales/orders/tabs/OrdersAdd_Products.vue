@@ -232,39 +232,38 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   /* ── Search dropdown ─────────────────────────────────────── */
   .search-dropdown {
-    max-height: 18rem;
-    overflow-y: auto;
+    @apply max-h-[18rem] overflow-y-auto;
   }
 
   .search-row {
-    border-bottom: 1px solid var(--p-gray-100);
     transition: background-color 0.1s ease;
+    @apply border-b border-(--p-gray-100);
   }
 
   .search-row:last-child {
-    border-bottom: none;
+    @apply border-b-0;
   }
 
   .search-row:hover {
-    background-color: #fffbeb;
+    @apply bg-[#fffbeb];
   }
 
   /* Child (sub-product) rows always carry the amber tint */
   .search-row--child {
-    background-color: #fffbeb;
+    @apply bg-[#fffbeb];
   }
 
   .search-row--child:hover {
-    background-color: #fef3c7;
+    @apply bg-[#fef3c7];
   }
 
   /* ── Search targeted state (persistent ring while group is set) ── */
   .search-targeted :deep(.p-inputtext) {
-    border-color: var(--p-primary-400) !important;
-    padding-right: 10rem;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    @apply pr-40 border-[var(--p-primary-400)]!;
   }
 
   /* ── Search flash (prominent one-shot attention pulse) ───── */
@@ -280,7 +279,7 @@
 
   /* ── Transitions ─────────────────────────────────────────── */
   .fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
-  .fade-enter-from, .fade-leave-to { opacity: 0; }
+  .fade-enter-from, .fade-leave-to { @apply opacity-0; }
 
   /* Pill pop — bouncy scale from natural position (no translate conflict) */
   .pill-pop-enter-active {
@@ -290,7 +289,7 @@
     transition: opacity 0.15s ease, transform 0.15s ease;
   }
   .pill-pop-leave-to {
-    opacity: 0;
+    @apply opacity-0;
     transform: scale(0.75);
   }
 

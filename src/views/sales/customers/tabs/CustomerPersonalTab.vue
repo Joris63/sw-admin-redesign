@@ -357,21 +357,14 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .view-card-toggle-lbl {
-    font-size: 0.8125rem;
-    color: var(--p-surface-500);
+    @apply text-(--p-surface-500) text-sm;
   }
   .url-row {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    min-width: 0;
+    @apply flex items-center min-w-0 gap-1;
   }
   .url-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: var(--p-primary-600);
-    font-size: 0.8125rem;
+    @apply overflow-hidden text-ellipsis whitespace-nowrap text-[var(--p-primary-600)] text-sm;
   }
 </style>

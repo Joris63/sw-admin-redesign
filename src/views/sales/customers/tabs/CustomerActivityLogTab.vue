@@ -87,23 +87,15 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .log-prop {
-    display: inline-block;
-    padding: 0.1rem 0.375rem;
-    border-radius: 3px;
-    background: var(--p-gray-100);
-    color: var(--p-surface-600);
     font-family: ui-monospace, monospace;
-    font-size: 0.8125rem;
+    @apply inline-block rounded-[3px] bg-(--p-gray-100) text-(--p-surface-600) py-0.5 px-1.5 text-sm;
   }
   .log-old {
-    font-size: 0.8125rem;
-    color: var(--p-surface-400);
-    text-decoration: line-through;
+    @apply text-(--p-surface-400) line-through text-sm;
   }
   .log-new {
-    font-size: 0.8125rem;
-    color: var(--p-green-700);
-    font-weight: 500;
+    @apply text-(--p-green-700) font-medium text-sm;
   }
 </style>

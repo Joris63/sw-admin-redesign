@@ -144,12 +144,10 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   /* ── Avatar color (layout handled by shared .edit-hdr-avatar) ────────── */
   :deep(.ce-avatar) {
     background: linear-gradient(135deg, var(--p-primary-400) 0%, var(--p-primary-600) 100%);
-    color: white;
-    font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
+    @apply text-white font-bold tracking-[0.03em] text-sm;
   }
 </style>

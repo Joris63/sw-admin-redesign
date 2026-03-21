@@ -161,36 +161,37 @@
 </template>
 
 <style scoped>
-  .products-toolbar { display: flex; align-items: center; gap: 0.5rem; padding: 0.375rem 0.75rem; border-bottom: 1px solid var(--p-gray-100); flex-shrink: 0; }
-  .products-pager { border-bottom: 1px solid var(--p-surface-100); background: transparent; flex-shrink: 0; padding: 0.125rem 0.5rem; }
+@reference "tailwindcss";
+  .products-toolbar { @apply flex items-center border-b border-[var(--p-gray-100)] shrink-0 gap-2 py-1.5 px-3; }
+  .products-pager { @apply border-b border-[var(--p-surface-100)] bg-transparent shrink-0 py-0.5 px-2; }
   .products-pager :deep(.p-paginator-page), .products-pager :deep(.p-paginator-first), .products-pager :deep(.p-paginator-prev), .products-pager :deep(.p-paginator-next), .products-pager :deep(.p-paginator-last) { min-width: 2rem; height: 2rem; font-size: 0.8125rem; }
-  .products-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.625rem; padding: 3rem 2rem; text-align: center; }
-  .products-empty__icon { width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--p-gray-100); display: flex; align-items: center; justify-content: center; font-size: 1.375rem; color: var(--p-gray-400); margin-bottom: 0.25rem; }
-  .products-empty__title { font-size: 0.9375rem; font-weight: 600; color: var(--p-surface-600); }
-  .products-empty__sub { font-size: 0.8125rem; color: var(--p-gray-400); }
-  .products-empty__reset { font-size: 0.8125rem; color: var(--p-primary-600); background: none; border: none; padding: 0; cursor: pointer; transition: color 0.1s; }
+  .products-empty { @apply flex-1 flex flex-col items-center justify-center text-center gap-2.5 py-12 px-8; }
+  .products-empty__icon { @apply flex items-center justify-center bg-[var(--p-gray-100)] text-[var(--p-gray-400)] mb-1; width: 3.5rem; height: 3.5rem; border-radius: 50%; font-size: 1.375rem; }
+  .products-empty__title { @apply text-base font-semibold text-[var(--p-surface-600)]; }
+  .products-empty__sub { @apply text-[var(--p-gray-400)]; font-size: 0.8125rem; }
+  .products-empty__reset { @apply text-[var(--p-primary-600)] cursor-pointer; font-size: 0.8125rem; background: none; border: none; padding: 0; transition: color 0.1s; }
   .products-empty__reset:hover { color: var(--p-primary-800); text-decoration: underline; }
-  .products-table-wrap { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
-  .products-table :deep(th) { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--p-surface-400); background: transparent; border-bottom: 1px solid var(--p-surface-200); padding: 0.5rem 0.75rem; }
-  .products-table :deep(td) { padding: 0.625rem 0.75rem; border-bottom: 1px solid var(--p-surface-100); }
+  .products-table-wrap { @apply flex-1 overflow-y-auto flex flex-col; }
+  .products-table :deep(th) { @apply text-xs font-semibold uppercase text-[var(--p-surface-400)] bg-transparent border-b border-[var(--p-surface-200)] py-2 px-3; letter-spacing: 0.05em; }
+  .products-table :deep(td) { @apply border-b border-[var(--p-surface-100)] py-2.5 px-3; }
   .products-table :deep(tr:last-child td) { border-bottom: none; }
   .products-table :deep(tr:hover td) { background: var(--p-surface-50); }
   .products-table :deep(.p-datatable-tbody > tr) { transition: background 0.1s; }
-  .site-tag { display: inline-flex; align-items: center; padding: 0.125rem 0.5rem; border-radius: 0.375rem; font-size: 0.75rem; font-weight: 500; background: var(--p-gray-100); color: var(--p-gray-600); white-space: nowrap; }
-  .selection-bar { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 50; pointer-events: none; }
-  .selection-bar__inner { display: flex; align-items: center; gap: 1rem; background: var(--p-surface-800); color: white; border-radius: 2rem; padding: 0.5rem 0.625rem 0.5rem 1.25rem; box-shadow: 0 4px 24px rgba(0,0,0,0.22); pointer-events: all; white-space: nowrap; }
-  .selection-bar__count { font-size: 0.875rem; font-weight: 500; }
-  .selection-bar__actions { display: flex; align-items: center; gap: 0.5rem; }
-  .selection-bar__clear { font-size: 0.8125rem; color: rgba(255,255,255,0.55); background: none; border: none; padding: 0; cursor: pointer; transition: color 0.1s; }
+  .site-tag { @apply inline-flex items-center rounded-md text-xs font-medium bg-[var(--p-gray-100)] text-[var(--p-gray-600)] whitespace-nowrap py-0.5 px-2; }
+  .selection-bar { @apply fixed z-50 bottom-6; left: 50%; transform: translateX(-50%); pointer-events: none; }
+  .selection-bar__inner { @apply flex items-center bg-[var(--p-surface-800)] text-white whitespace-nowrap gap-4 py-2 pr-2.5 pl-5; border-radius: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.22); pointer-events: all; }
+  .selection-bar__count { @apply text-sm font-medium; }
+  .selection-bar__actions { @apply flex items-center gap-2; }
+  .selection-bar__clear { @apply cursor-pointer; font-size: 0.8125rem; color: rgba(255,255,255,0.55); background: none; border: none; padding: 0; transition: color 0.1s; }
   .selection-bar__clear:hover { color: white; }
-  .ctx-menu { display: flex; flex-direction: column; min-width: 10rem; }
-  .ctx-item { display: flex; align-items: center; gap: 0.5rem; width: 100%; text-align: left; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: var(--p-gray-700); background: none; border: none; cursor: pointer; border-radius: 0.25rem; transition: background 0.1s; }
+  .ctx-menu { @apply flex flex-col; min-width: 10rem; }
+  .ctx-item { @apply flex items-center w-full text-left text-sm text-[var(--p-gray-700)] cursor-pointer rounded gap-2 py-2 px-3; background: none; border: none; transition: background 0.1s; }
   .ctx-item:hover { background: var(--p-gray-50); }
   .ctx-item--danger { color: var(--p-red-600); }
   .ctx-item--danger:hover { background: var(--p-red-50); }
-  .ctx-sep { height: 1px; background: var(--p-gray-100); margin: 0.25rem 0; }
+  .ctx-sep { @apply h-px bg-[var(--p-gray-100)] my-1; }
   .slide-up-enter-active { transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1); }
   .slide-up-leave-active { transition: all 0.15s ease; }
-  .slide-up-enter-from { opacity: 0; transform: translateX(-50%) translateY(0.75rem) scale(0.95); }
-  .slide-up-leave-to { opacity: 0; transform: translateX(-50%) translateY(0.5rem) scale(0.97); }
+  .slide-up-enter-from { @apply opacity-0; transform: translateX(-50%) translateY(0.75rem) scale(0.95); }
+  .slide-up-leave-to { @apply opacity-0; transform: translateX(-50%) translateY(0.5rem) scale(0.97); }
 </style>

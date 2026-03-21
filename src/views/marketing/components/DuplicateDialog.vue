@@ -177,85 +177,58 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   /* ── Header ────────────────────────────────────────────────────────── */
   :deep(.dlg-hdr-wrap) {
-    padding-bottom: 0.875rem;
+    @apply pb-3.5;
   }
 
   .dlg-hdr {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
+    @apply flex flex-col gap-1;
   }
   .dlg-hdr__title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--p-surface-800);
+    @apply text-base font-semibold text-[var(--p-surface-800)];
   }
   .dlg-hdr__src {
-    display: flex;
-    align-items: center;
+    @apply flex items-center;
     gap: 0.35rem;
   }
   .dlg-hdr__icon {
+    @apply text-[var(--p-gray-400)];
     font-size: 0.7rem;
-    color: var(--p-gray-400);
   }
   .dlg-src-chip {
-    display: inline-block;
+    @apply inline-block bg-[var(--p-primary-50)] text-[var(--p-primary-700)] rounded text-xs font-medium;
     padding: 0.05rem 0.4rem;
-    background: var(--p-primary-50);
-    color: var(--p-primary-700);
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 500;
   }
 
   /* ── Body ──────────────────────────────────────────────────────────── */
   .dlg-body {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    padding: 0 1.5rem 1.25rem;
+    @apply flex flex-col gap-5 px-6 pb-5;
   }
 
   .drw-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
+    @apply flex flex-col gap-1.5;
   }
   .drw-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--p-surface-700);
+    @apply text-sm font-medium text-[var(--p-surface-700)];
   }
   .drw-req {
-    color: var(--p-red-500);
+    @apply text-[var(--p-red-500)];
   }
   .drw-hint {
-    font-size: 0.75rem;
-    color: var(--p-gray-400);
-    line-height: 1.4;
+    @apply text-xs text-[var(--p-gray-400)] leading-[1.4];
   }
   .drw-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    @apply flex items-center justify-between gap-4;
   }
 
   .date-sep {
-    font-size: 0.875rem;
-    color: var(--p-gray-300);
-    flex-shrink: 0;
+    @apply text-sm text-[var(--p-gray-300)] shrink-0;
   }
 
   /* ── Footer ────────────────────────────────────────────────────────── */
   :deep(.dlg-footer) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    padding: 0.875rem 1.5rem;
-    border-top: 1px solid var(--p-gray-100);
+    @apply flex justify-end border-t border-[var(--p-gray-100)] gap-2 px-6 py-3.5;
   }
 </style>

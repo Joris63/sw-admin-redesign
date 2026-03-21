@@ -48,21 +48,14 @@ function scrollToGroup(groupId: string) {
 </template>
 
 <style scoped>
+@reference "tailwindcss";
 /* ── Shell layout ────────────────────────────────────────── */
 .cart-shell {
-  display: flex;
-  flex: 1;
-  min-height: 0;
+  @apply flex flex-1 min-h-0;
 }
 
 /* ── Main cart area ──────────────────────────────────────── */
 .cart-main {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding: 0;
-  overflow-y: auto;
+  @apply flex-1 min-w-0 flex flex-col overflow-y-auto gap-0 p-0;
 }
 </style>

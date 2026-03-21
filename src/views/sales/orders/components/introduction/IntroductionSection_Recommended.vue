@@ -135,87 +135,53 @@ const selectedCompanyType = ref(null);
 </template>
 
 <style scoped>
+@reference "tailwindcss";
 .form-row {
-  display: grid;
   grid-template-columns: 220px 1fr;
-  gap: 0.5rem;
+  @apply grid gap-2;
 }
 
 .form-label {
-  font-size: 0.875rem;
-  color: var(--p-gray-500);
-  padding-top: 0.375rem;
+  @apply text-(--p-gray-500) text-sm pt-1.5;
 }
 
 .mode-card {
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  padding: 1rem 1.25rem;
-  border: 1.5px solid var(--p-surface-200);
-  border-radius: 0.625rem;
-  background: var(--p-surface-0);
-  cursor: pointer;
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease,
     background 0.15s ease;
-  text-align: left;
+  @apply flex items-center border-[1.5px] border-(--p-surface-200) rounded-[0.625rem] bg-(--p-surface-0) cursor-pointer text-left gap-3.5 p-4 px-5;
 }
 
 .mode-card--neutral:hover {
-  border-color: var(--p-gray-400);
+  @apply border-(--p-gray-400);
 }
 
 .mode-card--active-neutral {
-  border-color: var(--p-gray-400);
-  background: var(--p-gray-50);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-gray-500) 10%, transparent);
+  @apply border-(--p-gray-400) bg-(--p-gray-50);
 }
 
 .mode-card__icon {
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 0.95rem;
-  flex-shrink: 0;
   transition: background 0.15s ease;
+  @apply rounded-full flex items-center justify-center shrink-0 w-9 h-9;
 }
 
 .mode-card__icon--neutral {
-  background: var(--p-gray-100);
-  color: var(--p-gray-500);
+  @apply bg-(--p-gray-100) text-(--p-gray-500);
 }
 
 .mode-card--active-neutral .mode-card__icon--neutral {
-  background: var(--p-gray-200);
-  color: var(--p-gray-600);
+  @apply bg-(--p-gray-200) text-(--p-gray-600);
 }
 
 .customer-indicator {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  border: 1.5px solid var(--p-gray-300);
-  border-radius: 0.625rem;
-  background: var(--p-gray-50);
+  @apply flex items-center border-[1.5px] border-(--p-gray-300) rounded-[0.625rem] bg-(--p-gray-50) gap-3 py-3 px-4;
 }
 
 .customer-indicator__avatar {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: var(--p-gray-200);
-  color: var(--p-gray-600);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.875rem;
-  flex-shrink: 0;
+  @apply rounded-full bg-(--p-gray-200) text-(--p-gray-600) flex items-center justify-center shrink-0 w-8 h-8 text-sm;
 }
 
 .fade-enter-active,
@@ -225,6 +191,6 @@ const selectedCompanyType = ref(null);
 
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
 </style>

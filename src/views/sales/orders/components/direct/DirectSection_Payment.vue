@@ -30,16 +30,14 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .form-row {
-    display: grid;
     grid-template-columns: 160px 1fr;
-    gap: 0.5rem;
+    @apply grid gap-2;
   }
 
   .form-label {
-    font-size: 0.875rem;
-    color: var(--p-gray-500);
-    padding-top: 0.375rem;
+    @apply text-(--p-gray-500) text-sm pt-1.5;
   }
 
   .fade-slide-enter-active {
@@ -50,7 +48,7 @@
   }
   .fade-slide-enter-from,
   .fade-slide-leave-to {
-    opacity: 0;
+    @apply opacity-0;
     transform: translateY(-4px);
   }
 </style>

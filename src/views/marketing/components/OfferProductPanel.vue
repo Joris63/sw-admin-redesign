@@ -88,14 +88,15 @@
 </template>
 
 <style scoped>
-  .products-panel { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: clip; position: relative; }
-  .products-panel__header { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.5rem 0.75rem 0.5rem 1.25rem; min-height: 2.75rem; flex-shrink: 0; background: var(--p-gray-50); border-bottom: 1px solid var(--p-gray-100); }
-  .products-nav { display: flex; align-items: center; gap: 0.375rem; flex: 1; min-width: 0; }
-  .nav-crumb { font-size: 0.8125rem; font-weight: 500; color: var(--p-gray-400); background: none; border: none; padding: 0; cursor: pointer; max-width: 16rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: color 0.1s; }
+@reference "tailwindcss";
+  .products-panel { @apply flex-1 min-w-0 flex flex-col overflow-clip relative; }
+  .products-panel__header { @apply flex items-center justify-between shrink-0 bg-[var(--p-gray-50)] border-b border-[var(--p-gray-100)] gap-3 py-2 pr-3 pl-5; min-height: 2.75rem; }
+  .products-nav { @apply flex items-center flex-1 min-w-0 gap-1.5; }
+  .nav-crumb { @apply font-medium text-[var(--p-gray-400)] cursor-pointer overflow-hidden whitespace-nowrap; font-size: 0.8125rem; background: none; border: none; padding: 0; max-width: 16rem; text-overflow: ellipsis; transition: color 0.1s; }
   .nav-crumb:hover { color: var(--p-gray-700); }
-  .nav-crumb--leaf { color: var(--p-surface-700); cursor: default; }
-  .nav-sep { font-size: 0.625rem; color: var(--p-gray-300); }
-  .header-group-actions { display: flex; align-items: center; gap: 0.125rem; flex-shrink: 0; }
+  .nav-crumb--leaf { @apply text-[var(--p-surface-700)] cursor-default; }
+  .nav-sep { @apply text-[var(--p-gray-300)]; font-size: 0.625rem; }
+  .header-group-actions { @apply flex items-center shrink-0 gap-0.5; }
   .fade-enter-active, .fade-leave-active { transition: opacity 0.15s ease; }
-  .fade-enter-from, .fade-leave-to { opacity: 0; }
+  .fade-enter-from, .fade-leave-to { @apply opacity-0; }
 </style>

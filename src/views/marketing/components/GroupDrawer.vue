@@ -220,8 +220,9 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .drw-section-hdr--tight {
-    margin-bottom: -0.75rem;
+    @apply -mb-3;
   }
 
   .fade-enter-active {

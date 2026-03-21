@@ -154,84 +154,51 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .addr-topbar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1rem;
+    @apply flex justify-end mb-4;
   }
 
   .addr-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    @apply grid grid-cols-2 gap-4;
   }
 
   .addr-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    border: 1px solid var(--p-gray-200);
-    border-radius: 0.5rem;
-    padding: 1rem 1.25rem;
-    background: white;
+    @apply flex flex-col border border-(--p-gray-200) rounded-lg bg-white gap-1 p-4 px-5;
   }
 
   .addr-card-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 0.1rem;
+    @apply flex items-start justify-between;
   }
   .addr-card-actions {
-    display: flex;
-    gap: 0.1rem;
-    margin: -0.375rem -0.375rem 0 0;
+    @apply flex gap-0.5 -mt-1.5 -mr-1.5;
   }
 
   .addr-name {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--p-surface-800);
+    @apply font-semibold text-(--p-surface-800) text-sm;
   }
   .addr-line {
-    font-size: 0.8375rem;
-    color: var(--p-surface-600);
+    @apply text-(--p-surface-600) text-sm;
   }
 
   .addr-chips {
-    display: flex;
-    gap: 0.4rem;
-    margin-top: 0.75rem;
-    flex-wrap: wrap;
+    @apply flex flex-wrap gap-1.5 mt-3;
   }
 
   .addr-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.2rem 0.625rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    border: 1px solid;
-    cursor: pointer;
     transition: opacity 0.1s;
+    @apply inline-flex items-center rounded-full font-medium border border-solid cursor-pointer gap-1 py-0.5 px-2.5 text-xs;
   }
   .addr-chip:disabled {
-    cursor: default;
+    @apply cursor-default;
   }
   .addr-chip--active {
-    background: var(--p-primary-50);
-    border-color: var(--p-primary-200);
-    color: var(--p-primary-700);
+    @apply bg-[var(--p-primary-50)] border-[var(--p-primary-200)] text-[var(--p-primary-700)];
   }
   .addr-chip--inactive {
-    background: white;
-    border-color: var(--p-gray-300);
-    color: var(--p-surface-500);
+    @apply bg-white border-(--p-gray-300) text-(--p-surface-500);
   }
   .addr-chip--inactive:hover {
-    background: var(--p-gray-50);
-    border-color: var(--p-gray-400);
+    @apply bg-(--p-gray-50) border-(--p-gray-400);
   }
 </style>

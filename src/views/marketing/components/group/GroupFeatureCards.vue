@@ -238,22 +238,17 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .drw-site {
+    @apply font-medium text-[var(--p-gray-500)];
     font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--p-gray-500);
   }
 
   .drw-collapsible {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+    @apply flex items-center justify-between w-full cursor-pointer text-left;
     background: none;
     border: none;
-    cursor: pointer;
     padding: 0;
-    text-align: left;
   }
   .drw-collapsible:hover .drw-label {
     color: var(--p-primary-600);
@@ -262,61 +257,40 @@
     color: var(--p-primary-400);
   }
   .drw-chevron {
+    @apply text-[var(--p-gray-400)];
     font-size: 0.6875rem;
-    color: var(--p-gray-400);
     transition: color 0.1s;
   }
   .drw-collapsible-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-    margin-top: 0.75rem;
+    @apply flex flex-col gap-3.5 mt-3;
   }
 
   /* Feature cards */
   .opt-card {
-    border: 1.5px solid var(--p-gray-200);
+    @apply border border-[var(--p-gray-200)] overflow-hidden;
+    border-width: 1.5px;
     border-radius: 0.625rem;
-    overflow: hidden;
   }
   .opt-card__hdr {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0.75rem;
-    background: var(--p-gray-50);
-    border-bottom: 1px solid var(--p-gray-100);
+    @apply flex items-center justify-between bg-[var(--p-gray-50)] border-b border-[var(--p-gray-100)] px-3 py-2;
   }
   .opt-card__title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    @apply flex items-center font-semibold text-[var(--p-surface-700)] gap-2;
     font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--p-surface-700);
   }
   .opt-card__title .pi {
     font-size: 0.8rem;
     color: var(--p-gray-400);
   }
   .opt-card__body {
-    padding: 0.875rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
+    @apply flex flex-col py-3.5 px-4 gap-3.5;
   }
   .opt-remove {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply flex items-center justify-center rounded shrink-0 cursor-pointer text-[var(--p-gray-400)];
     width: 1.375rem;
     height: 1.375rem;
-    border-radius: 0.25rem;
-    flex-shrink: 0;
     background: none;
     border: none;
-    cursor: pointer;
-    color: var(--p-gray-400);
     font-size: 0.7rem;
     transition: background 0.1s, color 0.1s;
   }
@@ -327,26 +301,15 @@
 
   /* Add list */
   .opt-add-list {
-    display: flex;
-    flex-direction: column;
+    @apply flex flex-col;
   }
   .opt-add-list--mt {
-    margin-top: 0.25rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--p-gray-100);
+    @apply border-t border-[var(--p-gray-100)] mt-1 pt-3;
   }
   .opt-add-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0.5rem;
+    @apply flex items-center cursor-pointer text-sm text-[var(--p-gray-500)] rounded-md text-left gap-2 py-1.5 px-2;
     border: none;
     background: none;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: var(--p-gray-500);
-    border-radius: 0.375rem;
-    text-align: left;
     transition: background 0.1s, color 0.1s;
   }
   .opt-add-btn:hover {
@@ -370,7 +333,7 @@
   }
   .collapse-enter-from,
   .collapse-leave-to {
-    opacity: 0;
+    @apply opacity-0;
     transform: translateY(-0.25rem);
   }
 
@@ -382,7 +345,7 @@
   }
   .feature-enter-from,
   .feature-leave-to {
-    opacity: 0;
+    @apply opacity-0;
     transform: translateY(-0.5rem);
   }
 </style>

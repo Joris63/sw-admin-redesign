@@ -83,7 +83,7 @@
     modal
     :draggable="false"
   >
-    <p class="acct-desc" style="margin-bottom: 1.25rem">
+    <p class="acct-desc mb-5">
       Voer het nieuwe e-mailadres in. De klant ontvangt een bevestigingsmail op het nieuwe adres.
     </p>
     <div class="flex flex-col gap-1.5">
@@ -108,20 +108,11 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .acct-status-badge {
-    width: fit-content;
-    display: inline-flex;
-    padding: 0.175rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    background: var(--p-green-100);
-    color: var(--p-green-700);
+    @apply w-fit inline-flex rounded bg-(--p-green-100) text-(--p-green-700) font-semibold py-0.5 px-2 text-sm;
   }
   .acct-desc {
-    font-size: 0.875rem;
-    color: var(--p-surface-500);
-    line-height: 1.5;
-    margin: 0;
+    @apply text-(--p-surface-500) leading-[1.5] m-0 text-sm;
   }
 </style>

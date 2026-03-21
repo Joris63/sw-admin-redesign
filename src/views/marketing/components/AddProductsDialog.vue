@@ -167,9 +167,9 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .drw-section--compact {
-    gap: 0.625rem;
-    padding: 0.75rem 1.5rem;
+    @apply gap-2.5 px-6 py-3;
   }
   .drw-sep--sm {
     margin: 0;

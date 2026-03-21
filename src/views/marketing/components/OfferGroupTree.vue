@@ -116,46 +116,26 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .groups-panel {
-    width: 420px;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border-right: 1px solid var(--p-gray-100);
+    @apply w-[420px] shrink-0 flex flex-col bg-white border-r border-[var(--p-gray-100)];
   }
   .groups-panel--headless {
-    width: 100%;
-    border-right: none;
-    flex: 1;
-    min-height: 0;
+    @apply w-full border-r-0 flex-1 min-h-0;
   }
 
   .groups-panel__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.625rem 0.75rem;
+    @apply flex items-center justify-between font-bold uppercase text-[var(--p-gray-400)] border-b border-[var(--p-gray-100)] shrink-0 px-3 py-2.5;
     font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--p-gray-400);
-    border-bottom: 1px solid var(--p-gray-100);
-    flex-shrink: 0;
   }
 
   .icon-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply flex items-center justify-center rounded cursor-pointer text-[var(--p-gray-400)];
     width: 1.375rem;
     height: 1.375rem;
-    border-radius: 0.25rem;
     background: none;
     border: none;
-    cursor: pointer;
-    color: var(--p-gray-400);
     transition:
       background 0.1s,
       color 0.1s;
@@ -166,21 +146,12 @@
   }
 
   .groups-tree {
-    flex: 1;
-    overflow-y: auto;
-    padding: 0.25rem;
+    @apply flex-1 overflow-y-auto p-1;
   }
 
   .group-row {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.4rem 0.5rem;
-    border-radius: 0.375rem;
-    cursor: pointer;
+    @apply flex items-center rounded-md cursor-pointer relative gap-1 py-1.5 px-2 mb-0.5;
     transition: background 0.1s;
-    margin-bottom: 0.125rem;
-    position: relative;
   }
   .group-row:hover {
     background: var(--p-gray-100);
@@ -197,25 +168,18 @@
   }
 
   .group-naam {
+    @apply font-medium text-[var(--p-gray-700)];
     font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--p-gray-700);
   }
   .group-row--active .group-naam {
     color: var(--p-primary-700);
   }
 
   .item-count {
+    @apply font-semibold text-[var(--p-gray-400)] bg-[var(--p-gray-100)] rounded-full text-center shrink-0 min-w-5;
     font-size: 0.6875rem;
-    font-weight: 600;
-    color: var(--p-gray-400);
-    background: var(--p-gray-100);
-    border-radius: 999px;
     padding: 0.05rem 0.375rem;
-    min-width: 1.25rem;
-    text-align: center;
     transition: opacity 0.1s;
-    flex-shrink: 0;
   }
   .group-row--active .item-count {
     background: var(--p-primary-100);
@@ -223,33 +187,22 @@
   }
 
   .row-actions {
-    position: absolute;
-    right: 0.5rem;
+    @apply absolute flex items-center opacity-0 right-2 gap-1;
     top: 50%;
     transform: translateY(-50%);
-    opacity: 0;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
     transition: opacity 0.1s;
   }
 
   .expand-btn,
   .row-action-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply flex items-center justify-center cursor-pointer text-[var(--p-gray-400)] rounded shrink-0;
     width: 1.375rem;
     height: 1.375rem;
     background: none;
     border: none;
-    cursor: pointer;
-    color: var(--p-gray-400);
-    border-radius: 0.25rem;
     transition:
       background 0.1s,
       color 0.1s;
-    flex-shrink: 0;
   }
   .expand-btn:hover,
   .row-action-btn:hover {
@@ -264,8 +217,8 @@
 
   /* Pending clock dot */
   .pending-clock {
+    @apply shrink-0;
     font-size: 0.6rem;
-    flex-shrink: 0;
     margin-right: -0.125rem;
     transition: opacity 0.1s;
   }

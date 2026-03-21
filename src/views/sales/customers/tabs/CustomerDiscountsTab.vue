@@ -163,10 +163,8 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .kort-filter-bar {
-    display: flex;
-    align-items: center;
-    padding: 0.625rem 1rem;
-    border-bottom: 1px solid var(--p-gray-100);
+    @apply flex items-center border-b border-(--p-gray-100) py-2.5 px-4;
   }
 </style>

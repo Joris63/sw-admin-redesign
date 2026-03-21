@@ -80,38 +80,21 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .wl-tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.275rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.8125rem;
-    border: 1px solid var(--p-gray-200);
-    background: white;
-    color: var(--p-surface-600);
-    cursor: pointer;
     transition: all 0.1s;
+    @apply inline-flex items-center rounded-full border border-(--p-gray-200) bg-white text-(--p-surface-600) cursor-pointer gap-1.5 py-0.5 px-3 text-sm;
   }
   .wl-tab:hover {
-    background: var(--p-gray-50);
-    border-color: var(--p-gray-300);
+    @apply bg-(--p-gray-50) border-(--p-gray-300);
   }
   .wl-tab--active {
-    background: var(--p-primary-50);
-    border-color: var(--p-primary-200);
-    color: var(--p-primary-700);
+    @apply bg-[var(--p-primary-50)] border-[var(--p-primary-200)] text-[var(--p-primary-700)];
   }
   .wl-tab-count {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    background: var(--p-gray-100);
-    color: var(--p-surface-500);
-    padding: 0.05rem 0.35rem;
-    border-radius: 999px;
+    @apply font-semibold bg-(--p-gray-100) text-(--p-surface-500) rounded-full text-xs px-1.5;
   }
   .wl-tab--active .wl-tab-count {
-    background: var(--p-primary-100);
-    color: var(--p-primary-600);
+    @apply bg-[var(--p-primary-100)] text-[var(--p-primary-600)];
   }
 </style>

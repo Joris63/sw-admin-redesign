@@ -218,90 +218,44 @@ function applyImageFile(file: File | undefined, setter: (url: string) => void) {
 </template>
 
 <style scoped>
+@reference "tailwindcss";
 .content-img {
-  width: 100%;
-  max-width: 28rem;
-  height: auto;
-  border-radius: 0.5rem;
-  border: 1px solid var(--p-gray-200);
-  display: block;
+  @apply w-full max-w-[28rem] h-auto rounded-lg border border-gray-200 block;
 }
 
 .img-upload-field {
-  flex: 1;
-  max-width: 28rem;
+  @apply flex-1 max-w-[28rem];
 }
 .img-drop-zone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 1.75rem 1.5rem;
-  border: 2px dashed var(--p-gray-200);
-  border-radius: 0.5rem;
-  cursor: pointer;
-  color: var(--p-gray-400);
-  font-size: 0.875rem;
-  text-align: center;
   transition:
     border-color 0.15s,
     background 0.15s;
+  @apply flex flex-col items-center border-2 border-dashed border-gray-200 rounded-lg cursor-pointer text-gray-400 text-sm text-center gap-1.5 py-7 px-6;
 }
 .img-drop-zone:hover,
 .img-drop-zone--over {
-  border-color: var(--p-primary-300);
-  background: var(--p-primary-50);
+  @apply border-[var(--p-primary-300)] bg-[var(--p-primary-50)];
 }
 .img-select-btn {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--p-primary-600);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
   transition: color 0.1s;
+  @apply text-sm font-semibold text-[var(--p-primary-600)] bg-transparent border-0 p-0 cursor-pointer;
 }
 .img-select-btn:hover {
-  color: var(--p-primary-800);
-  text-decoration: underline;
+  @apply text-[var(--p-primary-800)] underline;
 }
 .img-file-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  background: var(--p-gray-50);
-  border: 1px solid var(--p-gray-100);
-  border-radius: 0.5rem;
+  @apply flex items-center bg-gray-50 border border-gray-100 rounded-lg gap-3 px-4 py-3;
 }
 .img-file-thumb {
-  width: 4.5rem;
-  height: 3rem;
-  object-fit: cover;
-  border-radius: 0.375rem;
-  flex-shrink: 0;
-  border: 1px solid var(--p-gray-200);
+  @apply w-[4.5rem] h-12 object-cover rounded-md shrink-0 border border-gray-200;
 }
 .img-remove-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.375rem;
-  height: 1.375rem;
-  border-radius: 0.25rem;
-  background: none;
-  border: none;
-  color: var(--p-surface-400);
-  cursor: pointer;
-  font-size: 0.75rem;
-  flex-shrink: 0;
   transition:
     background 0.1s,
     color 0.1s;
+  @apply flex items-center justify-center rounded bg-transparent border-0 text-[var(--p-surface-400)] cursor-pointer text-xs shrink-0 w-[1.375rem] h-[1.375rem];
 }
 .img-remove-btn:hover {
-  background: var(--p-red-50);
-  color: var(--p-red-500);
+  @apply bg-red-50 text-red-500;
 }
 </style>

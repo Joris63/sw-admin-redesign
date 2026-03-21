@@ -313,25 +313,17 @@ const deferredProcessing = ref(false);
 </template>
 
 <style scoped>
+@reference "tailwindcss";
 .subform {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  background: var(--p-gray-50);
-  border: 1px solid var(--p-gray-200);
-  border-radius: 0.625rem;
-  padding: 1.25rem 1.5rem;
+  @apply flex flex-col bg-(--p-gray-50) border border-(--p-gray-200) rounded-[0.625rem] gap-4 py-5 px-6;
 }
 
 .form-row {
-  display: grid;
   grid-template-columns: 220px 1fr;
-  gap: 0.5rem;
+  @apply grid gap-2;
 }
 
 .form-label {
-  font-size: 0.875rem;
-  color: var(--p-gray-500);
-  padding-top: 0.375rem;
+  @apply text-(--p-gray-500) text-sm pt-1.5;
 }
 </style>

@@ -103,13 +103,8 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .wizard-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.875rem 1.25rem;
-    border-top: 1px solid var(--p-gray-200);
-    background: white;
-    flex-shrink: 0;
+    @apply flex items-center justify-between border-t border-(--p-gray-200) bg-white shrink-0 py-3.5 px-5;
   }
 </style>

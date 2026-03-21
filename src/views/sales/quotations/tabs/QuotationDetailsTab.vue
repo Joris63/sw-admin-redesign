@@ -117,31 +117,22 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .verbouwen-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
+    @apply grid grid-cols-2 gap-2;
   }
 
   .ext-edit {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
+    @apply flex flex-col p-0;
   }
 
-  .ext-section { display: flex; flex-direction: column; padding: 1.25rem 1.25rem 0; }
-  .ext-section:last-child { padding-bottom: 1.25rem; }
-  .ext-section-hdr { margin-bottom: 0.75rem; }
+  .ext-section { @apply flex flex-col pt-5 px-5; }
+  .ext-section:last-child { @apply pb-5; }
+  .ext-section-hdr { @apply mb-3; }
   .ext-section-title {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--p-surface-400);
+    @apply font-bold uppercase tracking-[0.05em] text-(--p-surface-400) text-xs;
   }
   .ext-sep {
-    height: 1px;
-    background: var(--p-gray-100);
-    margin: 1.25rem 1.25rem 0;
+    @apply h-px bg-(--p-gray-100) mt-5 mx-5;
   }
 </style>

@@ -105,22 +105,14 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .offerte-badge {
-    display: inline-flex;
-    padding: 0.2rem 0.625rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border: 1px solid;
+    @apply inline-flex rounded-full font-semibold border border-solid py-0.5 px-2.5 text-xs;
   }
   .offerte-badge--success {
-    background: var(--p-green-50);
-    border-color: var(--p-green-200);
-    color: var(--p-green-700);
+    @apply bg-(--p-green-50) border-(--p-green-200) text-(--p-green-700);
   }
   .offerte-badge--warn {
-    background: var(--p-orange-50);
-    border-color: var(--p-orange-200);
-    color: var(--p-orange-700);
+    @apply bg-(--p-orange-50) border-(--p-orange-200) text-(--p-orange-700);
   }
 </style>

@@ -93,42 +93,27 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .log-layout {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: hidden;
+    @apply flex flex-col flex-1 overflow-hidden;
   }
 
   .log-tabbar {
-    display: flex;
-    border-bottom: 1px solid var(--p-gray-100);
-    background: white;
-    flex-shrink: 0;
-    padding: 0 1rem;
+    @apply flex border-b border-(--p-gray-100) bg-white shrink-0 px-4;
   }
   .log-tab {
-    padding: 0.625rem 1rem;
-    background: none;
-    border: none;
     border-bottom: 2px solid transparent;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: var(--p-surface-500);
-    font-weight: 500;
     transition: color 0.15s, border-color 0.15s;
     margin-bottom: -1px;
+    @apply bg-transparent border-0 cursor-pointer text-(--p-surface-500) font-medium py-2.5 px-4 text-sm;
   }
-  .log-tab:hover { color: var(--p-surface-700); }
+  .log-tab:hover { @apply text-(--p-surface-700); }
   .log-tab--active {
-    color: var(--p-primary-600);
     border-bottom-color: var(--p-primary-500);
+    @apply text-[var(--p-primary-600)];
   }
 
   .log-scroll {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
-    background: var(--p-surface-50);
+    @apply flex-1 overflow-y-auto bg-(--p-surface-50) p-4;
   }
 </style>

@@ -41,29 +41,16 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .toolbar-strip {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.625rem 1.5rem;
-    border-bottom: 1px solid var(--p-gray-100);
-    background: var(--p-gray-50);
-    flex-shrink: 0;
-    flex-wrap: wrap;
+    @apply flex items-center border-b border-(--p-gray-100) bg-(--p-gray-50) shrink-0 flex-wrap gap-4 py-2.5 px-6;
   }
 
   .toolbar-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--p-surface-400);
-    white-space: nowrap;
+    @apply font-semibold uppercase tracking-[0.05em] text-(--p-surface-400) whitespace-nowrap text-xs;
   }
 
   .toolbar-divider {
-    width: 1px;
-    height: 1.5rem;
-    background: var(--p-gray-200);
+    @apply w-px bg-(--p-gray-200) h-6;
   }
 </style>

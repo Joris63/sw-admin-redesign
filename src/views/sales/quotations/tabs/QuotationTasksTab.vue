@@ -73,36 +73,23 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .task-link {
-    font-size: 0.875rem;
-    color: var(--p-primary-600);
-    text-decoration: none;
-    font-weight: 500;
+    @apply text-[var(--p-primary-600)] no-underline font-medium text-sm;
   }
   .task-link:hover {
-    text-decoration: underline;
+    @apply underline;
   }
   .badge {
-    display: inline-flex;
-    padding: 0.2rem 0.625rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border: 1px solid;
+    @apply inline-flex rounded-full font-semibold border border-solid py-0.5 px-2.5 text-xs;
   }
   .badge--info {
-    background: var(--p-info-50);
-    border-color: var(--p-info-200);
-    color: var(--p-info-700);
+    @apply bg-(--p-info-50) border-(--p-info-200) text-(--p-info-700);
   }
   .badge--success {
-    background: var(--p-green-50);
-    border-color: var(--p-green-200);
-    color: var(--p-green-700);
+    @apply bg-green-50 border-green-200 text-green-700;
   }
   .badge--warn {
-    background: var(--p-orange-50);
-    border-color: var(--p-orange-200);
-    color: var(--p-orange-700);
+    @apply bg-orange-50 border-orange-200 text-orange-700;
   }
 </style>

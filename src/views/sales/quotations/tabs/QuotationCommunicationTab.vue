@@ -132,47 +132,30 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .comm-layout {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: hidden;
+    @apply flex flex-col flex-1 overflow-hidden;
   }
 
   .comm-tabbar {
-    display: flex;
-    border-bottom: 1px solid var(--p-gray-100);
-    background: white;
-    flex-shrink: 0;
-    padding: 0 1rem;
+    @apply flex border-b border-(--p-gray-100) bg-white shrink-0 px-4;
   }
   .comm-tab {
-    padding: 0.625rem 1rem;
-    background: none;
-    border: none;
     border-bottom: 2px solid transparent;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: var(--p-surface-500);
-    font-weight: 500;
     transition:
       color 0.15s,
       border-color 0.15s;
-    margin-bottom: -1px;
-    white-space: nowrap;
+    @apply bg-transparent border-0 border-b-2 cursor-pointer text-(--p-surface-500) font-medium whitespace-nowrap py-2.5 px-4 text-sm -mb-px;
   }
   .comm-tab:hover {
-    color: var(--p-surface-700);
+    @apply text-(--p-surface-700);
   }
   .comm-tab--active {
-    color: var(--p-primary-600);
     border-bottom-color: var(--p-primary-500);
+    @apply text-[var(--p-primary-600)];
   }
 
   .comm-scroll {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
-    background: var(--p-surface-50);
+    @apply flex-1 overflow-y-auto bg-(--p-surface-50) p-4;
   }
 </style>

@@ -149,85 +149,52 @@ const navItems = computed(() =>
 </template>
 
 <style scoped>
+@reference "tailwindcss";
 /* ── Form layout ──────────────────────────────────────────── */
 .form-row {
-  display: grid;
   grid-template-columns: 220px 1fr;
-  gap: 0.5rem;
+  @apply grid gap-2;
 }
 
 .form-label {
-  font-size: 0.875rem;
-  color: var(--p-gray-500);
-  padding-top: 0.375rem;
+  @apply text-(--p-gray-500) text-sm pt-1.5;
 }
 
 /* ── Choice cards ────────────────────────────────────────── */
 .choice-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  width: 300px;
-  height: 300px;
-  padding: 2rem 1.5rem;
-  border-radius: 0.75rem;
-  border: 2px solid var(--p-gray-200);
-  background: white;
-  cursor: pointer;
-  text-align: center;
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease,
     background 0.15s ease;
+  @apply flex flex-col items-center justify-center w-[300px] h-[300px] rounded-xl border-2 border-(--p-gray-200) bg-white cursor-pointer text-center gap-3 py-8 px-6;
 }
 
 .choice-card:hover {
-  border-color: var(--p-primary-400);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background: var(--p-primary-50);
+  @apply border-[var(--p-primary-400)] bg-[var(--p-primary-50)];
 }
 
 .choice-card__icon {
-  font-size: 1.75rem;
-  color: var(--p-primary-500);
+  @apply text-[var(--p-primary-500)];
 }
 
 .choice-card__title {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--p-gray-800);
+  @apply font-semibold text-(--p-gray-800) text-base;
 }
 
 .choice-card__desc {
-  font-size: 0.8125rem;
-  color: var(--p-gray-500);
-  line-height: 1.4;
+  @apply text-(--p-gray-500) leading-[1.4] text-sm;
 }
 
 /* ── Change-mind link ─────────────────────────────────────── */
 .change-mind-btn {
-  padding: 0.4rem 0.5rem;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 0.8rem;
-  color: var(--p-primary-500);
-  text-align: left;
-  line-height: 1.4;
   transition:
     color 0.15s ease,
     background 0.15s ease;
-  border-radius: 0.25rem;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  text-decoration-color: var(--p-primary-300);
+  @apply border-0 bg-transparent cursor-pointer text-[var(--p-primary-500)] text-left leading-[1.4] rounded underline underline-offset-2 decoration-[var(--p-primary-300)] py-1.5 px-2 text-sm;
 }
 
 .change-mind-btn:hover {
-  color: var(--p-primary-700);
-  background: var(--p-primary-50);
-  text-decoration-color: var(--p-primary-500);
+  @apply text-[var(--p-primary-700)] bg-[var(--p-primary-50)] decoration-[var(--p-primary-500)];
 }
 </style>

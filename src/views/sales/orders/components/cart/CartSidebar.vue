@@ -101,33 +101,21 @@ function toggleGroupMenu(event: Event) {
 </template>
 
 <style scoped>
+@reference "tailwindcss";
 .cart-sidebar {
-  width: 17rem;
-  flex-shrink: 0;
-  border-right: 1px solid var(--p-gray-200);
-  background: var(--p-gray-50);
-  padding: 0.75rem 0.625rem 0.75rem;
-  overflow-y: auto;
+  @apply w-[17rem] shrink-0 border-r border-(--p-gray-200) bg-(--p-gray-50) overflow-y-auto py-3 px-2.5;
 }
 
 .sidebar-section {
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
 }
 
 .sidebar-section-hdr {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 0.5rem 0.375rem;
+  @apply flex items-center justify-between px-2 pb-1.5;
 }
 
 .sidebar-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--p-surface-400);
+  @apply text-[0.7rem] font-bold uppercase tracking-[0.06em] text-(--p-surface-400);
 }
 
 .sidebar-add-btn {
@@ -139,80 +127,46 @@ function toggleGroupMenu(event: Event) {
 }
 
 .sidebar-group-item {
-  display: flex;
-  align-items: center;
-  position: relative;
-  gap: 0.375rem;
-  padding: 0.375rem 0.625rem;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  color: var(--p-gray-600);
   transition:
     background 0.1s ease,
     color 0.1s ease;
-  font-size: 0.8125rem;
+  @apply flex items-center relative rounded-md cursor-pointer text-(--p-gray-600) gap-1.5 py-1.5 px-2.5 text-sm;
 }
 
 .sidebar-group-item:hover {
-  background: var(--p-gray-100);
-  color: var(--p-gray-800);
+  @apply bg-(--p-gray-100) text-(--p-gray-800);
 }
 
 .sidebar-group-item--active {
-  background: var(--p-primary-50);
-  color: var(--p-primary-700);
+  @apply bg-[var(--p-primary-50)] text-[var(--p-primary-700)];
 }
 
 .sidebar-group-item--active:hover {
-  background: var(--p-primary-100);
+  @apply bg-[var(--p-primary-100)];
 }
 
 .sidebar-item-end {
-  position: relative;
-  width: 1.375rem;
-  height: 1.375rem;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: auto;
+  @apply relative shrink-0 flex items-center justify-center w-[1.375rem] h-[1.375rem] ml-auto;
 }
 
 .sidebar-count {
-  font-size: 0.7rem;
-  background: var(--p-gray-200);
-  color: var(--p-gray-500);
-  border-radius: 999px;
-  padding: 0.1rem 0.4rem;
-  line-height: 1.3;
-  white-space: nowrap;
   transition: opacity 0.1s ease;
+  @apply text-[0.7rem] bg-(--p-gray-200) text-(--p-gray-500) rounded-full leading-[1.3] whitespace-nowrap px-1.5;
 }
 
 .sidebar-group-item--active .sidebar-count {
-  background: var(--p-primary-100);
-  color: var(--p-primary-600);
+  @apply bg-[var(--p-primary-100)] text-[var(--p-primary-600)];
 }
 
 .sidebar-group-menu {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  color: var(--p-gray-400);
   transition:
     background 0.1s ease,
     color 0.1s ease,
     opacity 0.1s ease;
+  @apply absolute inset-0 flex items-center justify-center border-none bg-transparent rounded cursor-pointer text-(--p-gray-400);
 }
 
 .sidebar-group-menu:hover {
-  background: var(--p-gray-200);
-  color: var(--p-gray-700);
+  @apply bg-(--p-gray-200) text-(--p-gray-700);
 }
 </style>

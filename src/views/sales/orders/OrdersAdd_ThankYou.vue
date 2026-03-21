@@ -239,42 +239,28 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .thank-you-page {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
     background: linear-gradient(160deg, #f0fdf4 0%, #ffffff 45%, #eff6ff 100%);
+    @apply relative flex flex-col grow items-center justify-center overflow-hidden;
   }
 
   .drw-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
+    @apply flex flex-col gap-1.5;
   }
 
   .drw-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--p-surface-700);
+    @apply font-medium text-(--p-surface-700) text-sm;
   }
 
   /* ── Confetti ──────────────────────────────────────────────── */
   .confetti-container {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
+    @apply absolute inset-0 pointer-events-none overflow-hidden;
   }
 
   .confetti-piece {
-    position: absolute;
-    top: -16px;
-    border-radius: 3px;
     animation: confetti-fall 3.2s ease-in forwards;
+    @apply absolute top-[-16px] rounded-[3px];
   }
 
   @keyframes confetti-fall {
@@ -293,32 +279,20 @@
 
   /* ── Content card ─────────────────────────────────────────── */
   .content-card {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 1.25rem;
-    padding: 2.5rem 3rem;
     box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.04),
       0 10px 40px -4px rgba(0, 0, 0, 0.08);
-    min-width: 480px;
+    @apply relative z-1 flex flex-col items-center bg-white border border-[#e5e7eb] rounded-[1.25rem] min-w-[480px] gap-6 py-10 px-12;
   }
 
   /* ── Animated checkmark ───────────────────────────────────── */
   .checkmark-wrap {
-    width: 88px;
-    height: 88px;
     filter: drop-shadow(0 4px 20px rgba(16, 185, 129, 0.4));
+    @apply w-[88px] h-[88px];
   }
 
   .checkmark-svg {
-    width: 100%;
-    height: 100%;
+    @apply w-full h-full;
   }
 
   .circle-stroke {
@@ -351,20 +325,10 @@
 
   /* ── Summary pill ─────────────────────────────────────────── */
   .summary-pill {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1.25rem;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 9999px;
-    font-size: 0.8125rem;
+    @apply flex items-center bg-[#f9fafb] border border-[#e5e7eb] rounded-full gap-3 py-3 px-5 text-sm;
   }
 
   .pill-divider {
-    width: 1px;
-    height: 14px;
-    background: #d1d5db;
-    flex-shrink: 0;
+    @apply w-px h-[14px] bg-[#d1d5db] shrink-0;
   }
 </style>

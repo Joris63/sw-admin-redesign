@@ -191,55 +191,32 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   /* ── Pending sites ────────────────────────────────────────────── */
   .pending-sites {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    @apply flex items-start flex-wrap gap-2;
   }
   .pending-label {
-    font-size: 0.75rem;
-    color: var(--p-gray-400);
-    white-space: nowrap;
-    padding-top: 0.2rem;
+    @apply text-xs text-[var(--p-gray-400)] whitespace-nowrap pt-1;
   }
   .pending-chips {
-    display: flex;
-    flex-wrap: wrap;
+    @apply flex flex-wrap;
     gap: 0.35rem;
   }
   .pending-chip {
-    display: inline-flex;
-    align-items: center;
+    @apply inline-flex items-center rounded-full text-xs font-medium border border-transparent;
     gap: 0.3rem;
     padding: 0.175rem 0.5rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    border: 1px solid transparent;
   }
   .pending-chip--remove {
-    background: var(--p-red-50);
-    color: var(--p-red-600);
-    border-color: var(--p-red-200);
+    @apply bg-[var(--p-red-50)] text-[var(--p-red-600)] border-[var(--p-red-200)];
   }
   .pending-chip--add {
-    background: var(--p-green-50);
-    color: var(--p-green-700);
-    border-color: var(--p-green-200);
+    @apply bg-[var(--p-green-50)] text-[var(--p-green-700)] border-[var(--p-green-200)];
   }
 
   /* ── site-tag (view mode websites) ───────────────────────────── */
   .site-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.125rem 0.5rem;
-    border-radius: 0.375rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    background: var(--p-gray-100);
-    color: var(--p-gray-600);
-    white-space: nowrap;
+    @apply inline-flex items-center rounded-md text-xs font-medium bg-[var(--p-gray-100)] text-[var(--p-gray-600)] whitespace-nowrap py-0.5 px-2;
   }
 </style>

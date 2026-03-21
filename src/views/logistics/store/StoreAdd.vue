@@ -226,23 +226,16 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .options-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem 2.5rem;
-    padding: 0.25rem 0;
+    @apply grid grid-cols-2 gap-y-3 gap-x-10 py-1;
   }
 
   .option-item {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    font-size: 0.875rem;
-    color: var(--p-surface-700);
+    @apply flex items-center text-sm text-[var(--p-surface-700)] gap-2.5;
   }
 
   .option-item label {
-    cursor: pointer;
-    user-select: none;
+    @apply cursor-pointer select-none;
   }
 </style>

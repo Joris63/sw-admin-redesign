@@ -142,62 +142,35 @@ function formatDate(date: Date | null) {
 </template>
 
 <style scoped>
+@reference "tailwindcss";
 .exception-card {
-  border: 1px solid var(--p-surface-200);
-  border-radius: 0.5rem;
-  overflow: hidden;
-  margin-bottom: 0.625rem;
+  @apply border border-[var(--p-surface-200)] rounded-lg overflow-hidden mb-2.5;
 }
 .exception-card:last-of-type {
-  margin-bottom: 0;
+  @apply mb-0;
 }
 .exception-header {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  background: var(--p-surface-50);
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid var(--p-surface-200);
+  @apply flex items-center bg-[var(--p-surface-50)] border-b border-[var(--p-surface-200)] gap-2.5 px-3 py-2;
 }
 .exception-date {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--p-surface-700);
-  min-width: 6rem;
+  @apply text-sm font-semibold text-[var(--p-surface-700)] min-w-[6rem];
 }
 .exception-time {
-  width: 5.5rem;
+  @apply w-[5.5rem];
 }
 .exception-reasons {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding: 0;
+  @apply flex flex-col gap-0 p-0;
 }
 .exception-reasons-header {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--p-surface-400);
-  padding: 0.4rem 0.75rem 0.25rem;
-  border-bottom: 1px solid var(--p-surface-100);
+  @apply text-[0.6875rem] font-semibold uppercase tracking-[0.05em] text-[var(--p-surface-400)] border-b border-[var(--p-surface-100)] px-3 pt-1.5 pb-1;
 }
 .exception-reason-row {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid var(--p-surface-100);
+  @apply flex items-center border-b border-[var(--p-surface-100)] gap-2.5 px-3 py-2;
 }
 .exception-reason-row:last-child {
-  border-bottom: none;
+  @apply border-b-0;
 }
 .exception-reason-site {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--p-surface-500);
-  width: 8.5rem;
-  flex-shrink: 0;
+  @apply text-[0.8125rem] font-medium text-[var(--p-surface-500)] w-[8.5rem] shrink-0;
 }
 </style>

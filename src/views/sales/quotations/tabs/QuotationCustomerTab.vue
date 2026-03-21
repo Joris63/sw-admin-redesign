@@ -175,86 +175,51 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   /* Linked customer profile */
   .klant-profile {
-    display: flex;
-    align-items: center;
-    gap: 0.875rem;
-    padding-bottom: 0.875rem;
-    border-bottom: 1px solid var(--p-gray-100);
-    margin-bottom: 0.75rem;
+    @apply flex items-center border-b border-gray-100 gap-3.5 pb-3.5 mb-3;
   }
   .klant-avatar {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
     background: linear-gradient(135deg, var(--p-primary-400) 0%, var(--p-primary-600) 100%);
-    color: white;
-    font-size: 0.875rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    letter-spacing: 0.03em;
+    @apply rounded-full text-white font-bold flex items-center justify-center shrink-0 tracking-[0.03em] w-11 h-11 text-sm;
   }
   .klant-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    min-width: 0;
+    @apply flex flex-col min-w-0 gap-0.5;
   }
   .klant-name {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--p-surface-800);
+    @apply font-semibold text-[var(--p-surface-800)] text-base;
   }
   .klant-email-row {
-    display: flex;
-    align-items: center;
-    gap: 0.125rem;
+    @apply flex items-center gap-0.5;
   }
   .klant-email {
-    font-size: 0.8125rem;
-    color: var(--p-surface-500);
+    @apply text-[var(--p-surface-500)] text-sm;
   }
   .klant-meta {
-    display: flex;
-    align-items: center;
-    gap: 0;
+    @apply flex items-center gap-0;
   }
   .klant-meta-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding-right: 1rem;
+    @apply flex items-center gap-2 pr-4;
   }
   .klant-meta-item:not(:first-child) {
-    padding-left: 1rem;
+    @apply pl-4;
   }
   .klant-meta-label {
-    font-size: 0.8125rem;
-    color: var(--p-surface-400);
+    @apply text-[var(--p-surface-400)] text-sm;
   }
   .klant-meta-val {
-    font-size: 0.8125rem;
-    color: var(--p-surface-700);
-    font-weight: 500;
+    @apply text-[var(--p-surface-700)] font-medium text-sm;
   }
   .klant-meta-sep {
-    width: 1px;
-    height: 1.25rem;
-    background: var(--p-gray-200);
-    flex-shrink: 0;
+    @apply w-px bg-gray-200 shrink-0 h-5;
   }
 
   /* Address & phone */
   .addr-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.5rem;
+    @apply grid grid-cols-3 gap-2;
   }
-  .addr-full { grid-column: 1 / -1; }
-  .phone-row { display: flex; gap: 0.5rem; align-items: center; }
-  .phone-flag { width: 7rem; flex-shrink: 0; }
+  .addr-full { @apply col-span-full; }
+  .phone-row { @apply flex items-center gap-2; }
+  .phone-flag { @apply w-28 shrink-0; }
 </style>

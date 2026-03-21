@@ -122,13 +122,11 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .nav-btn {
-    border: none;
-    background: transparent;
-    cursor: pointer;
+    @apply border-none bg-transparent cursor-pointer text-left;
     transition:
       background 0.15s ease,
       color 0.15s ease;
-    text-align: left;
   }
 </style>

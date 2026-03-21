@@ -52,22 +52,14 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .method-grid {
-    display: grid;
+    @apply grid gap-2.5;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.625rem;
   }
   .method-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
-    padding: 0.875rem 1rem;
-    border-radius: 0.5rem;
+    @apply flex flex-col items-start rounded-lg bg-white cursor-pointer text-left gap-2 py-3.5 px-4;
     border: 1.5px solid var(--p-gray-200);
-    background: white;
-    cursor: pointer;
-    text-align: left;
     transition:
       border-color 0.15s,
       box-shadow 0.15s;
@@ -77,15 +69,10 @@
     box-shadow: 0 0 0 3px var(--p-primary-50);
   }
   .method-card__icon {
+    @apply flex items-center justify-center bg-[var(--p-gray-100)] text-[var(--p-gray-500)] rounded-md;
     width: 2rem;
     height: 2rem;
-    border-radius: 0.375rem;
-    background: var(--p-gray-100);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 0.9rem;
-    color: var(--p-gray-500);
     transition:
       background 0.15s,
       color 0.15s;
@@ -95,13 +82,10 @@
     color: var(--p-primary-500);
   }
   .method-card__title {
+    @apply font-semibold text-[var(--p-surface-700)];
     font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--p-surface-700);
   }
   .method-card__desc {
-    font-size: 0.75rem;
-    color: var(--p-gray-400);
-    line-height: 1.4;
+    @apply text-xs text-[var(--p-gray-400)] leading-[1.4];
   }
 </style>

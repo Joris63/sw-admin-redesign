@@ -69,24 +69,17 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .offer-card {
-    display: flex;
-    flex-direction: column;
+    @apply flex flex-col;
   }
 
   .offer-toolbar {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.625rem 1rem;
-    background: var(--p-surface-50);
-    border-bottom: 1px solid var(--p-gray-100);
-    flex-shrink: 0;
+    @apply flex items-center bg-(--p-surface-50) border-b border-(--p-gray-100) shrink-0 gap-3 py-2.5 px-4;
   }
 
   .offer-cart {
-    flex: 1;
-    overflow: visible;
+    @apply flex-1 overflow-visible;
   }
 
   .toolbar-slide-enter-active,
@@ -94,16 +87,16 @@
     transition:
       max-height 0.2s ease,
       opacity 0.15s ease;
-    overflow: hidden;
+    @apply overflow-hidden;
   }
   .toolbar-slide-enter-from,
   .toolbar-slide-leave-to {
     max-height: 0;
-    opacity: 0;
+    @apply opacity-0;
   }
   .toolbar-slide-enter-to,
   .toolbar-slide-leave-from {
     max-height: 4rem;
-    opacity: 1;
+    @apply opacity-100;
   }
 </style>

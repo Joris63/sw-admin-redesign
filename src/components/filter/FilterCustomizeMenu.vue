@@ -65,19 +65,12 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .customize-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    @apply flex items-center justify-center border-none bg-none text-[var(--p-surface-400)] cursor-pointer rounded-md shrink-0 w-8 h-8;
+    font-size: 0.9rem;
     border: none;
     background: none;
-    color: var(--p-surface-400);
-    cursor: pointer;
-    border-radius: 0.375rem;
-    font-size: 0.9rem;
-    flex-shrink: 0;
     transition: color 0.15s, background 0.15s;
   }
 
@@ -91,29 +84,17 @@
   }
 
   .customize-popover__title {
+    @apply m-0 mb-2 font-bold uppercase text-[var(--p-surface-400)];
     font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--p-surface-400);
-    margin: 0 0 0.5rem;
   }
 
   .customize-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    margin: 0 -0.75rem -0.75rem;
+    @apply flex flex-col gap-0.5 -mx-3 -mb-3;
   }
 
   .customize-item {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.5rem 0.75rem;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: var(--p-surface-700);
+    @apply flex items-center cursor-pointer text-sm text-[var(--p-surface-700)] gap-2.5 px-3 py-2;
     transition: background 0.1s;
   }
 
@@ -122,8 +103,7 @@
   }
 
   .customize-item--required {
-    opacity: 0.65;
-    cursor: default;
+    @apply opacity-[0.65] cursor-default;
   }
 
   .customize-item--required:hover {
@@ -131,16 +111,12 @@
   }
 
   .customize-item__lock {
-    margin-left: auto;
+    @apply ml-auto text-[var(--p-surface-400)];
     font-size: 0.65rem;
-    color: var(--p-surface-400);
   }
 
   .customize-empty {
-    padding: 0.75rem;
+    @apply text-[var(--p-surface-400)] text-center italic p-3;
     font-size: 0.8125rem;
-    color: var(--p-surface-400);
-    text-align: center;
-    font-style: italic;
   }
 </style>

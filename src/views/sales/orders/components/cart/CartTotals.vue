@@ -141,32 +141,30 @@ const {
 </template>
 
 <style scoped>
+@reference "tailwindcss";
 .cart-totals-card {
-  border: none;
-  border-top: 1px solid var(--p-gray-200);
-  background: var(--p-gray-50);
-  overflow: hidden;
+  @apply border-0 border-t border-(--p-gray-200) bg-(--p-gray-50) overflow-hidden;
 }
 
 .totals-add-btn {
   font-size: 0.75rem !important;
-  padding: 0.2rem 0.5rem !important;
   height: auto !important;
+  @apply py-0.5! px-2!;
 }
 
 /* ── Discount inputs ─────────────────────────────────────── */
 :deep(.discount-input .p-inputnumber-input) {
-  padding: 0.25rem 0.5rem;
+  @apply py-1 px-2;
 }
 
 /* ── Discount/price colors ───────────────────────────────── */
 .discount-price {
-  color: #e94b57;
+  @apply text-[#e94b57];
 }
 
 /* ── Transitions ─────────────────────────────────────────── */
 .fade-slide-enter-active {
-  overflow: hidden;
+  @apply overflow-hidden;
   max-height: 8rem;
   transition:
     opacity 0.2s ease-out,
@@ -174,19 +172,19 @@ const {
     transform 0.2s ease-out;
 }
 .fade-slide-leave-active {
-  overflow: hidden;
+  @apply overflow-hidden;
   max-height: 8rem;
   transition:
     opacity 0.18s ease-in,
     max-height 0.18s ease-in;
 }
 .fade-slide-enter-from {
-  opacity: 0;
+  @apply opacity-0;
   max-height: 0;
   transform: translateY(-4px);
 }
 .fade-slide-leave-to {
-  opacity: 0;
+  @apply opacity-0;
   max-height: 0;
 }
 </style>

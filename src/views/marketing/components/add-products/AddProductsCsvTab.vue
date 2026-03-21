@@ -167,19 +167,14 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .drw-method-hdr {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @apply flex items-center justify-between;
   }
   .drw-change-btn {
-    padding: 0.2rem 0.375rem;
+    @apply cursor-pointer text-xs text-[var(--p-primary-500)] rounded py-1 px-1.5;
     border: none;
     background: transparent;
-    cursor: pointer;
-    font-size: 0.75rem;
-    color: var(--p-primary-500);
-    border-radius: 0.25rem;
     text-decoration: underline;
     text-underline-offset: 2px;
     text-decoration-color: var(--p-primary-300);
@@ -194,18 +189,9 @@
   }
 
   .csv-drop {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 1.75rem 1.5rem;
+    @apply flex flex-col items-center bg-[var(--p-gray-50)] cursor-pointer text-[var(--p-gray-400)] text-sm text-center gap-1.5 py-7 px-6;
     border: 2px dashed var(--p-gray-200);
     border-radius: 0.625rem;
-    background: var(--p-gray-50);
-    cursor: pointer;
-    color: var(--p-gray-400);
-    font-size: 0.875rem;
-    text-align: center;
     transition:
       border-color 0.15s,
       background 0.15s;
@@ -216,13 +202,10 @@
     background: var(--p-primary-50);
   }
   .csv-select-btn {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--p-primary-600);
+    @apply text-sm font-semibold text-[var(--p-primary-600)] cursor-pointer;
     background: none;
     border: none;
     padding: 0;
-    cursor: pointer;
     transition: color 0.1s;
   }
   .csv-select-btn:hover {
@@ -230,38 +213,19 @@
     text-decoration: underline;
   }
   .csv-file-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1rem;
-    background: var(--p-gray-50);
-    border: 1px solid var(--p-gray-100);
-    border-radius: 0.5rem;
+    @apply flex items-center bg-[var(--p-gray-50)] border border-[var(--p-gray-100)] rounded-lg gap-3 py-3.5 px-4;
   }
   .csv-file-icon {
+    @apply shrink-0 bg-[var(--p-primary-100)] text-[var(--p-primary-600)] flex items-center justify-center rounded-md;
     width: 2rem;
     height: 2rem;
-    border-radius: 0.375rem;
-    flex-shrink: 0;
-    background: var(--p-primary-100);
-    color: var(--p-primary-600);
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
   .si-remove {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply flex items-center justify-center rounded shrink-0 cursor-pointer text-[var(--p-gray-400)] text-xs;
     width: 1.375rem;
     height: 1.375rem;
-    border-radius: 0.25rem;
-    flex-shrink: 0;
     background: none;
     border: none;
-    cursor: pointer;
-    color: var(--p-gray-400);
-    font-size: 0.75rem;
     transition:
       background 0.1s,
       color 0.1s;
@@ -272,31 +236,17 @@
   }
 
   .excl-grid {
-    display: grid;
+    @apply grid mt-1;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem 1.5rem;
-    margin-top: 0.25rem;
   }
   .excl-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: var(--p-surface-700);
+    @apply flex items-center cursor-pointer text-sm text-[var(--p-surface-700)] gap-2;
   }
   .excl-csv-drop {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.375rem;
-    padding: 0.5rem 0.875rem;
-    border: 1.5px dashed var(--p-gray-200);
-    border-radius: 0.5rem;
-    background: var(--p-gray-50);
-    cursor: pointer;
-    color: var(--p-gray-400);
+    @apply flex items-center bg-[var(--p-gray-50)] cursor-pointer text-[var(--p-gray-400)] gap-2 mt-1.5 py-2 px-3.5 rounded-lg;
     font-size: 0.8125rem;
+    border: 1.5px dashed var(--p-gray-200);
     transition:
       border-color 0.15s,
       background 0.15s;

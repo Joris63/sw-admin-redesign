@@ -124,19 +124,14 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .drw-method-hdr {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @apply flex items-center justify-between;
   }
   .drw-change-btn {
-    padding: 0.2rem 0.375rem;
+    @apply cursor-pointer text-xs text-[var(--p-primary-500)] rounded py-1 px-1.5;
     border: none;
     background: transparent;
-    cursor: pointer;
-    font-size: 0.75rem;
-    color: var(--p-primary-500);
-    border-radius: 0.25rem;
     text-decoration: underline;
     text-underline-offset: 2px;
     text-decoration-color: var(--p-primary-300);
@@ -151,37 +146,23 @@
   }
 
   .search-box {
-    position: relative;
+    @apply relative;
   }
   .ac-dropdown {
-    position: absolute;
+    @apply absolute z-10 bg-white border border-[var(--p-gray-200)] rounded-lg overflow-hidden;
     top: calc(100% + 4px);
     left: 0;
     right: 0;
-    z-index: 10;
-    background: white;
-    border: 1px solid var(--p-gray-200);
-    border-radius: 0.5rem;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
-    overflow: hidden;
   }
   .ac-empty {
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
-    color: var(--p-gray-400);
+    @apply text-sm text-[var(--p-gray-400)] px-4 py-3;
   }
   .ac-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    width: 100%;
+    @apply flex items-center justify-between w-full cursor-pointer text-left border-b border-[var(--p-gray-100)] gap-3 px-3 py-2;
     background: none;
     border: none;
     border-bottom: 1px solid var(--p-gray-100);
-    cursor: pointer;
-    text-align: left;
     transition: background 0.1s;
   }
   .ac-item:last-child {
@@ -191,70 +172,42 @@
     background: var(--p-primary-50);
   }
   .sr-naam {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--p-surface-700);
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
+    @apply text-sm font-medium text-[var(--p-surface-700)] flex-1 whitespace-nowrap overflow-hidden;
     text-overflow: ellipsis;
   }
   .sr-code {
+    @apply text-[var(--p-gray-500)] shrink-0;
     font-family: monospace;
     font-size: 0.775rem;
-    color: var(--p-gray-500);
-    flex-shrink: 0;
   }
 
   .selected-list {
-    margin-top: 0.25rem;
+    @apply mt-1;
   }
   .selected-list__hdr {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--p-gray-100);
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
+    @apply flex items-center justify-between border-b border-[var(--p-gray-100)] text-xs font-bold uppercase text-[var(--p-gray-400)] pb-2;
     letter-spacing: 0.06em;
-    color: var(--p-gray-400);
   }
   .sel-count {
+    @apply font-semibold bg-[var(--p-primary-100)] text-[var(--p-primary-700)] rounded-full;
     font-size: 0.6875rem;
-    font-weight: 600;
-    background: var(--p-primary-100);
-    color: var(--p-primary-700);
-    border-radius: 999px;
     padding: 0.1rem 0.5rem;
   }
   .selected-items {
-    margin-top: 0.25rem;
+    @apply mt-1;
   }
   .selected-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.4rem 0.375rem;
-    border-bottom: 1px solid var(--p-gray-50);
+    @apply flex items-center border-b border-[var(--p-gray-50)] gap-3 py-1.5 px-1.5;
   }
   .selected-item:last-child {
     border-bottom: none;
   }
   .si-remove {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply flex items-center justify-center rounded shrink-0 cursor-pointer text-[var(--p-gray-400)] text-xs;
     width: 1.375rem;
     height: 1.375rem;
-    border-radius: 0.25rem;
-    flex-shrink: 0;
     background: none;
     border: none;
-    cursor: pointer;
-    color: var(--p-gray-400);
-    font-size: 0.75rem;
     transition:
       background 0.1s,
       color 0.1s;

@@ -171,48 +171,36 @@ const city = ref('');
 </template>
 
 <style scoped>
+@reference "tailwindcss";
 .form-row {
-  display: grid;
   grid-template-columns: 220px 1fr;
-  gap: 0.5rem;
+  @apply grid gap-2;
 }
 
 .form-label {
-  font-size: 0.875rem;
-  color: var(--p-gray-500);
-  padding-top: 0.375rem;
+  @apply text-(--p-gray-500) text-sm pt-1.5;
 }
 
 .address-card {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.875rem 1rem;
-  border: 1.5px solid var(--p-surface-200);
-  border-radius: 0.5rem;
-  background: var(--p-surface-0);
-  cursor: pointer;
-  width: 100%;
   transition:
     border-color 0.15s ease,
     background 0.15s ease;
+  @apply flex items-center border-[1.5px] border-(--p-surface-200) rounded-lg bg-(--p-surface-0) cursor-pointer w-full gap-3 py-3.5 px-4;
 }
 
 .address-card:hover {
-  border-color: var(--p-primary-300);
+  @apply border-[var(--p-primary-300)];
 }
 
 .address-card--selected {
-  border-color: var(--p-primary-500);
-  background: var(--p-primary-50);
+  @apply border-[var(--p-primary-500)] bg-[var(--p-primary-50)];
 }
 
 .address-card--add {
-  border-style: dashed;
-  color: var(--p-surface-500);
+  @apply border-dashed text-(--p-surface-500);
 }
 
 .address-card--add:hover {
-  color: var(--p-surface-700);
+  @apply text-(--p-surface-700);
 }
 </style>

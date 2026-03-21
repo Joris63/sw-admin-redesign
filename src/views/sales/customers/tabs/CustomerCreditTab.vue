@@ -272,61 +272,39 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   .kred-summary {
-    display: grid;
     grid-template-columns: 1fr auto 1fr auto 1fr;
-    padding: 1.25rem;
-    gap: 0;
+    @apply grid gap-0 p-5;
   }
   .kred-summary-sep {
-    width: 1px;
-    background: var(--p-gray-100);
-    margin: 0 1.5rem;
+    @apply w-px bg-(--p-gray-100) mx-6;
   }
   .kred-summary-hdr {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--p-surface-400);
-    margin-bottom: 0.75rem;
+    @apply font-semibold uppercase tracking-[0.05em] text-(--p-surface-400) text-xs mb-3;
   }
   .kred-sum-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8125rem;
-    color: var(--p-surface-600);
-    padding: 0.25rem 0;
-    border-bottom: 1px solid var(--p-gray-100);
+    @apply flex justify-between items-center text-(--p-surface-600) border-b border-(--p-gray-100) text-sm py-1;
   }
   .kred-sum-row:last-child {
-    border-bottom: none;
+    @apply border-b-0;
   }
   .kred-sum-row--total {
-    font-weight: 600;
-    color: var(--p-surface-800);
-    margin-top: 0.125rem;
+    @apply font-semibold text-(--p-surface-800);
   }
   .kred-sum-row--warn span:last-child {
-    color: var(--p-red-500);
+    @apply text-(--p-red-500);
   }
   .kred-table-footer {
-    padding: 0.625rem 1rem;
+    @apply py-2.5 px-4;
   }
   .kred-footer-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8125rem;
-    color: var(--p-surface-600);
-    padding: 0.1rem 0;
+    @apply flex justify-between text-(--p-surface-600) text-sm py-0.5;
   }
   .kred-footer-row:first-child {
-    font-weight: 600;
-    color: var(--p-surface-800);
+    @apply font-semibold text-(--p-surface-800);
   }
   .kred-footer-row--warn {
-    color: var(--p-red-500) !important;
-    font-weight: 500;
+    @apply text-(--p-red-500)! font-medium;
   }
 </style>

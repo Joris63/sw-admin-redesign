@@ -277,17 +277,17 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
   /* Enforce consistent sizing for inputs inside modules (requires :deep) */
   .filter-module :deep(.p-inputtext) {
-    min-width: 9rem;
+    @apply min-w-[9rem];
   }
 
   .filter-module :deep(.p-select) {
-    min-width: 7rem;
+    @apply min-w-[7rem];
   }
 
   .filter-module :deep(.p-selectbutton .p-button) {
-    padding: 0.3rem 0.75rem;
-    font-size: 0.8125rem;
+    @apply text-[0.8125rem] py-1.5 px-3;
   }
 </style>
